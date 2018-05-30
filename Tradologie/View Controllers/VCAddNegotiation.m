@@ -90,6 +90,7 @@
 {
     return 210;
 }
+
 /******************************************************************************************************************/
 #pragma mark ❉===❉===  BUTTON ACTION EVENT CALLED HERE ===❉===❉
 /******************************************************************************************************************/
@@ -353,6 +354,7 @@
 {
     NSIndexPath *indexPath = [CommonUtility MB_IndexPathForCellContainingView:sender];
     SupplierDetailData *objSupplierDetail = (SupplierDetailData *)[arrSupplierList objectAtIndex:indexPath.row];
+    [CommonUtility OpenURLAccordingToUse:objSupplierDetail.WebURL];
 
 }
 /******************************************************************************************************************/
@@ -429,15 +431,20 @@
     {
         [_btnAddShort setTitle:@"Remove from Shortlist" forState:UIControlStateNormal];
         [_btnAddShort setDefaultButtonShadowStyle:[UIColor redColor]];
-        _btnWidth.constant = 200;
+        _btnWidth.constant = 170;
     }
     else
     {
         [_btnAddShort setTitle:@"Add to Shortlist" forState:UIControlStateNormal];
         [_btnAddShort setDefaultButtonShadowStyle:GET_COLOR_WITH_RGB(0, 145, 147, 1)];
-        _btnWidth.constant = 160;
-        
+        _btnWidth.constant = 130;
     }
+    
+    [_imgMembershipType setImageWithURL:[NSURL URLWithString:[objSupplierDetail.MembershipTypeImage checkIfEmpty]] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL)
+    {
+        [_imgMembershipType setImage:image];
+    }usingActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    
     
     [_imgSupplier setImageWithURL:[NSURL URLWithString:[objSupplierDetail.VendorLogo checkIfEmpty]] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL)
     {

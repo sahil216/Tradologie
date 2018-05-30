@@ -31,7 +31,7 @@
     [self setBackgroundColor:color];
     [self setShowsTouchWhenHighlighted: YES];
     [self setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [self.titleLabel setFont:IS_IPHONE5? UI_DEFAULT_FONT_MEDIUM(12):UI_DEFAULT_FONT_MEDIUM(16)];
+    [self.titleLabel setFont:IS_IPHONE5? UI_DEFAULT_FONT_MEDIUM(12):UI_DEFAULT_FONT_MEDIUM(15)];
     [self setTintColor:[UIColor clearColor]];
 }
 -(void)setDefaultButtonStyleWithHighLightEffect{

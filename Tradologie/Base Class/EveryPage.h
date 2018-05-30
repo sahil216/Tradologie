@@ -10,6 +10,6 @@
 
 @interface EveryPage : UIViewController
 
-- (void)getContactDialNumber;
--(void)getCellIndex:(UIButton *)sender withCell:(UITableViewCell *)cell;
+-(void)getContactDialNumber;
+
 @end

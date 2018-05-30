@@ -14,6 +14,7 @@
 {
     __weak IBOutlet UIButton *btnContactUs;
     __weak IBOutlet UITextField *txtCategory;
+    __weak IBOutlet UIView *viewFooter;
 }
 @property (strong, nonatomic) IBOutlet UITableView *tbtNegotiation;
 
@@ -39,6 +40,7 @@
 @property (strong, nonatomic) IBOutlet UIButton *btnAddShort;
 @property (strong, nonatomic) IBOutlet UIButton *btnMicroSite;
 @property (assign, nonatomic) IBOutlet UIImageView *imgSupplier;
+@property (assign, nonatomic) IBOutlet UIImageView *imgMembershipType;
 @property (nonatomic,assign) id<SupplierCellDelegate> delegate;
 
 

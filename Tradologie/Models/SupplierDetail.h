@@ -35,7 +35,7 @@
 @property (nonatomic,strong)NSString *MembershipTypeImage;
 @property (nonatomic,strong)NSString *Priority;
 @property (nonatomic,strong)NSString *Rating;
-@property (nonatomic,strong)NSString *ShortlistID;
+@property (nonatomic,strong)NSNumber *ShortlistID;
 @property (nonatomic,strong)NSString *Trader;
 @property (nonatomic,strong)NSString *VendorCode;
 @property (nonatomic,strong)NSString <Optional>*VendorDescription;
@@ -46,6 +46,7 @@
 @property (nonatomic,strong)NSString *VendorShortName;
 @property (nonatomic,strong)NSString *VendorUserID;
 @property (assign) BOOL Verified;
+
 @property (nonatomic,strong)NSString <Optional>*WebLink;
 @property (nonatomic,strong)NSString <Optional>*WebURL;
 @property (nonatomic,strong)NSString <Optional>*YearOfEstablishment;

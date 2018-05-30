@@ -27,6 +27,7 @@ static SharedManager *sharedManager;
         sharedManager.userDefaults = [NSUserDefaults standardUserDefaults];
         Reachability *_reachability = [Reachability reachabilityForInternetConnection];
         [_reachability startNotifier];
+        
         NetworkStatus internetStatus = [_reachability currentReachabilityStatus];
         if(internetStatus == NotReachable)
         {
