@@ -29,6 +29,7 @@
     self.layer.shadowRadius = 1.0;
     self.layer.shadowOffset = CGSizeMake(2.0f, 2.0f);
     [self setBackgroundColor:color];
+    [self setShowsTouchWhenHighlighted: YES];
     [self setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [self.titleLabel setFont:IS_IPHONE5? UI_DEFAULT_FONT_MEDIUM(12):UI_DEFAULT_FONT_MEDIUM(16)];
     [self setTintColor:[UIColor clearColor]];

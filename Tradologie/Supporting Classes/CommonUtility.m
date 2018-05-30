@@ -41,7 +41,6 @@
     
 }
 
-
 -(void)show_SuccessAlertWithTitle:(NSString*)title withMessage:(NSString*)message
 {
     ISMessages* alert = [ISMessages cardAlertWithTitle:title
@@ -69,6 +68,7 @@
     [SVProgressHUD showWithStatus:message];
 
 }
+
 /******************************************************************************************************************/
 #pragma mark ❉===❉===  SHOW ALERT  ===❉===❉
 /*****************************************************************************************************************/
@@ -99,6 +99,10 @@
         [SVProgressHUD dismiss];
     });
 }
+//************************************************************************************************
+#pragma mark ❉===❉=== TOOLBAR FOR TEXTFIELD ===❉===❉
+//************************************************************************************************
+
 +(void)setTooBarOnTextfield:(UITextField *)txtField withTargetId:(id)targetID withActionEvent:(SEL)ActionEvent
 {
     UIToolbar *toolBar = [[UIToolbar alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH,IS_IPAD?50:45)];
@@ -136,8 +140,76 @@
     }
     return listFiltered;
 }
+//************************************************************************************************
+#pragma mark ❉===❉=== GET SHADOW FOR VIEW ===❉===❉
+//************************************************************************************************
 
++(void)GetShadowWithBorder:(UIView *)viewBG
+{
+    [viewBG.layer setCornerRadius:5.0f];
+    [viewBG.layer setBorderColor:[UIColor lightGrayColor].CGColor];
+    viewBG.layer.shadowColor = DefaultThemeColor.CGColor;
+    viewBG.layer.shadowOpacity = 1.0;
+    viewBG.layer.shadowRadius = 6.0;
+    viewBG.layer.shadowOffset = CGSizeMake(0.0f, 0.0f);
+    [viewBG.layer setBorderWidth:2.0f];
+    [viewBG setBackgroundColor:[UIColor whiteColor]];
+}
+//************************************************************************************************
+#pragma mark ❉===❉=== GET SELECTED INDEXPATH ===❉===❉
+//************************************************************************************************
 
++(NSIndexPath *)MB_IndexPathForCellContainingView:(UIButton *)sender
+{
+    UIView *parentCell = sender.superview;
+    while (![parentCell isKindOfClass:[UITableViewCell class]])
+    {
+        parentCell = parentCell.superview;
+    }
+    UIView *parentView = parentCell.superview;
+    while (![parentView isKindOfClass:[UITableView class]])
+    {
+        parentView = parentView.superview;
+    }
+    UITableView *tableView = (UITableView *)parentView;
+    NSIndexPath *indexPath = [tableView indexPathForCell:(UITableViewCell *)parentCell];
+    return indexPath;
+}
+//************************************************************************************************
+#pragma mark ❉===❉=== OPEN URL WITH DEAFULT ===❉===❉
+//************************************************************************************************
++(void)OpenURLAccordingToUse:(NSString *)strURL
+{
+    NSURL *url = [NSURL URLWithString:strURL];
+    
+    if([[UIDevice currentDevice].systemVersion floatValue] >= 10.0)
+    {
+        if ([[UIApplication sharedApplication] respondsToSelector:@selector(openURL:options:completionHandler:)])
+        {
+            [[UIApplication sharedApplication] openURL:url options:@{}
+                                     completionHandler:^(BOOL success)
+             {
+             }];
+        }
+        else
+        {
+            BOOL success = [[UIApplication sharedApplication] openURL:url];
+            if(success){
+                [[UIApplication sharedApplication] openURL:url];
+            }
+        }
+    }
+    else
+    {
+        BOOL success = [[UIApplication sharedApplication] openURL:url];
+        if(success){
+            [[UIApplication sharedApplication] openURL:url];
+        }
+    }
+}
+//************************************************************************************************
+#pragma mark ❉===❉=== GET CURRENT YEAR ===❉===❉
+//************************************************************************************************
 
 +(NSInteger)getCurrentYear
 {
@@ -163,8 +235,10 @@
     [datePicker setMaximumDate:maxDate];
     [datePicker setMinimumDate:minDate];
 }
+//************************************************************************************************
+#pragma mark ❉===❉=== GET IMAGE COLOR CHANGE ===❉===❉
+//************************************************************************************************
 
-#pragma mark- Image CollorChange
 + (UIImage *) changeImage : (UIImage *)image color:(UIColor *)color {
     
     CGRect rect = CGRectMake(0, 0, image.size.width, image.size.height);
@@ -181,20 +255,5 @@
     
     return flippedImage;
 }
-/*-(CGFloat)heightForLabel:(NSIndexPath *)index
- {
- NSMutableArray *array = [NSMutableArray new];
- for (NSDictionary *dic in arrData)
- {
- [array addObject:[dic valueForKey:@"Address"]];
- }
- NSAttributedString *attributedText = [[NSAttributedString alloc] initWithString:[array objectAtIndex:index.row] attributes:@{NSFontAttributeName:UI_DEFAULT_FONT(16)}];
- 
- CGRect rect = [attributedText boundingRectWithSize:(CGSize){K_CUSTOM_WIDTH, CGFLOAT_MAX}
- options:NSStringDrawingUsesLineFragmentOrigin
- context:nil];
- NSLog(@"lblHeight== >%f",rect.size.height);
- 
- return ceil(rect.size.height);
- }*/
+
 @end

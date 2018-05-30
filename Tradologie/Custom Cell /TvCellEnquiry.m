@@ -9,6 +9,7 @@
 #import "TvCellEnquiry.h"
 #import "AppConstant.h"
 #import "Constant.h"
+#import "CommonUtility.h"
 
 @implementation TvCellEnquiry
 {
@@ -158,22 +159,7 @@
 -(IBAction)btnViewRateTapped:(UIButton *)sender{
     if([_delegate respondsToSelector:@selector(setSelectItemViewWithData:withTittle:)])
     {
-
-        UIView *parentCell = sender.superview;
-        while (![parentCell isKindOfClass:[self class]])
-        {
-            parentCell = parentCell.superview;
-        }
-        UIView *parentView = parentCell.superview;
-        
-        while (![parentView isKindOfClass:[UITableView class]])
-        {
-            parentView = parentView.superview;
-        }
-        
-        UITableView *tableView = (UITableView *)parentView;
-        NSIndexPath *indexPath = [tableView indexPathForCell:(UITableViewCell *)parentCell];
-        
+        NSIndexPath *indexPath = [CommonUtility MB_IndexPathForCellContainingView:sender];
         [_delegate setSelectItemViewWithData:indexPath withTittle:sender.titleLabel.text];
     }
 }

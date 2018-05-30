@@ -22,7 +22,6 @@
     NSMutableArray *arrCategoryID;
     NSMutableArray *arrSupplierList;
     NSMutableArray *arr_Is_shortlisted;
-    
     NSString *selectedCategoryID;
     
 }
@@ -86,7 +85,6 @@
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath;
 {
@@ -152,9 +150,9 @@
             {
                 if (response != (NSDictionary *)[NSNull null])
                 {
-                    //                    NSError* Error;
-                    //                    ProductCategory *objProduct = [[ProductCategory alloc]initWithDictionary:response error:&Error];
-                    //                    [MBDataBaseHandler saveProductCategoryDetail:objProduct];
+                    //   NSError* Error;
+                    //   ProductCategory *objProduct = [[ProductCategory alloc]initWithDictionary:response error:&Error];
+                    //   [MBDataBaseHandler saveProductCategoryDetail:objProduct];
                     
                     for (NSMutableDictionary *dic in [response valueForKey:@"detail"])
                     {
@@ -208,7 +206,9 @@
                         [arrSupplierList addObject:data];
                         [arr_Is_shortlisted addObject:@0];
                     }
-                    [self reloadTableWithData];
+                    
+                    [self reloadTableViewAndScrollToTop:YES];
+                    
                 }
                 else{
                     [CommonUtility HideProgress];
@@ -231,7 +231,7 @@
 /******************************************************************************************************************/
 #pragma mark ❉===❉=== ADD SUPPLIER LIST CALLED HERE ===❉===❉
 /******************************************************************************************************************/
--(void)getAddSupplierShortlist:(NSMutableDictionary *)paramters
+-(void)getAddSupplierShortlist:(NSMutableDictionary *)paramters withIndex:(NSIndexPath *)selectedIndex
 {
     if (SharedObject.isNetAvailable)
     {
@@ -245,7 +245,7 @@
             {
                 if (response != (NSDictionary *)[NSNull null])
                 {
-                    [self reloadTableWithData];
+                    [self reloadTableWithData:selectedIndex];
                 }
                 else{
                     [CommonUtility HideProgress];
@@ -268,7 +268,7 @@
 /******************************************************************************************************************/
 #pragma mark ❉===❉=== REMOVE SUPPLIER LIST CALLED HERE ===❉===❉
 /******************************************************************************************************************/
--(void)removeSupplierShortlist:(NSMutableDictionary *)paramters
+-(void)removeSupplierShortlist:(NSMutableDictionary *)paramters withIndex:(NSIndexPath *)selectedIndex
 {
     if (SharedObject.isNetAvailable)
     {
@@ -282,7 +282,7 @@
             {
                 if (response != (NSDictionary *)[NSNull null])
                 {
-                    [self reloadTableWithData];
+                    [self reloadTableWithData:selectedIndex];
                 }
                 else{
                     [CommonUtility HideProgress];
@@ -322,18 +322,8 @@
 /*****************************************************************************************************************/
 -(void)setSelectItemViewWithData:(UIButton *)sender
 {
-    UIView *parentCell = sender.superview;
-    while (![parentCell isKindOfClass:[SupplierCell class]])
-    {
-        parentCell = parentCell.superview;
-    }
-    UIView *parentView = parentCell.superview;
-    while (![parentView isKindOfClass:[UITableView class]])
-    {
-        parentView = parentView.superview;
-    }
-    UITableView *tableView = (UITableView *)parentView;
-    NSIndexPath *indexPath = [tableView indexPathForCell:(UITableViewCell *)parentCell];
+    NSIndexPath *indexPath = [CommonUtility MB_IndexPathForCellContainingView:sender];
+    
     BOOL currentStatus = [[arr_Is_shortlisted objectAtIndex:indexPath.row] boolValue];
     
     [arr_Is_shortlisted replaceObjectAtIndex:indexPath.row withObject:[NSNumber numberWithBool:!currentStatus]];
@@ -350,40 +340,45 @@
         [dicParams setValue:selectedCategoryID forKey:@"GroupID"];
         [dicParams setValue:objSupplierDetail.VendorID forKey:@"SupplierID"];
         
-        [self getAddSupplierShortlist:dicParams];
+        [self getAddSupplierShortlist:dicParams withIndex:indexPath];
     }
     else{
         NSMutableDictionary *dicParams =[[NSMutableDictionary alloc]init];
         [dicParams setValue:objBuyerdetail.detail.APIVerificationCode forKey:@"Token"];
         [dicParams setValue:objSupplierDetail.ShortlistID forKey:@"ShortlistID"];
-        [self removeSupplierShortlist:dicParams];
+        [self removeSupplierShortlist:dicParams withIndex:indexPath];
     }
 }
--(void)reloadTableWithData
+-(void)setbtnMicroSiteWithURL:(UIButton *)sender
 {
-//    [UIView transitionWithView:self.tbtNegotiation
-//                      duration:0.20f
-//                       options:UIViewAnimationOptionTransitionCrossDissolve
-//                    animations:^(void)
-//    {
-//        [self.tbtNegotiation reloadData];
-//        CATransition *transition = [CATransition animation];
-//        transition.type = kCATransitionFade;
-//        transition.duration = 0.20f;
-//        transition.subtype = kCATransitionReveal;
-//        [self.tbtNegotiation.layer addAnimation:transition forKey:@"transition"];
-//    }
-//                    completion:nil];
-    
-    RUN_AFTER(0.2,^{
-        [self.tbtNegotiation reloadData];
-        [self.tbtNegotiation setScrollsToTop:YES];
+    NSIndexPath *indexPath = [CommonUtility MB_IndexPathForCellContainingView:sender];
+    SupplierDetailData *objSupplierDetail = (SupplierDetailData *)[arrSupplierList objectAtIndex:indexPath.row];
 
-//        [self.tbtNegotiation beginUpdates];
-//        [self.tbtNegotiation reloadSections:[NSIndexSet indexSetWithIndex:0]
-//                           withRowAnimation:UITableViewRowAnimationFade];
-//
-//        [self.tbtNegotiation endUpdates];
+}
+/******************************************************************************************************************/
+#pragma mark ❉===❉=== TABLEVIEW RELOAD METHOD ===❉===❉
+/*****************************************************************************************************************/
+- (void)reloadTableViewAndScrollToTop:(BOOL)scrollToTop
+{
+    [self.tbtNegotiation reloadData];
+    if (scrollToTop)
+    {
+        [self.tbtNegotiation selectRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] animated:YES scrollPosition:UITableViewScrollPositionTop];
+    }
+}
+-(void)reloadTableWithData:(NSIndexPath *)index
+{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        
+        if (index == nil)
+        {
+            [self.tbtNegotiation reloadData];
+        }
+        else{
+            [self.tbtNegotiation beginUpdates];
+            [self.tbtNegotiation reloadRowsAtIndexPaths:[NSArray arrayWithObjects:index, nil] withRowAnimation:UITableViewRowAnimationFade];
+            [self.tbtNegotiation endUpdates];
+        }
     });
 }
 @end
@@ -398,27 +393,37 @@
 - (void)awakeFromNib
 {
     [super awakeFromNib];
-    [_viewBG.layer setCornerRadius:5.0f];
-    [_viewBG.layer setBorderColor:[UIColor lightGrayColor].CGColor];
-    _viewBG.layer.shadowColor = DefaultThemeColor.CGColor;
-    _viewBG.layer.shadowOpacity = 1.0;
-    _viewBG.layer.shadowRadius = 1.0;
-    _viewBG.layer.shadowOffset = CGSizeMake(0.0f, 0.0f);
-    [_viewBG.layer setBorderWidth:2.0f];
-    [_viewBG setBackgroundColor:[UIColor whiteColor]];
     [self setSelectionStyle:UITableViewCellSelectionStyleNone];
+    
+    [CommonUtility GetShadowWithBorder:_viewBG];
+    
     [_lblCompanyName setNumberOfLines:0];
     [_lblCompanyName setLineBreakMode:NSLineBreakByWordWrapping];
     [_btnAddShort addTarget:self action:@selector(btnAddShortTapped:) forControlEvents:UIControlEventTouchUpInside];
-    
+    [_btnMicroSite setDefaultButtonShadowStyle:[UIColor redColor]];
+    [_btnMicroSite.titleLabel setFont:IS_IPHONE5? UI_DEFAULT_FONT_MEDIUM(12):UI_DEFAULT_FONT_MEDIUM(14)];
+    [_btnMicroSite addTarget:self action:@selector(btnMicroSiteTapped:) forControlEvents:UIControlEventTouchUpInside];
+
 }
 - (void)ConfigureSupplierCellwithData:(SupplierDetailData *)objSupplierDetail withIsselected:(BOOL)isSelected
 {
     [_lblCompanyName setText:objSupplierDetail.CompanyName];
-    [_lblAreaofOperation setText:[NSString stringWithFormat:@"Area of Operation : %@",objSupplierDetail.AreaOfOperation]];
-    [_lblyearOfEstablish setText:[NSString stringWithFormat:@"Year of Establishment :%@",objSupplierDetail.YearOfEstablishment]];
-    [_lblAnualTurnOver setText:[NSString stringWithFormat:@"Annual TurnOver : %@",objSupplierDetail.AnnualTurnOver]];
-    [_lblCertification setText:[NSString stringWithFormat:@"Certifications : %@",objSupplierDetail.Certifications]];
+    
+    [_lblAreaofOperation setText:[objSupplierDetail.AreaOfOperation isEqualToString:@""] ?[NSString stringWithFormat:@"Area of Operation : N/A"]:[NSString stringWithFormat:@"Area of Operation : %@",objSupplierDetail.AreaOfOperation]];
+    
+    [_lblyearOfEstablish setText:[objSupplierDetail.YearOfEstablishment isEqualToString:@""]?[NSString stringWithFormat:@"Year of Establishment : N/A"]:[NSString stringWithFormat:@"Year of Establishment : %@",objSupplierDetail.YearOfEstablishment]];
+    
+    [_lblAnualTurnOver setText:[objSupplierDetail.AnnualTurnOver isEqualToString:@""] ?[NSString stringWithFormat:@"Annual TurnOver : N/A"]:[NSString stringWithFormat:@"Annual TurnOver : %@",objSupplierDetail.AnnualTurnOver]];
+    
+    [_lblCertification setText:[objSupplierDetail.Certifications isEqualToString:@""]?[NSString stringWithFormat:@"Certifications : N/A"]:[NSString stringWithFormat:@"Certifications : %@",objSupplierDetail.Certifications]];
+    
+    if (objSupplierDetail.WebURL == (id)[NSNull null] || objSupplierDetail.WebURL.length == 0)
+    {
+        [_btnMicroSite setHidden:YES];
+    }
+    else{
+        [_btnMicroSite setHidden:NO];
+    }
     
     if (isSelected)
     {
@@ -474,6 +479,13 @@
     if([_delegate respondsToSelector:@selector(setSelectItemViewWithData:)])
     {
         [_delegate setSelectItemViewWithData:sender];
+    }
+}
+-(IBAction)btnMicroSiteTapped:(UIButton *)sender
+{
+    if([_delegate respondsToSelector:@selector(setbtnMicroSiteWithURL:)])
+    {
+        [_delegate setbtnMicroSiteWithURL:sender];
     }
 }
 @end

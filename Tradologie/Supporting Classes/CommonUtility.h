@@ -23,8 +23,13 @@
 +(NSInteger)getCurrentYear;
 +(void) setMaxAndMinDateForAppInPickerView : (UIDatePicker *)datePicker;
 +(UIImage *) changeImage : (UIImage *)image color:(UIColor *)color;
+
 +(void)showProgressWithMessage:(NSString *)message;
 +(void)HideProgress;
 +(void)setTooBarOnTextfield:(UITextField *)txtField withTargetId:(id)targetID withActionEvent:(SEL)ActionEvent;
 +(void)ShowAlertwithTittle:(NSString *)strMessage withID:(id)Controller;
++(void)GetShadowWithBorder:(UIView *)viewBG;
+
++(NSIndexPath *)MB_IndexPathForCellContainingView:(UIButton *)sender;
++(void)OpenURLAccordingToUse:(NSString *)strURL;
 @end

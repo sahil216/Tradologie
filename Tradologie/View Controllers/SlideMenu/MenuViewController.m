@@ -11,6 +11,7 @@
 #import "VCHomeNotifications.h"
 #import "VcEnquiryRequestScreen.h"
 #import "Constant.h"
+#import "CommonUtility.h"
 
 static NSString *const  kCellIdentifire = @"MenuViewCell";
 
@@ -45,16 +46,19 @@ static NSString *const  kCellIdentifire = @"MenuViewCell";
     [self config];
     [tblView reloadData];
 }
+
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    }
+}
+
 -(void)viewDidDisappear:(BOOL)animated
 {
     [super viewDidDisappear:animated];
 }
 
-- (void)didReceiveMemoryWarning {
+- (void)didReceiveMemoryWarning
+{
     [super didReceiveMemoryWarning];
 }
 
@@ -199,12 +203,12 @@ static NSString *const  kCellIdentifire = @"MenuViewCell";
             break;
         case 7:
         {
-            [self OpenURLAccordingToUse:@"http://tradologie.com/lp/about-us.html"];
+            [CommonUtility OpenURLAccordingToUse:@"http://tradologie.com/lp/about-us.html"];
         }
             break;
         case 8:
         {
-            [self OpenURLAccordingToUse:@"http://tradologie.com/lp/privacy.html"];
+            [CommonUtility OpenURLAccordingToUse:@"http://tradologie.com/lp/privacy.html"];
             
         }
             break;
@@ -221,7 +225,7 @@ static NSString *const  kCellIdentifire = @"MenuViewCell";
         }
         case 11:
         {
-            [self OpenURLAccordingToUse:@"http://tradologie.com/lp/terms-of-use.html"];
+            [CommonUtility OpenURLAccordingToUse:@"http://tradologie.com/lp/terms-of-use.html"];
 
         }
             break;
@@ -244,39 +248,7 @@ static NSString *const  kCellIdentifire = @"MenuViewCell";
             break;
     }
 }
-//************************************************************************************************
-#pragma mark ❉===❉=== OPEN URL WITH DEAFULT ===❉===❉
-//************************************************************************************************
 
--(void)OpenURLAccordingToUse:(NSString *)strURL
-{
-    NSURL *url = [NSURL URLWithString:strURL];
-
-    if([[UIDevice currentDevice].systemVersion floatValue] >= 10.0)
-    {
-        if ([[UIApplication sharedApplication] respondsToSelector:@selector(openURL:options:completionHandler:)])
-        {
-            [[UIApplication sharedApplication] openURL:url options:@{}
-                                     completionHandler:^(BOOL success)
-            {
-            }];
-        }
-        else
-        {
-            BOOL success = [[UIApplication sharedApplication] openURL:url];
-            if(success){
-                [[UIApplication sharedApplication] openURL:url];
-            }
-        }
-    }
-    else
-    {
-        BOOL success = [[UIApplication sharedApplication] openURL:url];
-        if(success){
-            [[UIApplication sharedApplication] openURL:url];
-        }
-    }
-}
 //************************************************************************************************
 #pragma mark ❉===❉=== PUSHVIEW CONTROLLER ===❉===❉
 //************************************************************************************************

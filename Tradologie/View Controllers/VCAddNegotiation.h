@@ -23,6 +23,7 @@
 @protocol SupplierCellDelegate <NSObject>
 
 -(void)setSelectItemViewWithData:(UIButton *)sender;
+-(void)setbtnMicroSiteWithURL:(UIButton *)sender;
 
 @end
 
@@ -36,6 +37,7 @@
 @property (strong, nonatomic) IBOutlet UILabel *lblAreaofOperation;
 @property (strong, nonatomic) IBOutlet UILabel *lblCertification;
 @property (strong, nonatomic) IBOutlet UIButton *btnAddShort;
+@property (strong, nonatomic) IBOutlet UIButton *btnMicroSite;
 @property (assign, nonatomic) IBOutlet UIImageView *imgSupplier;
 @property (nonatomic,assign) id<SupplierCellDelegate> delegate;
 

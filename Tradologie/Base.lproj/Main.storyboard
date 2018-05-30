@@ -2401,7 +2401,7 @@
                                                                 <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                             </state>
                                                         </button>
-                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="c97-B8-OVr">
+                                                        <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="c97-B8-OVr">
                                                             <rect key="frame" x="120" y="155.5" width="85" height="29"/>
                                                             <color key="backgroundColor" red="0.86274509799999999" green="0.13879784140000001" blue="0.072586419449999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <constraints>
@@ -2457,6 +2457,8 @@
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="btnAddShort" destination="YUc-0z-d1d" id="aNN-zM-4gm"/>
+                                            <outlet property="btnMicroSite" destination="c97-B8-OVr" id="6ze-tl-Q8C"/>
+                                            <outlet property="btnWidth" destination="f3D-3s-GS7" id="Gxn-ED-nhn"/>
                                             <outlet property="imgSupplier" destination="Myq-OZ-tbP" id="pJi-ta-ncO"/>
                                             <outlet property="lblAnualTurnOver" destination="TSr-ep-pwg" id="ewK-tD-Bd3"/>
                                             <outlet property="lblAreaofOperation" destination="UIm-DK-l6C" id="AU5-eA-UeV"/>
