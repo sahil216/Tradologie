@@ -300,6 +300,10 @@
         {
             [dataDict setObject:[NSString stringWithFormat:@"View Enquiry"] forKey:[arrTittle objectAtIndex:1]];
         }
+        else if ([data.Status isEqualToString:@"PaymentPending"])
+        {
+            [dataDict setObject:[NSString stringWithFormat:@"Payment Pending"] forKey:[arrTittle objectAtIndex:1]];
+        }
         else if ([data.Status isEqualToString:@"Approved"])
         {
             [dataDict setObject:[NSString stringWithFormat:@"View Rate"] forKey:[arrTittle objectAtIndex:1]];

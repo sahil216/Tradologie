@@ -15,6 +15,8 @@
     __weak IBOutlet UIButton *btnContactUs;
     __weak IBOutlet UITextField *txtCategory;
     __weak IBOutlet UIView *viewFooter;
+    __weak IBOutlet UIButton *btnCreateNegotiation;
+
 }
 @property (strong, nonatomic) IBOutlet UITableView *tbtNegotiation;
 

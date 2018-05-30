@@ -12,6 +12,10 @@
 #import "VcEnquiryRequestScreen.h"
 #import "Constant.h"
 #import "CommonUtility.h"
+#import "MBDataBaseHandler.h"
+#import "AppConstant.h"
+#import "MBAPIManager.h"
+#import "SharedManager.h"
 
 static NSString *const  kCellIdentifire = @"MenuViewCell";
 
@@ -95,7 +99,7 @@ static NSString *const  kCellIdentifire = @"MenuViewCell";
     
     tblView.tableFooterView = [UIView new];
     UITapGestureRecognizer *singleTapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self
-                                                                        action:@selector(handleSingleTapGesture:)];
+                                                                                                 action:@selector(handleSingleTapGesture:)];
     [viewProfile addGestureRecognizer:singleTapGestureRecognizer];
     [imgViewProfile.layer setCornerRadius:imgViewProfile.frame.size.height/2];
     dispatch_async(dispatch_get_main_queue(), ^{
@@ -118,8 +122,8 @@ static NSString *const  kCellIdentifire = @"MenuViewCell";
 //************************************************************************************************
 -(void)handleSingleTapGesture:(UITapGestureRecognizer *)tapGestureRecognize
 {
-//    UIViewController *viewC = GET_VIEW_CONTROLLER(vc);
-//    [self pushViewController:viewC];
+    //    UIViewController *viewC = GET_VIEW_CONTROLLER(vc);
+    //    [self pushViewController:viewC];
 }
 
 //************************************************************************************************
@@ -160,7 +164,7 @@ static NSString *const  kCellIdentifire = @"MenuViewCell";
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:true];
-   
+    
     switch (indexPath.row)
     {
         case 0:
@@ -171,9 +175,7 @@ static NSString *const  kCellIdentifire = @"MenuViewCell";
             break;
         case 1:
         {
-            VcEnquiryRequestScreen *requestSc=[self.storyboard instantiateViewControllerWithIdentifier:@"VcEnquiryRequestScreen"];
-            [[UIDevice currentDevice] setValue:[NSNumber numberWithInteger: UIInterfaceOrientationLandscapeRight] forKey:@"orientation"];
-             [self pushViewController:requestSc];
+            [self GetNegotiationListUsingAuction];
         }
             break;
         case 2:
@@ -226,7 +228,7 @@ static NSString *const  kCellIdentifire = @"MenuViewCell";
         case 11:
         {
             [CommonUtility OpenURLAccordingToUse:@"http://tradologie.com/lp/terms-of-use.html"];
-
+            
         }
             break;
         case 12:
@@ -248,7 +250,52 @@ static NSString *const  kCellIdentifire = @"MenuViewCell";
             break;
     }
 }
-
+/******************************************************************************************************************/
+#pragma mark ❉===❉===  GET AUCTION NEGOTIATION LIST API CALLED HERE ===❉===❉
+/******************************************************************************************************************/
+-(void)GetNegotiationListUsingAuction
+{
+    BuyerUserDetail *objBuyerdetail = [MBDataBaseHandler getBuyerUserDetail];
+    NSMutableDictionary *dicParams =[[NSMutableDictionary alloc]init];
+    [dicParams setObject:objBuyerdetail.detail.APIVerificationCode forKey:@"Token"];
+    [dicParams setObject:objBuyerdetail.detail.CustomerID forKey:@"CustomerID"];
+    [dicParams setObject:@"" forKey:@"FilterAuction"];
+    
+    if (SharedObject.isNetAvailable)
+    {
+        //[CommonUtility showProgressWithMessage:@"Please Wait.."];
+        
+        MBCall_GetAuctionListUsingDashboardApi(dicParams, ^(id response, NSString *error, BOOL status)
+        {
+            [CommonUtility HideProgress];
+            if (status && [[response valueForKey:@"success"]isEqual:@1])
+            {
+                if (response != (NSDictionary *)[NSNull null])
+                {
+                    NSError* Error;
+                    AuctionDetail *detail = [[AuctionDetail alloc]initWithDictionary:response error:&Error];
+                    [MBDataBaseHandler saveAuctionDetailData:detail];
+                    
+                    VcEnquiryRequestScreen *requestSc=[self.storyboard instantiateViewControllerWithIdentifier:@"VcEnquiryRequestScreen"];
+                    [[UIDevice currentDevice] setValue:[NSNumber numberWithInteger: UIInterfaceOrientationLandscapeRight] forKey:@"orientation"];
+                    [self pushViewController:requestSc];
+                }
+                else{
+                   // [CommonUtility HideProgress];
+                }
+            }
+            else
+            {
+              //  [CommonUtility HideProgress];
+                
+            }
+        });
+    }
+    else
+    {
+        [[CommonUtility new] show_ErrorAlertWithTitle:@"" withMessage:@"Internet Not Available Please Try Again..!"];
+    }
+}
 //************************************************************************************************
 #pragma mark ❉===❉=== PUSHVIEW CONTROLLER ===❉===❉
 //************************************************************************************************

@@ -2402,7 +2402,7 @@
                                                             </state>
                                                         </button>
                                                         <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="c97-B8-OVr">
-                                                            <rect key="frame" x="120" y="155.5" width="85" height="29"/>
+                                                            <rect key="frame" x="120" y="156" width="85" height="29"/>
                                                             <color key="backgroundColor" red="0.86274509799999999" green="0.13879784140000001" blue="0.072586419449999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="85" id="chI-dO-dGi"/>
@@ -2505,6 +2505,14 @@
                                 </constraints>
                                 <viewLayoutGuide key="safeArea" id="6SR-wv-Seh"/>
                             </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="x7b-lb-0zZ">
+                                <rect key="frame" x="295" y="537" width="70" height="70"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="70" id="139-df-WAK"/>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="70" id="Ck2-1E-bJp"/>
+                                </constraints>
+                                <state key="normal" title="Button"/>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
@@ -2512,11 +2520,14 @@
                             <constraint firstItem="5xo-Xj-Fgd" firstAttribute="top" secondItem="VIM-Pd-nPs" secondAttribute="top" id="61o-Tq-CmU"/>
                             <constraint firstItem="5xo-Xj-Fgd" firstAttribute="leading" secondItem="VIM-Pd-nPs" secondAttribute="leading" id="7B1-gw-HIt"/>
                             <constraint firstItem="vFd-nL-QFr" firstAttribute="leading" secondItem="VIM-Pd-nPs" secondAttribute="leading" id="9PI-zL-tki"/>
+                            <constraint firstItem="vFd-nL-QFr" firstAttribute="top" secondItem="x7b-lb-0zZ" secondAttribute="bottom" constant="10" id="Aak-vy-bYi"/>
                             <constraint firstItem="vFd-nL-QFr" firstAttribute="top" secondItem="S66-VI-59X" secondAttribute="bottom" id="HaG-Sy-V9B"/>
                             <constraint firstItem="vFd-nL-QFr" firstAttribute="bottom" secondItem="VIM-Pd-nPs" secondAttribute="bottom" id="QtF-83-RWH"/>
                             <constraint firstItem="vFd-nL-QFr" firstAttribute="top" secondItem="S66-VI-59X" secondAttribute="bottom" id="X2l-Rm-ueS"/>
                             <constraint firstItem="5xo-Xj-Fgd" firstAttribute="trailing" secondItem="VIM-Pd-nPs" secondAttribute="trailing" id="bed-CE-PEF"/>
+                            <constraint firstItem="x7b-lb-0zZ" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="FUY-tH-fuk" secondAttribute="leading" constant="20" symbolic="YES" id="g7b-0y-DCt"/>
                             <constraint firstItem="S66-VI-59X" firstAttribute="trailing" secondItem="VIM-Pd-nPs" secondAttribute="trailing" id="hyc-WL-rAc"/>
+                            <constraint firstItem="VIM-Pd-nPs" firstAttribute="trailing" secondItem="x7b-lb-0zZ" secondAttribute="trailing" constant="10" id="nbj-Wb-QSA"/>
                             <constraint firstItem="S66-VI-59X" firstAttribute="leading" secondItem="VIM-Pd-nPs" secondAttribute="leading" id="tOy-gC-PB7"/>
                             <constraint firstItem="S66-VI-59X" firstAttribute="top" secondItem="5xo-Xj-Fgd" secondAttribute="bottom" id="wkp-d5-N1n"/>
                         </constraints>
@@ -2541,6 +2552,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="btnContactUs" destination="B9W-4P-Ptk" id="aA8-yN-zZ8"/>
+                        <outlet property="btnCreateNegotiation" destination="vyL-eI-hqu" id="qlO-6a-svv"/>
                         <outlet property="tbtNegotiation" destination="S66-VI-59X" id="H1l-OP-NV7"/>
                         <outlet property="txtCategory" destination="63e-Vm-xcA" id="lkS-cQ-F7M"/>
                         <outlet property="viewFooter" destination="vFd-nL-QFr" id="JHF-Ml-Vvo"/>

@@ -72,6 +72,8 @@ static NSString *DASHBOARD_NOTIFICATION_API =@"DashboardNotification";
 static NSString *AUCTION_LIST_API = @"AuctionList";
 static NSString *LOGIN_API_NAME = @"login";
 
+static NSString *CREATE_NEGOTIATION_API = @"createauction";
+
 
 
 /*********************************************************************************************************/

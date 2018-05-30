@@ -17,7 +17,6 @@
 @interface VCAddNegotiation ()<SupplierCellDelegate>
 {
     UILabel *lblMessage;
-    UIButton *btnRight;
     NSMutableArray *arrCategoryList;
     NSMutableArray *arrCategoryID;
     NSMutableArray *arrSupplierList;
@@ -45,6 +44,7 @@
     
     
     [btnContactUs addTarget:self action:@selector(btnContactUsTapped:) forControlEvents:UIControlEventTouchUpInside];
+    [btnCreateNegotiation addTarget:self action:@selector(btnCreateNegotiationTapped:) forControlEvents:UIControlEventTouchUpInside];
     
     [self GetCategoryListForNegotiation];
     // Do any additional setup after loading the view.
@@ -103,6 +103,20 @@
 {
     [self showPopUpWithData:sender];
 }
+-(IBAction)btnCreateNegotiationTapped:(UIButton *)sender
+{
+    BOOL isValidate=TRUE;
+
+    if ([Validation validateTextField:txtCategory])
+    {
+        [[CommonUtility new] show_ErrorAlertWithTitle:@"" withMessage:@"Please Select One Category..!"];
+        return;
+    }
+    if (isValidate)
+    {
+        
+    }
+}
 /******************************************************************************************************************/
 #pragma mark ❉===❉=== SHOW POPUP DATA HERE ===❉===❉
 /******************************************************************************************************************/
@@ -130,6 +144,7 @@
         [txtCategory setText:[arrCategoryList objectAtIndex:selectedIndex]];
         selectedCategoryID = [NSString stringWithFormat:@"%@",[arrCategoryID objectAtIndex:selectedIndex]];
         [self getSupplierListAccordingtoCategoryID:[arrCategoryID objectAtIndex:selectedIndex]];
+        [self createNegotiationAPI];
         
     } dismissBlock:^{
         
@@ -229,6 +244,47 @@
         [[CommonUtility new] show_ErrorAlertWithTitle:@"" withMessage:@"Internet Not Available Please Try Again..!"];
     }
 }
+/******************************************************************************************************************/
+#pragma mark ❉===❉=== CREATE NEGOTIATION API CALLED HERE ===❉===❉
+/******************************************************************************************************************/
+-(void)createNegotiationAPI
+{
+    BuyerUserDetail *objBuyerdetail = [MBDataBaseHandler getBuyerUserDetail];
+    
+    NSMutableDictionary *dicParams = [[NSMutableDictionary alloc]init];
+    [dicParams  setValue:objBuyerdetail.detail.APIVerificationCode forKey:@"Token"];
+    [dicParams setValue:selectedCategoryID forKey:@"categoryID"];
+    [dicParams setValue:objBuyerdetail.detail.CustomerID forKey:@"CustomerID"];
+    
+    if (SharedObject.isNetAvailable)
+    {
+        MBCall_CreateNegotiationWithAuction(dicParams, ^(id response, NSString *error, BOOL status)
+        {
+            [CommonUtility HideProgress];
+            if (status && [[response valueForKey:@"success"]isEqual:@1])
+            {
+                if (response != (NSDictionary *)[NSNull null])
+                {
+                    
+                }
+                else
+                {
+                    
+                }
+            }
+            else
+            {
+                
+            }
+            
+        });
+    }
+    else
+    {
+        [[CommonUtility new] show_ErrorAlertWithTitle:@"" withMessage:@"Internet Not Available Please Try Again..!"];
+    }
+}
+
 /******************************************************************************************************************/
 #pragma mark ❉===❉=== ADD SUPPLIER LIST CALLED HERE ===❉===❉
 /******************************************************************************************************************/
@@ -355,7 +411,7 @@
     NSIndexPath *indexPath = [CommonUtility MB_IndexPathForCellContainingView:sender];
     SupplierDetailData *objSupplierDetail = (SupplierDetailData *)[arrSupplierList objectAtIndex:indexPath.row];
     [CommonUtility OpenURLAccordingToUse:objSupplierDetail.WebURL];
-
+    
 }
 /******************************************************************************************************************/
 #pragma mark ❉===❉=== TABLEVIEW RELOAD METHOD ===❉===❉
@@ -405,7 +461,7 @@
     [_btnMicroSite setDefaultButtonShadowStyle:[UIColor redColor]];
     [_btnMicroSite.titleLabel setFont:IS_IPHONE5? UI_DEFAULT_FONT_MEDIUM(12):UI_DEFAULT_FONT_MEDIUM(14)];
     [_btnMicroSite addTarget:self action:@selector(btnMicroSiteTapped:) forControlEvents:UIControlEventTouchUpInside];
-
+    
 }
 - (void)ConfigureSupplierCellwithData:(SupplierDetailData *)objSupplierDetail withIsselected:(BOOL)isSelected
 {
@@ -481,6 +537,9 @@
         }
     } usingActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
 }
+/******************************************************************************************************************/
+#pragma mark ❉===❉===  BUTTON ACTION EVENT CALLED HERE ===❉===❉
+/******************************************************************************************************************/
 -(IBAction)btnAddShortTapped:(UIButton *)sender
 {
     if([_delegate respondsToSelector:@selector(setSelectItemViewWithData:)])
