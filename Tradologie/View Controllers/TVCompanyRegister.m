@@ -79,11 +79,13 @@
 //************************************************************************************************
 #pragma mark ❉===❉=== Tabel View DataSource ===❉===❉
 //************************************************************************************************
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
     return 1;
 }
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
     return 11;
 }
 

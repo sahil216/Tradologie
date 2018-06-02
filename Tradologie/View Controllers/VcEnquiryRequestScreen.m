@@ -263,6 +263,10 @@
     NSMutableArray *arrGPS=[[NSMutableArray alloc]initWithObjects:@"Delivery Address",@"Payment Term",@"Delivery State", nil];
     NSMutableArray *arrSortBy=[[NSMutableArray alloc]initWithObjects:@"All",@"Opened",@"Closed",@"Not Started",nil];
     
+    FTPopOverMenuConfiguration *configuration = [FTPopOverMenuConfiguration defaultConfiguration];
+    configuration.menuRowHeight = 45;
+    configuration.menuWidth = 150;
+    
     [FTPopOverMenu showForSender:sender
                    withMenuArray:(sender.tag == 1001)?arrGPS:arrSortBy
                       imageArray:nil

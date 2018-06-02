@@ -10,6 +10,7 @@
 #import "Constant.h"
 #import "AppConstant.h"
 #import <SafariServices/SafariServices.h>
+#import "CommonUtility.h"
 
 @interface VCTradePolicyScreen ()<SFSafariViewControllerDelegate>
 {
@@ -35,8 +36,9 @@
 }
 
 /******************************************************************************************************************/
-#pragma mark ❉===❉=== TableView Data Source ❉===❉===
+#pragma mark ❉===❉=== TABLEVIEW DATASOURCE & DELEGATE ❉===❉===
 /*****************************************************************************************************************/
+
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return 1;
 }
@@ -64,18 +66,18 @@
 {
     if (indexPath.row == 0)
     {
-        [self OpenURLAccordingToUse:@"http://tradologie.com/lp/pdf/plywood-trade-policy.pdf#zoom=70"];
+        [CommonUtility OpenURLAccordingToUse:@"http://tradologie.com/lp/pdf/plywood-trade-policy.pdf#zoom=70"];
     }
     else if (indexPath.row == 1){
-        [self OpenURLAccordingToUse:@"http://tradologie.com/lp/pdf/tmt-trade-policy.pdf#zoom=70"];
+        [CommonUtility OpenURLAccordingToUse:@"http://tradologie.com/lp/pdf/tmt-trade-policy.pdf#zoom=70"];
 
     }
     else if (indexPath.row== 2){
-        [self OpenURLAccordingToUse:@"http://tradologie.com/lp/pdf/rice-trade-policy.pdf#zoom=70"];
+        [CommonUtility OpenURLAccordingToUse:@"http://tradologie.com/lp/pdf/rice-trade-policy.pdf#zoom=70"];
 
     }
     else{
-        [self OpenURLAccordingToUse:@"http://tradologie.com/lp/pdf/cement-trade-policy.pdf?zoom=50"];
+        [CommonUtility OpenURLAccordingToUse:@"http://tradologie.com/lp/pdf/cement-trade-policy.pdf?zoom=50"];
 
     }
         
@@ -84,35 +86,7 @@
 {
     return 50;
 }
-//************************************************************************************************
-#pragma mark ❉===❉=== OPEN URL WITH DEAFULT ===❉===❉
-//************************************************************************************************
 
--(void)OpenURLAccordingToUse:(NSString *)strURL
-{
-    NSURL *url = [NSURL URLWithString:strURL];
-    
-    if([[UIDevice currentDevice].systemVersion floatValue] >= 10.0)
-    {
-        if ([[UIApplication sharedApplication] respondsToSelector:@selector(openURL:options:completionHandler:)])
-        {
-            [[UIApplication sharedApplication] openURL:url options:@{}
-                                     completionHandler:^(BOOL success)
-             {
-             }];
-        }
-        else
-        {
-            BOOL success = [[UIApplication sharedApplication] openURL:url];
-        }
-    }
-    else
-    {
-        bool can = [[UIApplication sharedApplication] canOpenURL:url];
-        if(can){
-            [[UIApplication sharedApplication] openURL:url];
-        }
-    }
-}
+
 
 @end

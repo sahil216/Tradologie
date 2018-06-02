@@ -91,7 +91,8 @@ sharedObject;\
     AFHTTPSessionManager *manager = [self requestOperationManager];
     
     [manager POST:urlString parameters:requestDictionary progress:nil
-          success:^(NSURLSessionDataTask *task, id responseObject) {
+          success:^(NSURLSessionDataTask *task, id responseObject)
+    {
         
         NSDictionary *dict   = [NSDictionary dictionaryWithDictionary:[task.currentRequest allHTTPHeaderFields]];
         NSLog(@"Success = %@ %@ ",responseObject,dict);
@@ -122,7 +123,7 @@ sharedObject;\
     ((AFJSONResponseSerializer *)globalManager.responseSerializer).readingOptions=NSJSONReadingAllowFragments;
 
     //globalManager.requestSerializer  = [self addAuthorizationKey];
-    globalManager.requestSerializer.cachePolicy=self.cachePolicy;
+    globalManager.requestSerializer.cachePolicy = self.cachePolicy;
 
     [globalManager.requestSerializer willChangeValueForKey:@"timeoutInterval"];
     globalManager.requestSerializer.timeoutInterval = 30;

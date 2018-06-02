@@ -133,7 +133,6 @@
             {
                 if (response != (NSDictionary *)[NSNull null])
                 {
-                    [CommonUtility HideProgress];
                     dicData = [[NSMutableDictionary alloc]init];
                     dicData = [[[response valueForKey:@"detail"]objectAtIndex:0] mutableCopy];
                     
@@ -142,10 +141,11 @@
                     
                     NSMutableArray *arrValue = [[NSMutableArray alloc]init];
                     arrValue = [[dicData valueForKey:@"AuctionDetail"] mutableCopy];
-                    [CommonUtility HideProgress];
                     
                     if (arrValue.count > 0)
                     {
+                        [CommonUtility HideProgress];
+
                         [lblMessage setHidden:YES];
                         [self.tbtNotify setSeparatorStyle:UITableViewCellSeparatorStyleSingleLine];
                         
@@ -154,6 +154,8 @@
                         [self.tbtNotify reloadData];
                     }
                     else{
+                        [CommonUtility HideProgress];
+
                         [lblMessage setHidden:NO];
                         [self.tbtNotify setSeparatorStyle:UITableViewCellSeparatorStyleNone];
                         

@@ -125,6 +125,8 @@ typedef NS_ENUM(NSUInteger, FTPopOverMenuArrowDirection) {
 {
     if (!_menuNameLabel) {
         _menuNameLabel = [[UILabel alloc]initWithFrame:CGRectZero];
+        [_menuNameLabel setNumberOfLines:0];
+        [_menuNameLabel setLineBreakMode:NSLineBreakByWordWrapping];
         _menuNameLabel.backgroundColor = [UIColor clearColor];
     }
     return _menuNameLabel;

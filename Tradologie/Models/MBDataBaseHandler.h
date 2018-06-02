@@ -20,6 +20,8 @@ typedef enum
     dashboardDetail,
     auctionData,
     supplierDetail,
+    negotiationDetail,
+    
 } OFFLINEMODE;
 
 
@@ -36,6 +38,7 @@ typedef enum
 +(NSString *)getAuctionDataUsingDashBoard;
 +(AuctionDetail *)getAuctionDetail;
 +(SupplierDetail *)getSupplierDetailData;
++(NegotiationDetail *)getNegotiationDetailData;
 
 
 
@@ -47,6 +50,7 @@ typedef enum
 +(void)saveDashBoradAuctionDataDetail:(NSString*)Data;
 +(void)saveAuctionDetailData:(AuctionDetail *)Data;
 +(void)saveSupplierDetailData:(SupplierDetail *)Data;
++(void)saveNegotiationDetailData:(NegotiationDetail *)Data;
 
 
 

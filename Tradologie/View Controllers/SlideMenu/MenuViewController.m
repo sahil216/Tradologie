@@ -99,7 +99,7 @@ static NSString *const  kCellIdentifire = @"MenuViewCell";
     
     tblView.tableFooterView = [UIView new];
     UITapGestureRecognizer *singleTapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self
-                                                                                                 action:@selector(handleSingleTapGesture:)];
+                                                                        action:@selector(handleSingleTapGesture:)];
     [viewProfile addGestureRecognizer:singleTapGestureRecognizer];
     [imgViewProfile.layer setCornerRadius:imgViewProfile.frame.size.height/2];
     dispatch_async(dispatch_get_main_queue(), ^{

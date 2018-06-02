@@ -207,6 +207,34 @@
         }
     }
 }
+
++(void)showPopUpWithData:(UIView *)viewtoShow withArray:(NSMutableArray *)arrData withCompletion:(showPopupWithCompletionHandler)completion withDismissBlock:(FTPopOverMenuDismissBlock)dismiss
+{
+    FTPopOverMenuConfiguration *configuration = [FTPopOverMenuConfiguration defaultConfiguration];
+    configuration.menuRowHeight = 50;
+    configuration.menuWidth = SCREEN_WIDTH-20;
+    configuration.textColor = [UIColor whiteColor];
+    configuration.textFont = UI_DEFAULT_FONT_MEDIUM(16);
+    configuration.tintColor = [UIColor whiteColor];
+    configuration.borderColor = [UIColor whiteColor];
+    configuration.borderWidth = 2.0f;
+    configuration.menuIconMargin = 6;
+    configuration.ignoreImageOriginalColor = YES;
+    configuration.allowRoundedArrow = YES;
+    
+    [FTPopOverMenu showForSender:viewtoShow
+                   withMenuArray:arrData
+                      imageArray:nil
+                       doneBlock:^(NSInteger selectedIndex)
+     {
+         completion(selectedIndex);
+         
+     } dismissBlock:^{
+         dismiss();
+     }];
+}
+
+
 //************************************************************************************************
 #pragma mark ❉===❉=== GET CURRENT YEAR ===❉===❉
 //************************************************************************************************

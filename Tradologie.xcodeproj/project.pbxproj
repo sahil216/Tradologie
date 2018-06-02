@@ -27,6 +27,7 @@
 		4A1C5CD0209C306A00A87222 /* NSDictionary+CheckNullValue.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A1C5CC7209C306A00A87222 /* NSDictionary+CheckNullValue.m */; };
 		4A1C5CD7209C360800A87222 /* TVLoginScreen.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A1C5CD6209C360800A87222 /* TVLoginScreen.m */; };
 		4A1C5CDA209C781700A87222 /* TvAlreadyUserScreen.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A1C5CD9209C781700A87222 /* TvAlreadyUserScreen.m */; };
+		4A20A8AA20C154F3005D2D6E /* VCFilterScreen.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A20A8A920C154F3005D2D6E /* VCFilterScreen.m */; };
 		4A212BD320BD25AD00207FAE /* SupplierDetail.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A212BD220BD25AD00207FAE /* SupplierDetail.m */; };
 		4A212BD620BD4AF100207FAE /* NSString+MB.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A212BD420BD4AF000207FAE /* NSString+MB.m */; };
 		4A212BD920BD4B7C00207FAE /* UIImageView+UIActivityIndicatorForSDWebImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A212BD720BD4B7B00207FAE /* UIImageView+UIActivityIndicatorForSDWebImage.m */; };
@@ -60,6 +61,8 @@
 		4A4A2C4420A2FDDE000B8EB4 /* VCHomeNotifications.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A4A2C4320A2FDDE000B8EB4 /* VCHomeNotifications.m */; };
 		4A4A2C4820A3098A000B8EB4 /* EveryPage.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A4A2C4720A3098A000B8EB4 /* EveryPage.m */; };
 		4A4A2C5120A314F9000B8EB4 /* UINavigationItem+Extra.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A4A2C5020A314F8000B8EB4 /* UINavigationItem+Extra.m */; };
+		4A6065F220BFB5E300BA5F0B /* NegotiationDetail.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A6065F120BFB5E300BA5F0B /* NegotiationDetail.m */; };
+		4A6065FB20C022CC00BA5F0B /* TVCreateNeogotiation.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A6065FA20C022CC00BA5F0B /* TVCreateNeogotiation.m */; };
 		4A8194D420AEFCF3003A8F5C /* TvCellEnquiry.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A8194D320AEFCF3003A8F5C /* TvCellEnquiry.m */; };
 		4AEA4B2120B5704900C3C9C8 /* FTPopOverMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 4AEA4B2020B5704800C3C9C8 /* FTPopOverMenu.m */; };
 		D1881E088B07082817C3A1DA /* libPods-TradologieUITests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C5B00E1D9D8BDE4F02214E12 /* libPods-TradologieUITests.a */; };
@@ -123,6 +126,8 @@
 		4A1C5CD6209C360800A87222 /* TVLoginScreen.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TVLoginScreen.m; sourceTree = "<group>"; };
 		4A1C5CD8209C781700A87222 /* TvAlreadyUserScreen.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TvAlreadyUserScreen.h; sourceTree = "<group>"; };
 		4A1C5CD9209C781700A87222 /* TvAlreadyUserScreen.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TvAlreadyUserScreen.m; sourceTree = "<group>"; };
+		4A20A8A820C154F3005D2D6E /* VCFilterScreen.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VCFilterScreen.h; sourceTree = "<group>"; };
+		4A20A8A920C154F3005D2D6E /* VCFilterScreen.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VCFilterScreen.m; sourceTree = "<group>"; };
 		4A212BD120BD25AD00207FAE /* SupplierDetail.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SupplierDetail.h; sourceTree = "<group>"; };
 		4A212BD220BD25AD00207FAE /* SupplierDetail.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SupplierDetail.m; sourceTree = "<group>"; };
 		4A212BD420BD4AF000207FAE /* NSString+MB.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+MB.m"; sourceTree = "<group>"; };
@@ -185,6 +190,10 @@
 		4A4A2C4720A3098A000B8EB4 /* EveryPage.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EveryPage.m; sourceTree = "<group>"; };
 		4A4A2C4F20A314F8000B8EB4 /* UINavigationItem+Extra.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UINavigationItem+Extra.h"; sourceTree = "<group>"; };
 		4A4A2C5020A314F8000B8EB4 /* UINavigationItem+Extra.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UINavigationItem+Extra.m"; sourceTree = "<group>"; };
+		4A6065F020BFB5E300BA5F0B /* NegotiationDetail.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NegotiationDetail.h; sourceTree = "<group>"; };
+		4A6065F120BFB5E300BA5F0B /* NegotiationDetail.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NegotiationDetail.m; sourceTree = "<group>"; };
+		4A6065F920C022CC00BA5F0B /* TVCreateNeogotiation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TVCreateNeogotiation.h; sourceTree = "<group>"; };
+		4A6065FA20C022CC00BA5F0B /* TVCreateNeogotiation.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TVCreateNeogotiation.m; sourceTree = "<group>"; };
 		4A8194D220AEFCF3003A8F5C /* TvCellEnquiry.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TvCellEnquiry.h; sourceTree = "<group>"; };
 		4A8194D320AEFCF3003A8F5C /* TvCellEnquiry.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TvCellEnquiry.m; sourceTree = "<group>"; };
 		4AEA4B1F20B5704800C3C9C8 /* FTPopOverMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FTPopOverMenu.h; sourceTree = "<group>"; };
@@ -357,6 +366,10 @@
 				4A4A2C4320A2FDDE000B8EB4 /* VCHomeNotifications.m */,
 				4A3135A220B987F200DA353B /* VCAddNegotiation.h */,
 				4A3135A320B987F200DA353B /* VCAddNegotiation.m */,
+				4A6065F920C022CC00BA5F0B /* TVCreateNeogotiation.h */,
+				4A6065FA20C022CC00BA5F0B /* TVCreateNeogotiation.m */,
+				4A20A8A820C154F3005D2D6E /* VCFilterScreen.h */,
+				4A20A8A920C154F3005D2D6E /* VCFilterScreen.m */,
 				4A15E99020A4510000192B46 /* VcEnquiryRequestScreen.h */,
 				4A15E99120A4510000192B46 /* VcEnquiryRequestScreen.m */,
 				4A36374C20A6FD8A00DF37D2 /* VCMessageScreen.h */,
@@ -410,6 +423,8 @@
 				4A19611020B7EA08005E3B02 /* AuctionDetail.m */,
 				4A212BD120BD25AD00207FAE /* SupplierDetail.h */,
 				4A212BD220BD25AD00207FAE /* SupplierDetail.m */,
+				4A6065F020BFB5E300BA5F0B /* NegotiationDetail.h */,
+				4A6065F120BFB5E300BA5F0B /* NegotiationDetail.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -786,6 +801,7 @@
 				4A4A2C4820A3098A000B8EB4 /* EveryPage.m in Sources */,
 				4A1C5C85209C19A900A87222 /* AppDelegate.m in Sources */,
 				4A15E99220A4510000192B46 /* VcEnquiryRequestScreen.m in Sources */,
+				4A20A8AA20C154F3005D2D6E /* VCFilterScreen.m in Sources */,
 				4A32483120A1CDE60030DA1A /* RootViewController.m in Sources */,
 				4A36374820A6BC6100DF37D2 /* MBAPIManager.m in Sources */,
 				4A268F7B20AAA2ED00753F5E /* TVCompanyRegister.m in Sources */,
@@ -802,8 +818,10 @@
 				4A8194D420AEFCF3003A8F5C /* TvCellEnquiry.m in Sources */,
 				4A4A2C4420A2FDDE000B8EB4 /* VCHomeNotifications.m in Sources */,
 				4A245604209D7CDC000B3B64 /* CommonUtility.m in Sources */,
+				4A6065FB20C022CC00BA5F0B /* TVCreateNeogotiation.m in Sources */,
 				4A1C5CCC209C306A00A87222 /* NSDate+Extra.m in Sources */,
 				4A268F8220AAD69400753F5E /* ProductCategory.m in Sources */,
+				4A6065F220BFB5E300BA5F0B /* NegotiationDetail.m in Sources */,
 				4A212BD620BD4AF100207FAE /* NSString+MB.m in Sources */,
 				4A268F8820AAE64200753F5E /* MBDataBaseHandler.m in Sources */,
 				4A212BD320BD25AD00207FAE /* SupplierDetail.m in Sources */,

@@ -21,6 +21,7 @@
 #import "BuyerUserDetail.h"
 #import "AuctionDetail.h"
 #import "SupplierDetail.h"
+#import "NegotiationDetail.h"
 
 /*********************************************************************************************************/
 #pragma Mark- CUSTOM CELL IMPORT
@@ -74,7 +75,7 @@ static NSString *LOGIN_API_NAME = @"login";
 
 static NSString *CREATE_NEGOTIATION_API = @"createauction";
 
-
+static NSString *ADD_UPDATE_NEGOTIATION_API = @"AddUpdateAuction";
 
 /*********************************************************************************************************/
 #pragma CONTROLLER IDENTIFIRES

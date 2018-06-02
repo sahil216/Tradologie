@@ -10,10 +10,12 @@
 
 @implementation MBDataBaseHandler
 
-#pragma mark - GETTERS
+/*********************************************************************************************/
+#pragma mark ❉===❉=== GETTER METHOD TO GET VALUE FROM DATABASE ❉===❉===
+/*********************************************************************************************/
 
-+(ProductCategory *)getAllProductCategories{
-    
++(ProductCategory *)getAllProductCategories
+{
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(objType == %@)",[NSNumber numberWithInt:Category]];
     
     NSArray *array = [OfflineObject MR_findAllWithPredicate:predicate];
@@ -87,9 +89,25 @@
     
     return nil;
 }
++(NegotiationDetail *)getNegotiationDetailData;
+{
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(objType == %@)",[NSNumber numberWithInt:negotiationDetail]];
+    
+    NSArray *array = [OfflineObject MR_findAllWithPredicate:predicate];
+    
+    if (array.count>0)
+    {
+        OfflineObject *object = array[0];
+        NegotiationDetail *objNegotiationDetaill = [[NegotiationDetail alloc] initWithString:object.objData error:nil];
+        return objNegotiationDetaill;
+    }
+    
+    return nil;
+}
 
-
-#pragma mark -Setter
+/*********************************************************************************************/
+#pragma mark ❉===❉=== SETTER METHOD TO SET VALUE IN DATABASE ❉===❉===
+/*********************************************************************************************/
 
 + (void)saveProductCategoryDetail:(ProductCategory *)Categories
 {
@@ -176,8 +194,26 @@
          
      }];
 }
-
-#pragma mark - truncate data
++(void)saveNegotiationDetailData:(NegotiationDetail *)Data
+{
+    [self deleteAllRecordsForType:negotiationDetail];
+    
+    if (!Data) {
+        return;
+    }
+    
+    [MagicalRecord saveWithBlockAndWait:^(NSManagedObjectContext *localContext)
+     {
+         OfflineObject *newUser = [OfflineObject MR_createEntityInContext:localContext];
+         newUser.objData = Data.toJSONString;
+         newUser.objType = [NSNumber numberWithInt:negotiationDetail];
+         newUser.objClass = NSStringFromClass([Data class]);
+         
+     }];
+}
+/*********************************************************************************************/
+#pragma mark ❉===❉=== DELETE ALL RECORD"S FROM DATABASE ❉===❉===
+/*********************************************************************************************/
 
 + (void) deleteAllRecordsForType:(OFFLINEMODE)type{
     

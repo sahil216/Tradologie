@@ -12,6 +12,9 @@
 #import "MBAPIManager.h"
 #import "SharedManager.h"
 #import "MBDataBaseHandler.h"
+#import "TVCreateNeogotiation.h"
+#import "VCFilterScreen.h"
+
 
 
 @interface VCAddNegotiation ()<SupplierCellDelegate>
@@ -39,13 +42,19 @@
     [lblMessage setHidden:YES];
     [self.tbtNegotiation setBackgroundView:lblMessage];
     
-    [txtCategory setAdditionalInformationTextfieldStyle:@"--Select One Category--" Withimage:[UIImage imageNamed:@"IconDropDrown"] withID:self withSelectorAction:@selector(btnDropTaped:) withTag:0];
+    [txtCategory setAdditionalInformationTextfieldStyle:@"--Select Category--" Withimage:[UIImage imageNamed:@"IconDropDrown"] withID:self withSelectorAction:@selector(btnDropTaped:) withTag:0];
     [txtCategory setFont:UI_DEFAULT_FONT(17)];
     
     
     [btnContactUs addTarget:self action:@selector(btnContactUsTapped:) forControlEvents:UIControlEventTouchUpInside];
     [btnCreateNegotiation addTarget:self action:@selector(btnCreateNegotiationTapped:) forControlEvents:UIControlEventTouchUpInside];
+    [btnFilter setDefaultButtonShadowStyle:DefaultThemeColor];
+    [btnFilter.layer setCornerRadius:btnFilter.frame.size.height/2];
     
+    [btnFilter setImage:[[UIImage imageNamed:@"IconFilter"]imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
+    [btnFilter addTarget:self action:@selector(btnFilterTapped:) forControlEvents:UIControlEventTouchUpInside];
+    [btnFilter setTintColor:[UIColor whiteColor]];
+    [btnFilter setHidden:YES];
     [self GetCategoryListForNegotiation];
     // Do any additional setup after loading the view.
 }
@@ -103,6 +112,11 @@
 {
     [self showPopUpWithData:sender];
 }
+-(IBAction)btnFilterTapped:(UIButton *)sender
+{
+    VCFilterScreen *objScreen = [self.storyboard instantiateViewControllerWithIdentifier:@"VCFilterScreen"];
+    [self.navigationController pushViewController:objScreen animated:YES];
+}
 -(IBAction)btnCreateNegotiationTapped:(UIButton *)sender
 {
     BOOL isValidate=TRUE;
@@ -114,7 +128,9 @@
     }
     if (isValidate)
     {
-        
+        TVCreateNeogotiation *objScreen = [self.storyboard instantiateViewControllerWithIdentifier:@"TVCreateNeogotiation"];
+        objScreen.strAuctionGroupID = selectedCategoryID;
+        [self.navigationController pushViewController:objScreen animated:YES];
     }
 }
 /******************************************************************************************************************/
@@ -123,31 +139,16 @@
 -(void)showPopUpWithData:(UIView *)viewtoShow
 {
     [lblMessage setHidden:YES];
-    FTPopOverMenuConfiguration *configuration = [FTPopOverMenuConfiguration defaultConfiguration];
-    configuration.menuRowHeight = 45;
-    configuration.menuWidth = SCREEN_WIDTH-20;
-    configuration.textColor = [UIColor whiteColor];
-    configuration.textFont = UI_DEFAULT_FONT_MEDIUM(16);
-    configuration.tintColor = [UIColor whiteColor];
-    configuration.borderColor = [UIColor whiteColor];
-    configuration.borderWidth = 2.0f;
-    configuration.menuIconMargin = 6;
-    configuration.ignoreImageOriginalColor = YES;
-    configuration.allowRoundedArrow = YES;
-    
-    [FTPopOverMenu showForSender:viewtoShow
-                   withMenuArray:arrCategoryList
-                      imageArray:nil
-                       doneBlock:^(NSInteger selectedIndex)
+[self.navigationController.navigationBar setNaviagtionStyleWithStatusbar:[UIColor colorWithRed:29.0f/255.0f green:65.0f/255.0f blue:106.0f/255.0f alpha:.30f]];
+    [CommonUtility showPopUpWithData:viewtoShow withArray:arrCategoryList withCompletion:^(NSInteger response)
     {
-        
-        [txtCategory setText:[arrCategoryList objectAtIndex:selectedIndex]];
-        selectedCategoryID = [NSString stringWithFormat:@"%@",[arrCategoryID objectAtIndex:selectedIndex]];
-        [self getSupplierListAccordingtoCategoryID:[arrCategoryID objectAtIndex:selectedIndex]];
-        [self createNegotiationAPI];
-        
-    } dismissBlock:^{
-        
+        [self.navigationController.navigationBar setNaviagtionStyleWithStatusbar:[UIColor whiteColor]];
+                [txtCategory setText:[arrCategoryList objectAtIndex:response]];
+                selectedCategoryID = [NSString stringWithFormat:@"%@",[arrCategoryID objectAtIndex:response]];
+                [self getSupplierListAccordingtoCategoryID:[arrCategoryID objectAtIndex:response]];
+                [self createNegotiationAPI];
+    } withDismissBlock:^{
+        [self.navigationController.navigationBar setNaviagtionStyleWithStatusbar:[UIColor whiteColor]];
     }];
 }
 /******************************************************************************************************************/
@@ -205,9 +206,9 @@
         
         MBCall_GetSuplierlistWithCategoryID(dicParams, ^(id response, NSString *error, BOOL status)
         {
-            [CommonUtility HideProgress];
             arrSupplierList = [[NSMutableArray alloc]init];
             arr_Is_shortlisted = [[NSMutableArray alloc]init];
+            
             if (status && [[response valueForKey:@"success"]isEqual:@1])
             {
                 [lblMessage setHidden:YES];
@@ -222,7 +223,6 @@
                         [arrSupplierList addObject:data];
                         [arr_Is_shortlisted addObject:@0];
                     }
-                    
                     [self reloadTableViewAndScrollToTop:YES];
                     
                 }
@@ -234,6 +234,8 @@
             {
                 [CommonUtility HideProgress];
                 [lblMessage setHidden:NO];
+                [btnFilter setHidden:YES];
+
                 [self.tbtNegotiation reloadData];
             }
             
@@ -253,18 +255,20 @@
     
     NSMutableDictionary *dicParams = [[NSMutableDictionary alloc]init];
     [dicParams  setValue:objBuyerdetail.detail.APIVerificationCode forKey:@"Token"];
-    [dicParams setValue:selectedCategoryID forKey:@"categoryID"];
+    [dicParams setValue:selectedCategoryID forKey:@"GroupID"];
     [dicParams setValue:objBuyerdetail.detail.CustomerID forKey:@"CustomerID"];
     
     if (SharedObject.isNetAvailable)
     {
         MBCall_CreateNegotiationWithAuction(dicParams, ^(id response, NSString *error, BOOL status)
         {
-            [CommonUtility HideProgress];
             if (status && [[response valueForKey:@"success"]isEqual:@1])
             {
                 if (response != (NSDictionary *)[NSNull null])
                 {
+                    NSError* Error;
+                    NegotiationDetail *objNegotiation = [[NegotiationDetail alloc]initWithDictionary:response error:&Error];
+                    [MBDataBaseHandler saveNegotiationDetailData:objNegotiation];
                     
                 }
                 else
@@ -418,11 +422,18 @@
 /*****************************************************************************************************************/
 - (void)reloadTableViewAndScrollToTop:(BOOL)scrollToTop
 {
-    [self.tbtNegotiation reloadData];
-    if (scrollToTop)
-    {
-        [self.tbtNegotiation selectRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] animated:YES scrollPosition:UITableViewScrollPositionTop];
-    }
+      dispatch_async(dispatch_get_main_queue(), ^{
+        
+          [btnFilter setHidden:NO];
+          [self.tbtNegotiation reloadData];
+         
+          if (scrollToTop)
+          {
+              [CommonUtility HideProgress];
+              [self.tbtNegotiation selectRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] animated:YES scrollPosition:UITableViewScrollPositionTop];
+          }
+      });
+   
 }
 -(void)reloadTableWithData:(NSIndexPath *)index
 {

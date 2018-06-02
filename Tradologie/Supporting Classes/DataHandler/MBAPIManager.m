@@ -353,7 +353,23 @@ void MBCall_CreateNegotiationWithAuction(NSDictionary* params,RMApiManagerComple
          if (error)
          {
              completion(nil,filterErrorMessageUsingResponseRequestOperation(task, error),NO);
-             return ;
+             return;
+         }
+         else if(response)
+         {
+             completion(response,checkIfResponseHasErrorMessage(response),YES);
+             
+         }
+     }];
+}
+void MBCall_AddUpdateAuctionforNegotiation(NSDictionary* params,RMApiManagerCompletion completion)
+{
+    [[MBHTTPClient sharedInstance] requestPOSTServiceOnURL:getUrlForMethod(ADD_UPDATE_NEGOTIATION_API) WithDictionary:params withCompletion:^(NSURLSessionDataTask *task, NSError *error, id response)
+     {
+         if (error)
+         {
+             completion(nil,filterErrorMessageUsingResponseRequestOperation(task, error),NO);
+             return;
          }
          else if(response)
          {

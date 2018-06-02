@@ -11,6 +11,9 @@
 #import "Constant.h"
 #import <UIKit/UIKit.h>
 
+typedef void(^showPopupWithCompletionHandler)(NSInteger response);
+typedef void (^FTPopOverMenuDismissBlock)(void);
+
 @interface CommonUtility : NSObject
 {
     
@@ -32,4 +35,6 @@
 
 +(NSIndexPath *)MB_IndexPathForCellContainingView:(UIButton *)sender;
 +(void)OpenURLAccordingToUse:(NSString *)strURL;
+
++(void)showPopUpWithData:(UIView *)viewtoShow withArray:(NSMutableArray *)arrData withCompletion:(showPopupWithCompletionHandler)completion withDismissBlock:(FTPopOverMenuDismissBlock)dismiss;
 @end

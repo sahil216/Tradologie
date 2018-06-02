@@ -10,12 +10,13 @@
 #import "EveryPage.h"
 #import "AppConstant.h"
 
-@interface VCAddNegotiation : EveryPage<UITextFieldDelegate>
+@interface VCAddNegotiation : EveryPage<UITextFieldDelegate,UITableViewDelegate,UITableViewDataSource>
 {
     __weak IBOutlet UIButton *btnContactUs;
     __weak IBOutlet UITextField *txtCategory;
     __weak IBOutlet UIView *viewFooter;
     __weak IBOutlet UIButton *btnCreateNegotiation;
+    __weak IBOutlet UIButton *btnFilter;
 
 }
 @property (strong, nonatomic) IBOutlet UITableView *tbtNegotiation;
