@@ -37,4 +37,5 @@ typedef void (^FTPopOverMenuDismissBlock)(void);
 +(void)OpenURLAccordingToUse:(NSString *)strURL;
 
 +(void)showPopUpWithData:(UIView *)viewtoShow withArray:(NSMutableArray *)arrData withCompletion:(showPopupWithCompletionHandler)completion withDismissBlock:(FTPopOverMenuDismissBlock)dismiss;
++(UIActivityViewController *)getActivityViewController;
 @end

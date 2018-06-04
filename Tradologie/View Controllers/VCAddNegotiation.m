@@ -54,7 +54,7 @@
     [btnFilter setImage:[[UIImage imageNamed:@"IconFilter"]imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
     [btnFilter addTarget:self action:@selector(btnFilterTapped:) forControlEvents:UIControlEventTouchUpInside];
     [btnFilter setTintColor:[UIColor whiteColor]];
-    [btnFilter setHidden:YES];
+    [btnFilter setHidden:NO];
     [self GetCategoryListForNegotiation];
     // Do any additional setup after loading the view.
 }
@@ -138,18 +138,24 @@
 /******************************************************************************************************************/
 -(void)showPopUpWithData:(UIView *)viewtoShow
 {
-    [lblMessage setHidden:YES];
-[self.navigationController.navigationBar setNaviagtionStyleWithStatusbar:[UIColor colorWithRed:29.0f/255.0f green:65.0f/255.0f blue:106.0f/255.0f alpha:.30f]];
-    [CommonUtility showPopUpWithData:viewtoShow withArray:arrCategoryList withCompletion:^(NSInteger response)
+    if (arrCategoryList.count > 0)
     {
-        [self.navigationController.navigationBar setNaviagtionStyleWithStatusbar:[UIColor whiteColor]];
-                [txtCategory setText:[arrCategoryList objectAtIndex:response]];
-                selectedCategoryID = [NSString stringWithFormat:@"%@",[arrCategoryID objectAtIndex:response]];
-                [self getSupplierListAccordingtoCategoryID:[arrCategoryID objectAtIndex:response]];
-                [self createNegotiationAPI];
-    } withDismissBlock:^{
-        [self.navigationController.navigationBar setNaviagtionStyleWithStatusbar:[UIColor whiteColor]];
-    }];
+         [lblMessage setHidden:YES];
+        [self.navigationController.navigationBar setNaviagtionStyleWithStatusbar:[UIColor colorWithRed:29.0f/255.0f green:65.0f/255.0f blue:106.0f/255.0f alpha:.30f]];
+        
+        [CommonUtility showPopUpWithData:viewtoShow withArray:arrCategoryList withCompletion:^(NSInteger response)
+         {
+             [self.navigationController.navigationBar setNaviagtionStyleWithStatusbar:[UIColor whiteColor]];
+             [txtCategory setText:[arrCategoryList objectAtIndex:response]];
+             selectedCategoryID = [NSString stringWithFormat:@"%@",[arrCategoryID objectAtIndex:response]];
+             [self getSupplierListAccordingtoCategoryID:[arrCategoryID objectAtIndex:response]];
+             [self createNegotiationAPI];
+         } withDismissBlock:^{
+             [self.navigationController.navigationBar setNaviagtionStyleWithStatusbar:[UIColor whiteColor]];
+         }];
+    }
+    
+    
 }
 /******************************************************************************************************************/
 #pragma mark ❉===❉=== GET ALL CATEGORY API CALLED HERE ===❉===❉

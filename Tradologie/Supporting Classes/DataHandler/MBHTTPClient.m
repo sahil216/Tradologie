@@ -21,7 +21,7 @@ sharedObject;\
 })
 
 #define RETRYCOUNTER 2
-#define RETRYINTERVAL 1.0
+#define RETRYINTERVAL 10.0
 #define FATALSTATUSCODE @[@401, @403]
 
 @interface MBHTTPClient(){
@@ -102,7 +102,6 @@ sharedObject;\
           failure:^(NSURLSessionDataTask *task, NSError *error)
      {
         //NSDictionary *dict   = [NSDictionary dictionaryWithDictionary:[task.currentRequest allHTTPHeaderFields]];
-         
         completion(task, error, nil);
         
     } retryCount:RETRYCOUNTER retryInterval:RETRYINTERVAL progressive:false fatalStatusCodes:FATALSTATUSCODE];

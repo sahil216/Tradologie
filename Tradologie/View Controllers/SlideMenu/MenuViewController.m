@@ -78,6 +78,8 @@ static NSString *const  kCellIdentifire = @"MenuViewCell";
                            @"Negotiation List",
                            @"Order History",
                            @"Invoice",
+                           @"ShortListed Supplier",
+                           @"Notifications",
                            @"Share",
                            @"Settings",
                            @"My Account",
@@ -91,6 +93,8 @@ static NSString *const  kCellIdentifire = @"MenuViewCell";
                            @"IconNegotiation",
                            @"IconOrderHistory",
                            @"IconInvoice",
+                           @"IconShortlisted",
+                           @"IconNotification",
                            @"IconShare",
                            @"IconSettings",
                            @"IconMyAccount",
@@ -190,58 +194,74 @@ static NSString *const  kCellIdentifire = @"MenuViewCell";
             break;
         case 4:
         {
-            
+//            UIActivityViewController *activity = [CommonUtility getActivityViewController];
+//            [self presentViewController:activity animated:YES completion:^{
+//            }];
         }
             break;
         case 5:
         {
-            
+//            UIActivityViewController *activity = [CommonUtility getActivityViewController];
+//            [self presentViewController:activity animated:YES completion:^{
+//            }];
         }
             break;
         case 6:
         {
-            
+            UIActivityViewController *activity = [CommonUtility getActivityViewController];
+            [self presentViewController:activity animated:YES completion:^{
+            }];
         }
             break;
         case 7:
         {
-            [CommonUtility OpenURLAccordingToUse:@"http://tradologie.com/lp/about-us.html"];
+            
         }
             break;
         case 8:
         {
-            [CommonUtility OpenURLAccordingToUse:@"http://tradologie.com/lp/privacy.html"];
             
         }
             break;
         case 9:
         {
-            VCTradePolicyScreen *objScreen = GET_VIEW_CONTROLLER(@"VCTradePolicyScreen");
-            [self pushViewController:objScreen];
+            [CommonUtility OpenURLAccordingToUse:@"http://tradologie.com/lp/about-us.html"];
         }
             break;
         case 10:
         {
-            
+            [CommonUtility OpenURLAccordingToUse:@"http://tradologie.com/lp/privacy.html"];
             
         }
+            break;
         case 11:
         {
-            [CommonUtility OpenURLAccordingToUse:@"http://tradologie.com/lp/terms-of-use.html"];
-            
+            VCTradePolicyScreen *objScreen = GET_VIEW_CONTROLLER(@"VCTradePolicyScreen");
+            [self pushViewController:objScreen];
         }
             break;
         case 12:
         {
             
+            
         }
-            break;
         case 13:
         {
+            [CommonUtility OpenURLAccordingToUse:@"http://tradologie.com/lp/terms-of-use.html"];
             
         }
             break;
         case 14:
+        {
+            
+        }
+            break;
+        case 15:
+        {
+            
+        }
+            break;
+        case 16:
         {
             
         }

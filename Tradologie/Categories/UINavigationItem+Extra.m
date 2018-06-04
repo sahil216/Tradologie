@@ -37,12 +37,12 @@
     UIBarButtonItem *backBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:btnback];
     self.leftBarButtonItem = backBarButtonItem;
 }
--(void)SetRightButtonWithID:(id)targetID withSelectorAction:(SEL)sector
+-(void)SetRightButtonWithID:(id)targetID withSelectorAction:(SEL)sector withImage:(NSString *)strImage
 {
-    UIButton *btnback = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 30, 30)];
-    [btnback setImage:IMAGE(@"IconAddNegotiation") forState:UIControlStateNormal];
-    [btnback addTarget:targetID action:sector forControlEvents:UIControlEventTouchUpInside];
-    UIBarButtonItem *backBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:btnback];
+    UIButton *btnRightback = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 30, 30)];
+    [btnRightback setImage:IMAGE(strImage) forState:UIControlStateNormal];//
+    [btnRightback addTarget:targetID action:sector forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem *backBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:btnRightback];
     self.rightBarButtonItem = backBarButtonItem;
 }
 -(void)setNavigationTittleWithLogoforLanscapeMode:(NSString *)strTittle

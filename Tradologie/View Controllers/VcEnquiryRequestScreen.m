@@ -44,7 +44,7 @@
     [self.navigationController.navigationItem setHidesBackButton:YES animated:YES];
     [self.navigationItem setHidesBackButton:YES];
     [self.navigationItem SetBackButtonWithID:self withSelectorAction:@selector(btnBackItemTaped:)];
-    [self.navigationItem SetRightButtonWithID:self withSelectorAction:@selector(btnRightItemTaped:)];
+    [self.navigationItem SetRightButtonWithID:self withSelectorAction:@selector(btnRightItemTaped:)withImage:@"IconAddNegotiation"];
 
     lblHeight = 90;
     [self SetInitialSetup];
@@ -65,8 +65,8 @@
         self.automaticallyAdjustsScrollViewInsets = NO;
         self.myTableView.contentInset = UIEdgeInsetsMake(0, 0, 0, 0);
     });
-    [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationNone];
-
+ [[UIApplication sharedApplication] setStatusBarOrientation:UIInterfaceOrientationLandscapeRight animated:YES];
+    [[UIApplication sharedApplication] setStatusBarHidden:NO animated:YES];
 }
 /******************************************************************************************************************/
 #pragma mark ❉===❉=== SET INITIAL SETUP ===❉===❉

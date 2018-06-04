@@ -19,9 +19,15 @@
     NSMutableArray *arrInspectionAgency;
     NSMutableArray *arrLocationDelivery;
     NSMutableArray *arrCurrency;
+    NSMutableArray *arrInspectionID;
+    NSMutableArray *arrAddressValue;
+    NSMutableArray *arrCurrencyID;
     BOOL isOthers;
     UIDatePicker *ObjdatePicker;
     UIDatePicker *dateLastPicker;
+    
+    NSString *strInspectionID,*strAddressValue,*strCurrencyId;
+    
 }
 @end
 
@@ -56,8 +62,8 @@
     [txtCurrency setAdditionalInformationTextfieldStyle:@"--Select Currency--" Withimage:[UIImage imageNamed:@"IconDropDrown"] withID:self withSelectorAction:@selector(btnDropMethodTaped:) withTag:3];
     [txtPartialDelivery setAdditionalInformationTextfieldStyle:@"--Select Partial Delivery--" Withimage:[UIImage imageNamed:@"IconDropDrown"] withID:self withSelectorAction:@selector(btnDropMethodTaped:) withTag:4];
     
-    [txtPeferedDate setRightViewTextfieldStyle:@"--Select preferred Date & Time--" Withimage:@"IconDropDrown" withTag:0];
-    [txtLastDate setRightViewTextfieldStyle:@"--Select Last Date of Dispatch--" Withimage:@"IconDropDrown" withTag:0];
+    [txtPeferedDate setRightViewTextfieldStyleWithCalender:@"--Select preferred Date & Time--" Withimage:@"IconCalender" withTag:0];
+    [txtLastDate setRightViewTextfieldStyleWithCalender:@"--Select Last Date of Dispatch--" Withimage:@"IconCalender" withTag:0];
     
     [txtTotlaQuality setDefaultTextfieldStyleWithPlaceHolder:@"Total Quality" withTag:15];
     [txtTotlaQuality setKeyboardType:UIKeyboardTypeNumberPad];
@@ -99,20 +105,28 @@
     arrInspectionAgency = [[NSMutableArray alloc]init];
     arrLocationDelivery = [[NSMutableArray alloc]init];
     arrCurrency = [[NSMutableArray alloc]init];
+    arrInspectionID = [[NSMutableArray alloc]init];
+    arrAddressValue = [[NSMutableArray alloc]init];
+    arrCurrencyID = [[NSMutableArray alloc]init];
+    
     
     for (InspectionAgencyList *list in objNegotiation.detail.InspectionAgencyList)
     {
+        [arrInspectionID addObject:list.InspectionAgencyID];
         [arrInspectionAgency addObject: list.InspectionCompanyName];
     }
     [arrInspectionAgency insertObject:@"Others" atIndex:arrInspectionAgency.count];
+    [arrInspectionID insertObject:@0 atIndex:arrInspectionID.count];
     
     for (CustomerAddressList *list in objNegotiation.detail.CustomerAddressList)
     {
+        [arrAddressValue addObject:list.AddressValue];
         [arrLocationDelivery addObject: list.Address];
     }
     for (CurrencyList *list in objNegotiation.detail.CurrencyList)
     {
         [arrCurrency addObject: list.CurrencyName];
+        [arrCurrencyID addObject:list.CurrencyID];
     }
 }
 /******************************************************************************************************************/
@@ -289,14 +303,14 @@
         [dicParams setValue:@"" forKey:@"BankerName"];
         [dicParams setValue:objNegotiation.detail.AuctionCode forKey:@"AuctionCode"];
         [dicParams setValue:txtNegotiationName.text forKey:@"AuctionName"];
-        [dicParams setValue:txtInspectionAgency.text forKey:@"InspectionAgency"];
+        [dicParams setValue:strInspectionID forKey:@"InspectionAgency"];
         [dicParams setValue:txtAgencyName.text forKey:@"AgencyName"];
         [dicParams setValue:txtAgencyEmail.text forKey:@"AgencyEmail"];
         [dicParams setValue:txtAgencyAddress.text forKey:@"AgencyAddress"];
         [dicParams setValue:txtAgencyPhone.text forKey:@"AgencyPhone"];
-        [dicParams setValue:txtLocationDelivery.text forKey:@"DeliveryAddress"];
+        [dicParams setValue:strAddressValue forKey:@"DeliveryAddress"];
         [dicParams setValue:txtPaymentTerm.text forKey:@"PaymentTerm"];
-        [dicParams setValue:txtCurrency.text forKey:@"Currency"];
+        [dicParams setValue:strCurrencyId forKey:@"Currency"];
         [dicParams setValue:txtPartialDelivery.text forKey:@"PartialDelivery"];
         [dicParams setValue:txtPeferedDate.text forKey:@"AuctionStartDate"];
         [dicParams setValue:txtTotlaQuality.text forKey:@"TotalQuantity"];
@@ -349,12 +363,15 @@
              if ([strValue isEqualToString:[arrInspectionAgency lastObject]])
              {
                  isOthers = true;
+                 strInspectionID = [NSString stringWithFormat:@"%@",[arrInspectionID lastObject]];
              }
              else
              {
                  isOthers = false;
+                 strInspectionID = [NSString stringWithFormat:@"%@",[arrInspectionID objectAtIndex:response]];
              }
              [self.tableView reloadData];
+             
          } withDismissBlock:^{
              [self.navigationController.navigationBar setNaviagtionStyleWithStatusbar:[UIColor whiteColor]];
          }];
@@ -365,6 +382,7 @@
          {
              [self.navigationController.navigationBar setNaviagtionStyleWithStatusbar:[UIColor whiteColor]];
              [txtLocationDelivery setText:[NSString stringWithFormat:@"%@",[arrLocationDelivery objectAtIndex:response]]];
+             strAddressValue = [NSString stringWithFormat:@"%@",[arrAddressValue objectAtIndex:response]];
              [self.tableView reloadData];
          } withDismissBlock:^{
              [self.navigationController.navigationBar setNaviagtionStyleWithStatusbar:[UIColor whiteColor]];
@@ -377,6 +395,7 @@
          {
              [txtPaymentTerm setText:[NSString stringWithFormat:@"%@",[arrPayment objectAtIndex:response]]];
              [self.navigationController.navigationBar setNaviagtionStyleWithStatusbar:[UIColor whiteColor]];
+             
              [self.tableView reloadData];
              
          } withDismissBlock:^{
@@ -389,6 +408,8 @@
          {
              [txtCurrency setText:[NSString stringWithFormat:@"%@",[arrCurrency objectAtIndex:response]]];
              [self.navigationController.navigationBar setNaviagtionStyleWithStatusbar:[UIColor whiteColor]];
+             strCurrencyId = [NSString stringWithFormat:@"%@",[arrCurrencyID objectAtIndex:response]];
+
              [self.tableView reloadData];
              
          } withDismissBlock:^{
@@ -448,19 +469,14 @@
     else
     {
         selectedDate = ObjdatePicker.date;
-        NSDateComponents *components = [[NSCalendar currentCalendar] components:NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear fromDate:selectedDate];
-        
-        NSInteger year = [components year];
-        NSInteger month = [components month];
-        NSInteger day = [components day];
-        NSInteger hour = 0;
-        NSInteger minute = 0;
-        NSCalendar *currentCalendar = [NSCalendar currentCalendar];
-        [currentCalendar getHour:&hour minute:&minute second:NULL nanosecond:NULL fromDate:selectedDate];
-        NSLog(@"the hour is %ld and minute is %ld", (long)hour, (long)minute);
-        
-        NSString *startDate = [NSString stringWithFormat:@"%ld/%ld/%ld  %ld:%ld",(long)year,(long)month,(long)day,(long)hour,(long)minute];
-        [txtPeferedDate setText:startDate];
+        [selectedDate descriptionWithLocale: [NSLocale currentLocale]];
+        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+        [dateFormatter setDateStyle:NSDateFormatterMediumStyle];
+        [dateFormatter setTimeStyle:NSDateFormatterShortStyle];
+        [dateFormatter setDateFormat:@"yyyy/MM/dd HH:mm:ss"];
+
+        NSString *datestring = [dateFormatter stringFromDate:selectedDate];
+        [txtPeferedDate setText:datestring];
     }
 }
 -(IBAction)btnToolBarTapped:(UIButton *)sender
@@ -471,14 +487,15 @@
 {
     NSDate *selectedDate;
     selectedDate = dateLastPicker.date;
-    NSDateComponents *components = [[NSCalendar currentCalendar] components:NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear fromDate:selectedDate];
+    [selectedDate descriptionWithLocale: [NSLocale currentLocale]];
     
-    NSInteger year = [components year];
-    NSInteger month = [components month];
-    NSInteger day = [components day];
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateStyle:NSDateFormatterMediumStyle];
+    [dateFormatter setTimeStyle:NSDateFormatterShortStyle];
+    [dateFormatter setDateFormat:@"yyyy/MM/dd"];
     
-    NSString *startDate = [NSString stringWithFormat:@"%ld/%ld/%ld",(long)year,(long)month,(long)day];
-    [txtLastDate setText:startDate];
+    NSString *datestring = [dateFormatter stringFromDate:selectedDate];
+    [txtLastDate setText:datestring];
 }
 /******************************************************************************************************************/
 #pragma mark ❉===❉=== TEXTFIELD DELEGATE CALLED HERE ===❉===❉

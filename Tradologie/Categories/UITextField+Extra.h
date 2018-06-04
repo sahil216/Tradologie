@@ -19,5 +19,5 @@
 -(void)setAdditionalInformationTextfieldStyle:(NSString *)placeholder Withimage:(UIImage *)image withID:(id)targetID withSelectorAction:(SEL)sector withTag:(NSInteger)tag;
 
 -(void)setRightViewTextfieldStyle:(NSString *)placeholder Withimage:(NSString *)imageName withTag:(NSInteger)tag;
-
+-(void)setRightViewTextfieldStyleWithCalender:(NSString *)placeholder Withimage:(NSString *)imageName withTag:(NSInteger)tag;
 @end

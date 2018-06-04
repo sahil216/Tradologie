@@ -11,6 +11,7 @@
 		3523E44417BBEBB5541FBA81 /* libPods-TradologieTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 343C22DFF27448BE73EE85DB /* libPods-TradologieTests.a */; };
 		4A15E99220A4510000192B46 /* VcEnquiryRequestScreen.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A15E99120A4510000192B46 /* VcEnquiryRequestScreen.m */; };
 		4A19611120B7EA08005E3B02 /* AuctionDetail.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A19611020B7EA08005E3B02 /* AuctionDetail.m */; };
+		4A1A7A8720C280D400FAE6E9 /* VcNegotiationDetail.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A1A7A8620C280D400FAE6E9 /* VcNegotiationDetail.m */; };
 		4A1C5C85209C19A900A87222 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A1C5C84209C19A900A87222 /* AppDelegate.m */; };
 		4A1C5C8B209C19A900A87222 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4A1C5C89209C19A900A87222 /* Main.storyboard */; };
 		4A1C5C8E209C19A900A87222 /* Tradologie.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 4A1C5C8C209C19A900A87222 /* Tradologie.xcdatamodeld */; };
@@ -94,6 +95,8 @@
 		4A15E99120A4510000192B46 /* VcEnquiryRequestScreen.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VcEnquiryRequestScreen.m; sourceTree = "<group>"; };
 		4A19610F20B7EA08005E3B02 /* AuctionDetail.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AuctionDetail.h; sourceTree = "<group>"; };
 		4A19611020B7EA08005E3B02 /* AuctionDetail.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AuctionDetail.m; sourceTree = "<group>"; };
+		4A1A7A8520C280D400FAE6E9 /* VcNegotiationDetail.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VcNegotiationDetail.h; sourceTree = "<group>"; };
+		4A1A7A8620C280D400FAE6E9 /* VcNegotiationDetail.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VcNegotiationDetail.m; sourceTree = "<group>"; };
 		4A1C5C80209C19A900A87222 /* Tradologie.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Tradologie.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4A1C5C83209C19A900A87222 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		4A1C5C84209C19A900A87222 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -368,6 +371,8 @@
 				4A3135A320B987F200DA353B /* VCAddNegotiation.m */,
 				4A6065F920C022CC00BA5F0B /* TVCreateNeogotiation.h */,
 				4A6065FA20C022CC00BA5F0B /* TVCreateNeogotiation.m */,
+				4A1A7A8520C280D400FAE6E9 /* VcNegotiationDetail.h */,
+				4A1A7A8620C280D400FAE6E9 /* VcNegotiationDetail.m */,
 				4A20A8A820C154F3005D2D6E /* VCFilterScreen.h */,
 				4A20A8A920C154F3005D2D6E /* VCFilterScreen.m */,
 				4A15E99020A4510000192B46 /* VcEnquiryRequestScreen.h */,
@@ -801,6 +806,7 @@
 				4A4A2C4820A3098A000B8EB4 /* EveryPage.m in Sources */,
 				4A1C5C85209C19A900A87222 /* AppDelegate.m in Sources */,
 				4A15E99220A4510000192B46 /* VcEnquiryRequestScreen.m in Sources */,
+				4A1A7A8720C280D400FAE6E9 /* VcNegotiationDetail.m in Sources */,
 				4A20A8AA20C154F3005D2D6E /* VCFilterScreen.m in Sources */,
 				4A32483120A1CDE60030DA1A /* RootViewController.m in Sources */,
 				4A36374820A6BC6100DF37D2 /* MBAPIManager.m in Sources */,

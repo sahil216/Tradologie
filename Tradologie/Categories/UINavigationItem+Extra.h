@@ -12,5 +12,5 @@
 -(void)setNavigationTittleWithLogo:(NSString *)strTittle;
 -(void)SetBackButtonWithID:(id)targetID withSelectorAction:(SEL)sector;
 -(void)setNavigationTittleWithLogoforLanscapeMode:(NSString *)strTittle;
--(void)SetRightButtonWithID:(id)targetID withSelectorAction:(SEL)sector;
+-(void)SetRightButtonWithID:(id)targetID withSelectorAction:(SEL)sector withImage:(NSString *)strImage;
 @end

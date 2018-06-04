@@ -64,9 +64,39 @@
     // Saves changes in the application's managed object context before the application terminates.
     
 }
+
+//- (UIInterfaceOrientationMask)application:(UIApplication *)application
+//  supportedInterfaceOrientationsForWindow:(UIWindow *)window
+//{
+//        if ([self.window.rootViewController isKindOfClass:[RootViewController class]])
+//        {
+//            NSArray *viewControllers = self.window.rootViewController.childViewControllers;
+//            UINavigationController *naviagtion = (UINavigationController *)[viewControllers objectAtIndex:1];
+//            NSLog(@"%@",naviagtion.viewControllers);
+//
+//            if ([naviagtion.visibleViewController isKindOfClass:[VcEnquiryRequestScreen class]])
+//            {
+//                VcEnquiryRequestScreen *objEnquiry = (VcEnquiryRequestScreen *)naviagtion.visibleViewController;
+//                if (objEnquiry)
+//                {
+//                   
+//                    return UIInterfaceOrientationMaskLandscapeRight;
+//
+//                }
+//                return UIInterfaceOrientationMaskPortrait;
+//            }
+//            else
+//            {
+//                return UIInterfaceOrientationMaskPortrait;
+//            }
+//        }
+//        return UIInterfaceOrientationMaskPortrait;
+//}
+
 /********************************************************************************************************/
 #pragma mark - FACEBOOK SDK LOGIN
 /********************************************************************************************************/
+
 - (BOOL)application:(UIApplication *)application
             openURL:(NSURL *)url
             options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options
@@ -122,12 +152,6 @@
         return [LISDKCallbackHandler application:application openURL:url sourceApplication:sourceApplication annotation:annotation];
     }
     return YES;
-}
-- (UIInterfaceOrientationMask)application:(UIApplication *)application
-  supportedInterfaceOrientationsForWindow:(UIWindow *)window
-{
-    return self.orientation;
- // return self.shouldRotate ? UIInterfaceOrientationMaskLandscapeRight : UIInterfaceOrientationMaskPortrait;
 }
 
 /***********************************************************************************************/

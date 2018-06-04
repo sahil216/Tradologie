@@ -175,6 +175,23 @@
     NSIndexPath *indexPath = [tableView indexPathForCell:(UITableViewCell *)parentCell];
     return indexPath;
 }
+
++(UIActivityViewController *)getActivityViewController
+{
+    NSArray *activitiesItems = [[NSArray alloc] initWithObjects:
+                                UIActivityTypeCopyToPasteboard,
+                                UIActivityTypePostToWeibo,
+                                UIActivityTypePostToFacebook,
+                                UIActivityTypeCopyToPasteboard,
+                                UIActivityTypeMail,
+                                UIActivityTypeMessage,
+                                UIActivityTypeAssignToContact,
+                                @"net.whatsapp.WhatsApp.ShareExtension",
+                                nil];
+    
+    UIActivityViewController *activityVC = [[UIActivityViewController alloc] initWithActivityItems:activitiesItems applicationActivities:nil];
+    return activityVC;
+}
 //************************************************************************************************
 #pragma mark ❉===❉=== OPEN URL WITH DEAFULT ===❉===❉
 //************************************************************************************************

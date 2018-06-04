@@ -256,10 +256,8 @@ void MBCall_GetDashBoardNotificationDetails(NSDictionary* params,RMApiManagerCom
          else if(response)
          {
              completion(response,checkIfResponseHasErrorMessage(response),YES);
-             
          }
      }];
-    //
 }
 void MBCall_GetAuctionListUsingDashboardApi(NSDictionary* params,RMApiManagerCompletion completion)
 {
