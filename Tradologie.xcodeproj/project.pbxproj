@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		2DA068767254CE5AEA24192C /* libPods-Tradologie.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F724485A3E2C27317A5308BC /* libPods-Tradologie.a */; };
 		3523E44417BBEBB5541FBA81 /* libPods-TradologieTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 343C22DFF27448BE73EE85DB /* libPods-TradologieTests.a */; };
+		4A07719D20C569A900A8F28F /* VCOrderHistory.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A07719C20C569A900A8F28F /* VCOrderHistory.m */; };
+		4A0771A020C56B4900A8F28F /* TVCellOrderHistory.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A07719F20C56B4900A8F28F /* TVCellOrderHistory.m */; };
 		4A15E99220A4510000192B46 /* VcEnquiryRequestScreen.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A15E99120A4510000192B46 /* VcEnquiryRequestScreen.m */; };
 		4A19611120B7EA08005E3B02 /* AuctionDetail.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A19611020B7EA08005E3B02 /* AuctionDetail.m */; };
 		4A1A7A8720C280D400FAE6E9 /* VcNegotiationDetail.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A1A7A8620C280D400FAE6E9 /* VcNegotiationDetail.m */; };
@@ -32,6 +34,7 @@
 		4A212BD320BD25AD00207FAE /* SupplierDetail.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A212BD220BD25AD00207FAE /* SupplierDetail.m */; };
 		4A212BD620BD4AF100207FAE /* NSString+MB.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A212BD420BD4AF000207FAE /* NSString+MB.m */; };
 		4A212BD920BD4B7C00207FAE /* UIImageView+UIActivityIndicatorForSDWebImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A212BD720BD4B7B00207FAE /* UIImageView+UIActivityIndicatorForSDWebImage.m */; };
+		4A23FEB420C656640083B3B8 /* AuctionOrderHistory.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A23FEB320C656640083B3B8 /* AuctionOrderHistory.m */; };
 		4A245604209D7CDC000B3B64 /* CommonUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A245602209D7CDB000B3B64 /* CommonUtility.m */; };
 		4A245607209D7D4A000B3B64 /* ISMessages.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A245606209D7D4A000B3B64 /* ISMessages.m */; };
 		4A24560A209D8614000B3B64 /* Validation.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A245609209D8614000B3B64 /* Validation.m */; };
@@ -91,6 +94,10 @@
 		0F7A5FA8B742A2E33150B0A7 /* Pods-Tradologie.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Tradologie.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Tradologie/Pods-Tradologie.debug.xcconfig"; sourceTree = "<group>"; };
 		343C22DFF27448BE73EE85DB /* libPods-TradologieTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-TradologieTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		4515055525FDF5DE5CCC6194 /* Pods-TradologieUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TradologieUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TradologieUITests/Pods-TradologieUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		4A07719B20C569A900A8F28F /* VCOrderHistory.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VCOrderHistory.h; sourceTree = "<group>"; };
+		4A07719C20C569A900A8F28F /* VCOrderHistory.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VCOrderHistory.m; sourceTree = "<group>"; };
+		4A07719E20C56B4900A8F28F /* TVCellOrderHistory.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TVCellOrderHistory.h; sourceTree = "<group>"; };
+		4A07719F20C56B4900A8F28F /* TVCellOrderHistory.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TVCellOrderHistory.m; sourceTree = "<group>"; };
 		4A15E99020A4510000192B46 /* VcEnquiryRequestScreen.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VcEnquiryRequestScreen.h; sourceTree = "<group>"; };
 		4A15E99120A4510000192B46 /* VcEnquiryRequestScreen.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VcEnquiryRequestScreen.m; sourceTree = "<group>"; };
 		4A19610F20B7EA08005E3B02 /* AuctionDetail.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AuctionDetail.h; sourceTree = "<group>"; };
@@ -137,6 +144,8 @@
 		4A212BD520BD4AF100207FAE /* NSString+MB.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+MB.h"; sourceTree = "<group>"; };
 		4A212BD720BD4B7B00207FAE /* UIImageView+UIActivityIndicatorForSDWebImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImageView+UIActivityIndicatorForSDWebImage.m"; sourceTree = "<group>"; };
 		4A212BD820BD4B7C00207FAE /* UIImageView+UIActivityIndicatorForSDWebImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImageView+UIActivityIndicatorForSDWebImage.h"; sourceTree = "<group>"; };
+		4A23FEB220C656640083B3B8 /* AuctionOrderHistory.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AuctionOrderHistory.h; sourceTree = "<group>"; };
+		4A23FEB320C656640083B3B8 /* AuctionOrderHistory.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AuctionOrderHistory.m; sourceTree = "<group>"; };
 		4A245602209D7CDB000B3B64 /* CommonUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommonUtility.m; sourceTree = "<group>"; };
 		4A245603209D7CDC000B3B64 /* CommonUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommonUtility.h; sourceTree = "<group>"; };
 		4A245605209D7D4A000B3B64 /* ISMessages.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISMessages.h; sourceTree = "<group>"; };
@@ -377,6 +386,8 @@
 				4A20A8A920C154F3005D2D6E /* VCFilterScreen.m */,
 				4A15E99020A4510000192B46 /* VcEnquiryRequestScreen.h */,
 				4A15E99120A4510000192B46 /* VcEnquiryRequestScreen.m */,
+				4A07719B20C569A900A8F28F /* VCOrderHistory.h */,
+				4A07719C20C569A900A8F28F /* VCOrderHistory.m */,
 				4A36374C20A6FD8A00DF37D2 /* VCMessageScreen.h */,
 				4A36374D20A6FD8A00DF37D2 /* VCMessageScreen.m */,
 				4A3A9ED220A975A400356E77 /* VCTradePolicyScreen.h */,
@@ -430,6 +441,8 @@
 				4A212BD220BD25AD00207FAE /* SupplierDetail.m */,
 				4A6065F020BFB5E300BA5F0B /* NegotiationDetail.h */,
 				4A6065F120BFB5E300BA5F0B /* NegotiationDetail.m */,
+				4A23FEB220C656640083B3B8 /* AuctionOrderHistory.h */,
+				4A23FEB320C656640083B3B8 /* AuctionOrderHistory.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -484,6 +497,8 @@
 			children = (
 				4A8194D220AEFCF3003A8F5C /* TvCellEnquiry.h */,
 				4A8194D320AEFCF3003A8F5C /* TvCellEnquiry.m */,
+				4A07719E20C56B4900A8F28F /* TVCellOrderHistory.h */,
+				4A07719F20C56B4900A8F28F /* TVCellOrderHistory.m */,
 			);
 			path = "Custom Cell ";
 			sourceTree = "<group>";
@@ -809,17 +824,20 @@
 				4A1A7A8720C280D400FAE6E9 /* VcNegotiationDetail.m in Sources */,
 				4A20A8AA20C154F3005D2D6E /* VCFilterScreen.m in Sources */,
 				4A32483120A1CDE60030DA1A /* RootViewController.m in Sources */,
+				4A0771A020C56B4900A8F28F /* TVCellOrderHistory.m in Sources */,
 				4A36374820A6BC6100DF37D2 /* MBAPIManager.m in Sources */,
 				4A268F7B20AAA2ED00753F5E /* TVCompanyRegister.m in Sources */,
 				4A245607209D7D4A000B3B64 /* ISMessages.m in Sources */,
 				4A24BFCF20A05118009BB5C4 /* VcPopScreen.m in Sources */,
 				4A4A2C5120A314F9000B8EB4 /* UINavigationItem+Extra.m in Sources */,
+				4A23FEB420C656640083B3B8 /* AuctionOrderHistory.m in Sources */,
 				4A32483320A1CDE60030DA1A /* MenuViewController.m in Sources */,
 				4A24560A209D8614000B3B64 /* Validation.m in Sources */,
 				4A32483220A1CDE60030DA1A /* MenuViewCell.m in Sources */,
 				4A2E138920AD576800DB45A1 /* BuyerUserDetail.m in Sources */,
 				4AEA4B2120B5704900C3C9C8 /* FTPopOverMenu.m in Sources */,
 				4A1C5CDA209C781700A87222 /* TvAlreadyUserScreen.m in Sources */,
+				4A07719D20C569A900A8F28F /* VCOrderHistory.m in Sources */,
 				4A1C5CD0209C306A00A87222 /* NSDictionary+CheckNullValue.m in Sources */,
 				4A8194D420AEFCF3003A8F5C /* TvCellEnquiry.m in Sources */,
 				4A4A2C4420A2FDDE000B8EB4 /* VCHomeNotifications.m in Sources */,

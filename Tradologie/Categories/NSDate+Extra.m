@@ -9,8 +9,8 @@
 #import "NSDate+Extra.h"
 
 @implementation NSDate (Extra)
-#define kDefaultDateFormat @"dd/MM/yyyy HH:mm"
-#define kDefaultShortDateFormat @"dd/MM/yyyy"
+#define kDefaultDateFormat @"MM/dd/yyyy HH:mm:ss a"
+#define kDefaultShortDateFormat @"MM/dd/yyyy"
 
 #define DATE_COMPONENTS (NSCalendarUnitYear| NSCalendarUnitMonth | NSCalendarUnitDay | NSCalendarUnitWeekOfMonth |  NSCalendarUnitHour | NSCalendarUnitMinute | NSCalendarUnitSecond | NSCalendarUnitWeekday | NSCalendarUnitWeekdayOrdinal)
 #define CURRENT_CALENDAR [NSCalendar currentCalendar]

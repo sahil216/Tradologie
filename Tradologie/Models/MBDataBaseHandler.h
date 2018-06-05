@@ -21,6 +21,7 @@ typedef enum
     auctionData,
     supplierDetail,
     negotiationDetail,
+    OrderHistory,
     
 } OFFLINEMODE;
 
@@ -37,6 +38,8 @@ typedef enum
 +(BuyerUserDetail *)getBuyerUserDetail;
 +(NSString *)getAuctionDataUsingDashBoard;
 +(AuctionDetail *)getAuctionDetail;
++(AuctionOrderHistory *)getAuctionOrderHistory;
+
 +(SupplierDetail *)getSupplierDetailData;
 +(NegotiationDetail *)getNegotiationDetailData;
 
@@ -51,6 +54,7 @@ typedef enum
 +(void)saveAuctionDetailData:(AuctionDetail *)Data;
 +(void)saveSupplierDetailData:(SupplierDetail *)Data;
 +(void)saveNegotiationDetailData:(NegotiationDetail *)Data;
++(void)saveAuctionOrderHistory:(AuctionOrderHistory *)OrderHitoryData;
 
 
 

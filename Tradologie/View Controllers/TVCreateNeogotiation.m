@@ -12,6 +12,8 @@
 #import "MBAPIManager.h"
 #import "CommonUtility.h"
 #import "SharedManager.h"
+#import "VcNegotiationDetail.h"
+
 
 @interface TVCreateNeogotiation ()
 {
@@ -198,6 +200,11 @@
 {
     BOOL isValidate=TRUE;
     [self.view endEditing:YES];
+    
+    VcNegotiationDetail *objScreen =[self.storyboard instantiateViewControllerWithIdentifier:@"VcNegotiationDetail"];
+    [[UIDevice currentDevice] setValue:[NSNumber numberWithInteger: UIInterfaceOrientationLandscapeRight] forKey:@"orientation"];
+    [self.navigationController pushViewController:objScreen animated:YES];
+    
     NSInteger value = [txtTotlaQuality.text integerValue];
     NSInteger MinOrder = [txtMinOrder.text integerValue];
     NSInteger precentage = (value * 30)/100;
@@ -320,6 +327,8 @@
         
         if (SharedObject.isNetAvailable)
         {
+            [CommonUtility showProgressWithMessage:@"Please Wait.."];
+            
             MBCall_AddUpdateAuctionforNegotiation(dicParams, ^(id response, NSString *error, BOOL status)
             {
                 if (status && [[response valueForKey:@"success"]isEqual:@1])
@@ -409,7 +418,7 @@
              [txtCurrency setText:[NSString stringWithFormat:@"%@",[arrCurrency objectAtIndex:response]]];
              [self.navigationController.navigationBar setNaviagtionStyleWithStatusbar:[UIColor whiteColor]];
              strCurrencyId = [NSString stringWithFormat:@"%@",[arrCurrencyID objectAtIndex:response]];
-
+             
              [self.tableView reloadData];
              
          } withDismissBlock:^{
@@ -474,7 +483,7 @@
         [dateFormatter setDateStyle:NSDateFormatterMediumStyle];
         [dateFormatter setTimeStyle:NSDateFormatterShortStyle];
         [dateFormatter setDateFormat:@"yyyy/MM/dd HH:mm:ss"];
-
+        
         NSString *datestring = [dateFormatter stringFromDate:selectedDate];
         [txtPeferedDate setText:datestring];
     }

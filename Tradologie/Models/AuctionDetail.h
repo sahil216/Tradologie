@@ -9,8 +9,6 @@
 #import <Foundation/Foundation.h>
 #import "JSONModel.h"
 
-//@class AuctionData;
-
 
 @protocol AuctionData <NSObject>
 @end

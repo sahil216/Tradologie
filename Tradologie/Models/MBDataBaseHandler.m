@@ -104,6 +104,21 @@
     
     return nil;
 }
++(AuctionOrderHistory *)getAuctionOrderHistory;
+{
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(objType == %@)",[NSNumber numberWithInt:OrderHistory]];
+    
+    NSArray *array = [OfflineObject MR_findAllWithPredicate:predicate];
+    
+    if (array.count>0)
+    {
+        OfflineObject *object = array[0];
+        AuctionOrderHistory *objOrderHistory = [[AuctionOrderHistory alloc] initWithString:object.objData error:nil];
+        return objOrderHistory;
+    }
+    
+    return nil;
+}
 
 /*********************************************************************************************/
 #pragma mark ❉===❉=== SETTER METHOD TO SET VALUE IN DATABASE ❉===❉===
@@ -211,6 +226,25 @@
          
      }];
 }
++(void)saveAuctionOrderHistory:(AuctionOrderHistory *)OrderHitoryData;
+{
+    [self deleteAllRecordsForType:OrderHistory];
+    
+    if (!OrderHitoryData) {
+        return;
+    }
+    
+    [MagicalRecord saveWithBlockAndWait:^(NSManagedObjectContext *localContext)
+     {
+         OfflineObject *newUser = [OfflineObject MR_createEntityInContext:localContext];
+         newUser.objData = OrderHitoryData.toJSONString;
+         newUser.objType = [NSNumber numberWithInt:OrderHistory];
+         newUser.objClass = NSStringFromClass([OrderHitoryData class]);
+         
+     }];
+    
+}
+
 /*********************************************************************************************/
 #pragma mark ❉===❉=== DELETE ALL RECORD"S FROM DATABASE ❉===❉===
 /*********************************************************************************************/

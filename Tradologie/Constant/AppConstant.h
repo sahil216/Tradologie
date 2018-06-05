@@ -22,11 +22,13 @@
 #import "AuctionDetail.h"
 #import "SupplierDetail.h"
 #import "NegotiationDetail.h"
+#import "AuctionOrderHistory.h"
 
 /*********************************************************************************************************/
 #pragma Mark- CUSTOM CELL IMPORT
 /*********************************************************************************************************/
 #import "TvCellEnquiry.h"
+#import "TVCellOrderHistory.h"
 
 
 
@@ -74,8 +76,8 @@ static NSString *AUCTION_LIST_API = @"AuctionList";
 static NSString *LOGIN_API_NAME = @"login";
 
 static NSString *CREATE_NEGOTIATION_API = @"createauction";
-
 static NSString *ADD_UPDATE_NEGOTIATION_API = @"AddUpdateAuction";
+static NSString *AUCTION_ORDER_HISTORY_API = @"AuctionOrderHistory";
 
 /*********************************************************************************************************/
 #pragma CONTROLLER IDENTIFIRES

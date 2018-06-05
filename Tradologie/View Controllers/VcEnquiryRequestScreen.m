@@ -231,25 +231,16 @@
 #pragma mark ❉===❉=== BUTTON ACTION EVENT CALLED HERE ===❉===❉
 /*****************************************************************************************************************/
 -(IBAction)btnBackItemTaped:(UIButton *)sender
-{
+{    
     [[UIDevice currentDevice] setValue:
      [NSNumber numberWithInteger: UIInterfaceOrientationPortrait] forKey:@"orientation"];
     [self.navigationItem setNavigationTittleWithLogo:@"tradologie.com"];
     
-    for (int i = 0; i < self.navigationController.viewControllers.count; i++)
-    {
-        if([self.navigationController.viewControllers[i] isKindOfClass:[VCHomeNotifications class]])
-        {
-             [self.navigationController popViewControllerAnimated:YES];
-        }
-        else{
-            dispatch_async(dispatch_get_main_queue(), ^{
-                RootViewController * rootVC = [self.storyboard instantiateViewControllerWithIdentifier:@"RootViewController"];
-                AppDelegate *delegateClass = (AppDelegate *)[[UIApplication sharedApplication]delegate];
-                [delegateClass setRootViewController:rootVC];
-            });
-        }
-    }
+    dispatch_async(dispatch_get_main_queue(), ^{
+        RootViewController * rootVC = [self.storyboard instantiateViewControllerWithIdentifier:@"RootViewController"];
+        AppDelegate *delegateClass = (AppDelegate *)[[UIApplication sharedApplication]delegate];
+        [delegateClass setRootViewController:rootVC];
+    });
 }
 -(IBAction)btnRightItemTaped:(UIButton *)sender
 {

@@ -10,12 +10,14 @@
 #import "VCTradePolicyScreen.h"
 #import "VCHomeNotifications.h"
 #import "VcEnquiryRequestScreen.h"
+#import "VCOrderHistory.h"
 #import "Constant.h"
 #import "CommonUtility.h"
 #import "MBDataBaseHandler.h"
 #import "AppConstant.h"
 #import "MBAPIManager.h"
 #import "SharedManager.h"
+
 
 static NSString *const  kCellIdentifire = @"MenuViewCell";
 
@@ -184,7 +186,9 @@ static NSString *const  kCellIdentifire = @"MenuViewCell";
             break;
         case 2:
         {
-            
+            VCOrderHistory *requestSc=[self.storyboard instantiateViewControllerWithIdentifier:@"VCOrderHistory"];
+            [[UIDevice currentDevice] setValue:[NSNumber numberWithInteger: UIInterfaceOrientationLandscapeRight] forKey:@"orientation"];
+            [self pushViewController:requestSc];
         }
             break;
         case 3:
@@ -283,11 +287,8 @@ static NSString *const  kCellIdentifire = @"MenuViewCell";
     
     if (SharedObject.isNetAvailable)
     {
-        //[CommonUtility showProgressWithMessage:@"Please Wait.."];
-        
         MBCall_GetAuctionListUsingDashboardApi(dicParams, ^(id response, NSString *error, BOOL status)
         {
-            [CommonUtility HideProgress];
             if (status && [[response valueForKey:@"success"]isEqual:@1])
             {
                 if (response != (NSDictionary *)[NSNull null])
@@ -316,6 +317,7 @@ static NSString *const  kCellIdentifire = @"MenuViewCell";
         [[CommonUtility new] show_ErrorAlertWithTitle:@"" withMessage:@"Internet Not Available Please Try Again..!"];
     }
 }
+
 //************************************************************************************************
 #pragma mark ❉===❉=== PUSHVIEW CONTROLLER ===❉===❉
 //************************************************************************************************
