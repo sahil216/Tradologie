@@ -8,14 +8,13 @@
 
 #import "VCAddNegotiation.h"
 #import "Constant.h"
+#import "AppConstant.h"
 #import "CommonUtility.h"
 #import "MBAPIManager.h"
 #import "SharedManager.h"
 #import "MBDataBaseHandler.h"
 #import "TVCreateNeogotiation.h"
 #import "VCFilterScreen.h"
-
-
 
 @interface VCAddNegotiation ()<SupplierCellDelegate>
 {
@@ -34,6 +33,16 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    [self setUpInitialView];
+
+}
+
+- (void)didReceiveMemoryWarning
+{
+    [super didReceiveMemoryWarning];
+}
+-(void)setUpInitialView
+{
     [self.tbtNegotiation setSeparatorStyle:UITableViewCellSeparatorStyleNone];
     [self.navigationItem setNavigationTittleWithLogo:@"tradologie.com"];
     lblMessage = [[UILabel alloc]initWithFrame:CGRectMake(0, SCREEN_HEIGHT/2, SCREEN_WIDTH, 50)];
@@ -54,14 +63,24 @@
     [btnFilter setImage:[[UIImage imageNamed:@"IconFilter"]imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
     [btnFilter addTarget:self action:@selector(btnFilterTapped:) forControlEvents:UIControlEventTouchUpInside];
     [btnFilter setTintColor:[UIColor whiteColor]];
-    [btnFilter setHidden:NO];
-    [self GetCategoryListForNegotiation];
-    // Do any additional setup after loading the view.
+    [btnFilter setHidden:YES];
+    
+    [self getAllCategorylistfromDatabase];
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+-(void)getAllCategorylistfromDatabase
+{
+    ProductCategory *categoryList = [MBDataBaseHandler getAllProductCategories];
+    
+    arrCategoryList = [[NSMutableArray alloc]init];
+    arrCategoryID = [[NSMutableArray alloc]init];
+    
+    for (NSMutableDictionary *dic in categoryList.detail)
+    {
+        [arrCategoryID addObject:[dic valueForKey:@"GroupID"]];
+        [arrCategoryList addObject:[dic valueForKey:@"GroupName"]];
+    }
+    
 }
 /******************************************************************************************************************/
 #pragma mark ❉===❉=== TABLEVIEW DELEGATE & DATA SOURCE CALLED HERE ===❉===❉
@@ -80,13 +99,14 @@
 {
     if (arrSupplierList.count > 0)
     {
-        SupplierCell *cell = (SupplierCell *) [tableView dequeueReusableCellWithIdentifier:COMMON_CELL_ID];
+        TVCellSupplierList *cell = (TVCellSupplierList *) [tableView dequeueReusableCellWithIdentifier:COMMON_CELL_ID];
         if (!cell)
         {
-            cell = [[SupplierCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:COMMON_CELL_ID];
+            cell = [[TVCellSupplierList alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:COMMON_CELL_ID];
         }
         [cell ConfigureSupplierCellwithData:[arrSupplierList objectAtIndex:indexPath.row] withIsselected:(arr_Is_shortlisted.count > 0)?[[arr_Is_shortlisted objectAtIndex:indexPath.row] boolValue]:false];
         cell.delegate = self;
+        
         return cell;
     }
     
@@ -157,44 +177,7 @@
     
     
 }
-/******************************************************************************************************************/
-#pragma mark ❉===❉=== GET ALL CATEGORY API CALLED HERE ===❉===❉
-/******************************************************************************************************************/
--(void)GetCategoryListForNegotiation
-{
-    if (SharedObject.isNetAvailable)
-    {
-        MBCall_GetCategoryListForNegotiation(^(id response, NSString *error, BOOL status)
-        {
-            arrCategoryList = [[NSMutableArray alloc]init];
-            arrCategoryID = [[NSMutableArray alloc]init];
-            
-            if (status && [[response valueForKey:@"success"]isEqual:@1])
-            {
-                if (response != (NSDictionary *)[NSNull null])
-                {
-                    //   NSError* Error;
-                    //   ProductCategory *objProduct = [[ProductCategory alloc]initWithDictionary:response error:&Error];
-                    //   [MBDataBaseHandler saveProductCategoryDetail:objProduct];
-                    
-                    for (NSMutableDictionary *dic in [response valueForKey:@"detail"])
-                    {
-                        [arrCategoryID addObject:[dic valueForKey:@"GroupID"]];
-                        [arrCategoryList addObject:[dic valueForKey:@"GroupName"]];
-                    }
-                    
-                }
-            }
-            else
-            {
-            }
-        });
-    }
-    else
-    {
-        [[CommonUtility new] show_ErrorAlertWithTitle:@"" withMessage:@"Internet Not Available Please Try Again..!"];
-    }
-}
+
 /******************************************************************************************************************/
 #pragma mark ❉===❉=== GET ALL CATEGORY API CALLED HERE ===❉===❉
 /******************************************************************************************************************/
@@ -284,7 +267,7 @@
             }
             else
             {
-                
+                [[CommonUtility new] show_ErrorAlertWithTitle:@"" withMessage:error];
             }
             
         });
@@ -313,9 +296,6 @@
                 if (response != (NSDictionary *)[NSNull null])
                 {
                     [self reloadTableWithData:selectedIndex];
-                }
-                else{
-                    [CommonUtility HideProgress];
                 }
             }
             else
@@ -351,13 +331,9 @@
                 {
                     [self reloadTableWithData:selectedIndex];
                 }
-                else{
-                    [CommonUtility HideProgress];
-                }
             }
             else
             {
-                [CommonUtility HideProgress];
                 [lblMessage setHidden:NO];
                 [self.tbtNegotiation reloadData];
             }
@@ -458,117 +434,3 @@
 }
 @end
 
-
-
-/******************************************************************************************************************/
-#pragma mark ❉===❉=== TABLEVIEW CELL METHOD CALLED HERE ===❉===❉
-/*****************************************************************************************************************/
-
-@implementation SupplierCell
-- (void)awakeFromNib
-{
-    [super awakeFromNib];
-    [self setSelectionStyle:UITableViewCellSelectionStyleNone];
-    
-    [CommonUtility GetShadowWithBorder:_viewBG];
-    
-    [_lblCompanyName setNumberOfLines:0];
-    [_lblCompanyName setLineBreakMode:NSLineBreakByWordWrapping];
-    [_btnAddShort addTarget:self action:@selector(btnAddShortTapped:) forControlEvents:UIControlEventTouchUpInside];
-    [_btnMicroSite setDefaultButtonShadowStyle:[UIColor redColor]];
-    [_btnMicroSite.titleLabel setFont:IS_IPHONE5? UI_DEFAULT_FONT_MEDIUM(12):UI_DEFAULT_FONT_MEDIUM(14)];
-    [_btnMicroSite addTarget:self action:@selector(btnMicroSiteTapped:) forControlEvents:UIControlEventTouchUpInside];
-    
-}
-- (void)ConfigureSupplierCellwithData:(SupplierDetailData *)objSupplierDetail withIsselected:(BOOL)isSelected
-{
-    [_lblCompanyName setText:objSupplierDetail.CompanyName];
-    
-    [_lblAreaofOperation setText:[objSupplierDetail.AreaOfOperation isEqualToString:@""] ?[NSString stringWithFormat:@"Area of Operation : N/A"]:[NSString stringWithFormat:@"Area of Operation : %@",objSupplierDetail.AreaOfOperation]];
-    
-    [_lblyearOfEstablish setText:[objSupplierDetail.YearOfEstablishment isEqualToString:@""]?[NSString stringWithFormat:@"Year of Establishment : N/A"]:[NSString stringWithFormat:@"Year of Establishment : %@",objSupplierDetail.YearOfEstablishment]];
-    
-    [_lblAnualTurnOver setText:[objSupplierDetail.AnnualTurnOver isEqualToString:@""] ?[NSString stringWithFormat:@"Annual TurnOver : N/A"]:[NSString stringWithFormat:@"Annual TurnOver : %@",objSupplierDetail.AnnualTurnOver]];
-    
-    [_lblCertification setText:[objSupplierDetail.Certifications isEqualToString:@""]?[NSString stringWithFormat:@"Certifications : N/A"]:[NSString stringWithFormat:@"Certifications : %@",objSupplierDetail.Certifications]];
-    
-    if (objSupplierDetail.WebURL == (id)[NSNull null] || objSupplierDetail.WebURL.length == 0)
-    {
-        [_btnMicroSite setHidden:YES];
-    }
-    else{
-        [_btnMicroSite setHidden:NO];
-    }
-    
-    if (isSelected)
-    {
-        [_btnAddShort setTitle:@"Remove from Shortlist" forState:UIControlStateNormal];
-        [_btnAddShort setDefaultButtonShadowStyle:[UIColor redColor]];
-        _btnWidth.constant = 170;
-    }
-    else
-    {
-        [_btnAddShort setTitle:@"Add to Shortlist" forState:UIControlStateNormal];
-        [_btnAddShort setDefaultButtonShadowStyle:GET_COLOR_WITH_RGB(0, 145, 147, 1)];
-        _btnWidth.constant = 130;
-    }
-    
-    [_imgMembershipType setImageWithURL:[NSURL URLWithString:[objSupplierDetail.MembershipTypeImage checkIfEmpty]] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL)
-    {
-        [_imgMembershipType setImage:image];
-    }usingActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-    
-    
-    [_imgSupplier setImageWithURL:[NSURL URLWithString:[objSupplierDetail.VendorLogo checkIfEmpty]] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL)
-    {
-        if (!error)
-        {
-            if(cacheType == SDImageCacheTypeNone)
-            {
-                _imgSupplier.alpha = 0;
-                
-                [UIView transitionWithView:_imgSupplier
-                                  duration:1.0
-                                   options:UIViewAnimationOptionTransitionCrossDissolve
-                                animations:^{
-                                    if (image==nil)
-                                    {
-                                        [_imgSupplier setImage:[UIImage imageNamed:@"IconNoImageAvailable"]];
-                                    }
-                                    else
-                                    {
-                                        [_imgSupplier setImage:image];
-                                    }
-                                    
-                                    _imgSupplier.alpha = 1.0;
-                                } completion:NULL];
-            }
-            else
-            {
-                _imgSupplier.alpha = 1;
-            }
-        }
-        else
-        {
-            [_imgSupplier setImage:[UIImage imageNamed:@"IconNoImageAvailable"]];
-        }
-    } usingActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-}
-/******************************************************************************************************************/
-#pragma mark ❉===❉===  BUTTON ACTION EVENT CALLED HERE ===❉===❉
-/******************************************************************************************************************/
--(IBAction)btnAddShortTapped:(UIButton *)sender
-{
-    if([_delegate respondsToSelector:@selector(setSelectItemViewWithData:)])
-    {
-        [_delegate setSelectItemViewWithData:sender];
-    }
-}
--(IBAction)btnMicroSiteTapped:(UIButton *)sender
-{
-    if([_delegate respondsToSelector:@selector(setbtnMicroSiteWithURL:)])
-    {
-        [_delegate setbtnMicroSiteWithURL:sender];
-    }
-}
-@end

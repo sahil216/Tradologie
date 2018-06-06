@@ -8,10 +8,15 @@
 
 #import "EveryPage.h"
 #import "Constant.h"
+#import "SharedManager.h"
+#import "MBAPIManager.h"
+#import "MBDataBaseHandler.h"
 #import "CommonUtility.h"
 
 @interface EveryPage ()
+{
 
+}
 @end
 
 @implementation EveryPage
@@ -20,7 +25,8 @@
 {
     [super viewDidLoad];
     [self.navigationController.navigationBar setNaviagtionStyleWithStatusbar:[UIColor whiteColor]];
-
+    [self GetCategoryListForNegotiation];
+    
 }
 
 - (void)didReceiveMemoryWarning
@@ -41,5 +47,32 @@
         [CommonUtility ShowAlertwithTittle:@"Call facility is not available!!!" withID:self];
     }
 }
-
+/******************************************************************************************************************/
+#pragma mark ❉===❉=== GET ALL CATEGORY API CALLED HERE ===❉===❉
+/******************************************************************************************************************/
+-(void)GetCategoryListForNegotiation
+{
+    if (SharedObject.isNetAvailable)
+    {
+        MBCall_GetCategoryListForNegotiation(^(id response, NSString *error, BOOL status)
+        {
+            if (status && [[response valueForKey:@"success"]isEqual:@1])
+            {
+                if (response != (NSDictionary *)[NSNull null])
+                {
+                    NSError* Error;
+                    ProductCategory *objProduct = [[ProductCategory alloc]initWithDictionary:response error:&Error];
+                    [MBDataBaseHandler saveProductCategoryDetail:objProduct];
+                }
+            }
+            else
+            {
+            }
+        });
+    }
+    else
+    {
+        [[CommonUtility new] show_ErrorAlertWithTitle:@"" withMessage:@"Internet Not Available Please Try Again..!"];
+    }
+}
 @end

@@ -161,11 +161,6 @@
                         
                     }
                 }
-                else{
-                    [CommonUtility HideProgress];
-                    [lblMessage setHidden:NO];
-                    [self.tbtNotify setSeparatorStyle:UITableViewCellSeparatorStyleNone];
-                }
             }
             else
             {

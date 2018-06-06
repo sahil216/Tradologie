@@ -358,7 +358,6 @@
                     {
                         [CommonUtility HideProgress];
                         [[CommonUtility new] show_ErrorAlertWithTitle:@"" withMessage:[response valueForKey:@"message"]];
-    
                     }
     
                 });
@@ -366,6 +365,7 @@
             else
             {
                 [CommonUtility HideProgress];
+                [[CommonUtility new] show_ErrorAlertWithTitle:@"" withMessage:@"Internet Not Available Please Try Again..!"];
             }
         }
 }

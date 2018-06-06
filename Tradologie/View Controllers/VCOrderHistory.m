@@ -241,10 +241,9 @@
                     }
                     [self.myTableView reloadData];
                 }
-                else{
-                    
+                else
+                {
                     [[CommonUtility new] show_ErrorAlertWithTitle:@"" withMessage:[response valueForKey:@"message"]];
-
                 }
             }
             else

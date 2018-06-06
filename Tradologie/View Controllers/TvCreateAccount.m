@@ -288,7 +288,6 @@
                     [MBDataBaseHandler saveCommonDataDetail:detail];
                     
                     TVCompanyRegister *objCompanyScreen = GET_VIEW_CONTROLLER(@"TVCompanyRegister");
-//                    [self.navigationController.navigationBar setNaviagtionStyleWithStatusbar:[UIColor whiteColor]];
                     [self.navigationController pushViewController:objCompanyScreen animated:YES];
                 }
             }

@@ -29,7 +29,7 @@
 /*********************************************************************************************************/
 #import "TvCellEnquiry.h"
 #import "TVCellOrderHistory.h"
-
+#import "TVCellSupplierList.h"
 
 
 
@@ -78,7 +78,7 @@ static NSString *LOGIN_API_NAME = @"login";
 static NSString *CREATE_NEGOTIATION_API = @"createauction";
 static NSString *ADD_UPDATE_NEGOTIATION_API = @"AddUpdateAuction";
 static NSString *AUCTION_ORDER_HISTORY_API = @"AuctionOrderHistory";
-
+static NSString *SUPPLIER_SHORTLIST_API = @"SupplierList_ByBuyer";
 /*********************************************************************************************************/
 #pragma CONTROLLER IDENTIFIRES
 /*********************************************************************************************************/

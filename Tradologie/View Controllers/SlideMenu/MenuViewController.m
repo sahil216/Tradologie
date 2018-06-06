@@ -10,6 +10,9 @@
 #import "VCTradePolicyScreen.h"
 #import "VCHomeNotifications.h"
 #import "VcEnquiryRequestScreen.h"
+#import "VCContactTradologie.h"
+
+#import "VCAddNegotiation.h"
 #import "VCOrderHistory.h"
 #import "Constant.h"
 #import "CommonUtility.h"
@@ -17,6 +20,8 @@
 #import "AppConstant.h"
 #import "MBAPIManager.h"
 #import "SharedManager.h"
+#import "VCSupplierShortlist.h"
+
 
 
 static NSString *const  kCellIdentifire = @"MenuViewCell";
@@ -198,9 +203,9 @@ static NSString *const  kCellIdentifire = @"MenuViewCell";
             break;
         case 4:
         {
-//            UIActivityViewController *activity = [CommonUtility getActivityViewController];
-//            [self presentViewController:activity animated:YES completion:^{
-//            }];
+            VCSupplierShortlist *objShortlist =[self.storyboard instantiateViewControllerWithIdentifier:@"VCSupplierShortlist"];
+            [self pushViewController:objShortlist];
+
         }
             break;
         case 5:
@@ -262,14 +267,11 @@ static NSString *const  kCellIdentifire = @"MenuViewCell";
             break;
         case 15:
         {
-            
+            VCContactTradologie *objContactScreen = [self.storyboard instantiateViewControllerWithIdentifier:@"VCContactTradologie"];
+            [self pushViewController:objContactScreen];
         }
             break;
-        case 16:
-        {
-            
-        }
-            break;
+        
         default:
             break;
     }
@@ -301,13 +303,9 @@ static NSString *const  kCellIdentifire = @"MenuViewCell";
                     [[UIDevice currentDevice] setValue:[NSNumber numberWithInteger: UIInterfaceOrientationLandscapeRight] forKey:@"orientation"];
                     [self pushViewController:requestSc];
                 }
-                else{
-                   // [CommonUtility HideProgress];
-                }
             }
             else
             {
-              //  [CommonUtility HideProgress];
                 
             }
         });

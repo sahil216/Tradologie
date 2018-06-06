@@ -31,4 +31,6 @@ void MBCall_RemoveSupplierShortlist(NSDictionary* params,RMApiManagerCompletion 
 void MBCall_CreateNegotiationWithAuction(NSDictionary* params,RMApiManagerCompletion completion);
 void MBCall_AddUpdateAuctionforNegotiation(NSDictionary* params,RMApiManagerCompletion completion);
 void MBCall_GetAuctionOrderHistoryWithID(NSDictionary* params,RMApiManagerCompletion completion);
+void MBCall_GetSupplierShortListedWithGroupID(NSDictionary* params,RMApiManagerCompletion completion);
+
 @end
