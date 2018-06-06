@@ -73,6 +73,12 @@
 		4A6065F220BFB5E300BA5F0B /* NegotiationDetail.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A6065F120BFB5E300BA5F0B /* NegotiationDetail.m */; };
 		4A6065FB20C022CC00BA5F0B /* TVCreateNeogotiation.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A6065FA20C022CC00BA5F0B /* TVCreateNeogotiation.m */; };
 		4A8194D420AEFCF3003A8F5C /* TvCellEnquiry.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A8194D320AEFCF3003A8F5C /* TvCellEnquiry.m */; };
+		4ADBDBD420C7ADCE0044E454 /* LandScapeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4ADBDBD320C7ADCE0044E454 /* LandScapeView.m */; };
+		4ADBDBD620C7ADDD0044E454 /* LandScapeView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4ADBDBD520C7ADDD0044E454 /* LandScapeView.xib */; };
+		4ADBDBD920C7B8470044E454 /* SBaseLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4ADBDBD820C7B8470044E454 /* SBaseLabel.m */; };
+		4ADBDBDA20C7BFF50044E454 /* VcNegotiationDetail.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A1A7A8620C280D400FAE6E9 /* VcNegotiationDetail.m */; };
+		4ADBDBDD20C7C1700044E454 /* AuctionDetailForEdit.m in Sources */ = {isa = PBXBuildFile; fileRef = 4ADBDBDC20C7C1700044E454 /* AuctionDetailForEdit.m */; };
+		4ADBDBE020C7EBA80044E454 /* TvAddProductScreen.m in Sources */ = {isa = PBXBuildFile; fileRef = 4ADBDBDF20C7EBA80044E454 /* TvAddProductScreen.m */; };
 		4AEA4B2120B5704900C3C9C8 /* FTPopOverMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 4AEA4B2020B5704800C3C9C8 /* FTPopOverMenu.m */; };
 		D1881E088B07082817C3A1DA /* libPods-TradologieUITests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C5B00E1D9D8BDE4F02214E12 /* libPods-TradologieUITests.a */; };
 /* End PBXBuildFile section */
@@ -221,6 +227,15 @@
 		4A6065FA20C022CC00BA5F0B /* TVCreateNeogotiation.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TVCreateNeogotiation.m; sourceTree = "<group>"; };
 		4A8194D220AEFCF3003A8F5C /* TvCellEnquiry.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TvCellEnquiry.h; sourceTree = "<group>"; };
 		4A8194D320AEFCF3003A8F5C /* TvCellEnquiry.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TvCellEnquiry.m; sourceTree = "<group>"; };
+		4ADBDBD220C7ADCE0044E454 /* LandScapeView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LandScapeView.h; sourceTree = "<group>"; };
+		4ADBDBD320C7ADCE0044E454 /* LandScapeView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LandScapeView.m; sourceTree = "<group>"; };
+		4ADBDBD520C7ADDD0044E454 /* LandScapeView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LandScapeView.xib; sourceTree = "<group>"; };
+		4ADBDBD720C7B8460044E454 /* SBaseLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBaseLabel.h; sourceTree = "<group>"; };
+		4ADBDBD820C7B8470044E454 /* SBaseLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBaseLabel.m; sourceTree = "<group>"; };
+		4ADBDBDB20C7C1700044E454 /* AuctionDetailForEdit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AuctionDetailForEdit.h; sourceTree = "<group>"; };
+		4ADBDBDC20C7C1700044E454 /* AuctionDetailForEdit.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AuctionDetailForEdit.m; sourceTree = "<group>"; };
+		4ADBDBDE20C7EBA80044E454 /* TvAddProductScreen.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TvAddProductScreen.h; sourceTree = "<group>"; };
+		4ADBDBDF20C7EBA80044E454 /* TvAddProductScreen.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TvAddProductScreen.m; sourceTree = "<group>"; };
 		4AEA4B1F20B5704800C3C9C8 /* FTPopOverMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FTPopOverMenu.h; sourceTree = "<group>"; };
 		4AEA4B2020B5704800C3C9C8 /* FTPopOverMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FTPopOverMenu.m; sourceTree = "<group>"; };
 		51AF5D25230069E268878696 /* Pods-TradologieTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TradologieTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-TradologieTests/Pods-TradologieTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -399,6 +414,8 @@
 				4A6065FA20C022CC00BA5F0B /* TVCreateNeogotiation.m */,
 				4A1A7A8520C280D400FAE6E9 /* VcNegotiationDetail.h */,
 				4A1A7A8620C280D400FAE6E9 /* VcNegotiationDetail.m */,
+				4ADBDBDE20C7EBA80044E454 /* TvAddProductScreen.h */,
+				4ADBDBDF20C7EBA80044E454 /* TvAddProductScreen.m */,
 				4A20A8A820C154F3005D2D6E /* VCFilterScreen.h */,
 				4A20A8A920C154F3005D2D6E /* VCFilterScreen.m */,
 				4A15E99020A4510000192B46 /* VcEnquiryRequestScreen.h */,
@@ -464,6 +481,8 @@
 				4A6065F120BFB5E300BA5F0B /* NegotiationDetail.m */,
 				4A23FEB220C656640083B3B8 /* AuctionOrderHistory.h */,
 				4A23FEB320C656640083B3B8 /* AuctionOrderHistory.m */,
+				4ADBDBDB20C7C1700044E454 /* AuctionDetailForEdit.h */,
+				4ADBDBDC20C7C1700044E454 /* AuctionDetailForEdit.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -522,6 +541,11 @@
 				4A07719F20C56B4900A8F28F /* TVCellOrderHistory.m */,
 				4A23FEB820C66E2C0083B3B8 /* TVCellSupplierList.h */,
 				4A23FEB920C66E2C0083B3B8 /* TVCellSupplierList.m */,
+				4ADBDBD720C7B8460044E454 /* SBaseLabel.h */,
+				4ADBDBD820C7B8470044E454 /* SBaseLabel.m */,
+				4ADBDBD220C7ADCE0044E454 /* LandScapeView.h */,
+				4ADBDBD320C7ADCE0044E454 /* LandScapeView.m */,
+				4ADBDBD520C7ADDD0044E454 /* LandScapeView.xib */,
 			);
 			path = "Custom Cell ";
 			sourceTree = "<group>";
@@ -656,6 +680,7 @@
 			files = (
 				4A245614209DAC39000B3B64 /* Neuropol-Bold.ttf in Resources */,
 				4A245615209DAC39000B3B64 /* Neuropol-Medium.ttf in Resources */,
+				4ADBDBD620C7ADDD0044E454 /* LandScapeView.xib in Resources */,
 				4A245616209DAC39000B3B64 /* NeuropolRegular.ttf in Resources */,
 				4A1C5C93209C19A900A87222 /* LaunchScreen.storyboard in Resources */,
 				4A1C5C90209C19A900A87222 /* Assets.xcassets in Resources */,
@@ -840,6 +865,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4ADBDBD920C7B8470044E454 /* SBaseLabel.m in Sources */,
 				4A3135A420B987F200DA353B /* VCAddNegotiation.m in Sources */,
 				4A4A2C4820A3098A000B8EB4 /* EveryPage.m in Sources */,
 				4A1C5C85209C19A900A87222 /* AppDelegate.m in Sources */,
@@ -851,6 +877,7 @@
 				4A36374820A6BC6100DF37D2 /* MBAPIManager.m in Sources */,
 				4A268F7B20AAA2ED00753F5E /* TVCompanyRegister.m in Sources */,
 				4A23FEB720C66D0B0083B3B8 /* VCSupplierShortlist.m in Sources */,
+				4ADBDBDD20C7C1700044E454 /* AuctionDetailForEdit.m in Sources */,
 				4A245607209D7D4A000B3B64 /* ISMessages.m in Sources */,
 				4A24BFCF20A05118009BB5C4 /* VcPopScreen.m in Sources */,
 				4A23FEBA20C66E2C0083B3B8 /* TVCellSupplierList.m in Sources */,
@@ -876,6 +903,7 @@
 				4A268F8820AAE64200753F5E /* MBDataBaseHandler.m in Sources */,
 				4A212BD320BD25AD00207FAE /* SupplierDetail.m in Sources */,
 				4A36374E20A6FD8A00DF37D2 /* VCMessageScreen.m in Sources */,
+				4ADBDBD420C7ADCE0044E454 /* LandScapeView.m in Sources */,
 				4A268F8520AAE57500753F5E /* OfflineObject.m in Sources */,
 				4A24BFC720A02BFA009BB5C4 /* TVForgotPassword.m in Sources */,
 				4A1C5CCA209C306A00A87222 /* UIButton+Extra.m in Sources */,
@@ -889,6 +917,7 @@
 				4A36374520A6B8CA00DF37D2 /* MBHTTPClient.m in Sources */,
 				4A36374220A6B75D00DF37D2 /* SharedManager.m in Sources */,
 				4A1C5C8E209C19A900A87222 /* Tradologie.xcdatamodeld in Sources */,
+				4ADBDBE020C7EBA80044E454 /* TvAddProductScreen.m in Sources */,
 				4A212BD920BD4B7C00207FAE /* UIImageView+UIActivityIndicatorForSDWebImage.m in Sources */,
 				4A1C5CCF209C306A00A87222 /* UITextField+Extra.m in Sources */,
 				4A1C5CCE209C306A00A87222 /* UIView+Extra.m in Sources */,
@@ -901,6 +930,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4A1C5CA0209C19A900A87222 /* TradologieTests.m in Sources */,
+				4ADBDBDA20C7BFF50044E454 /* VcNegotiationDetail.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

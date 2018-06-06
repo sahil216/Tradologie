@@ -104,7 +104,7 @@
             case 1:
             {
                 UIButton *btnRate = [labelArray objectAtIndex:i];
-                [btnRate.titleLabel setFont:UI_DEFAULT_FONT(16)];
+                [btnRate.titleLabel setFont:UI_DEFAULT_FONT_MEDIUM(17)];
                 [btnViewRate setTintColor:[UIColor clearColor]];
                 [btnViewRate setTitleColor:[UIColor orangeColor] forState:UIControlStateNormal];
                 [btnRate setTitle:[dataDict objectForKey:[keyArray objectAtIndex:i]] forState:UIControlStateNormal];
@@ -116,7 +116,7 @@
             case 2:
                 [tempLabel setText:[dataDict objectForKey:[keyArray objectAtIndex:i]]];
                 [tempLabel setBackgroundColor:DefaultThemeColor];
-                [tempLabel setFont:UI_DEFAULT_FONT(17)];
+                [tempLabel setFont:UI_DEFAULT_FONT_MEDIUM(16)];
                 [tempLabel setTextColor:[UIColor whiteColor]];
                 [tempLabel setTextAlignment:NSTextAlignmentCenter];
                 break;

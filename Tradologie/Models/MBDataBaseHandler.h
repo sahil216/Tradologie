@@ -22,6 +22,7 @@ typedef enum
     supplierDetail,
     negotiationDetail,
     OrderHistory,
+    auctionDetailForEdit,
     
 } OFFLINEMODE;
 
@@ -42,7 +43,7 @@ typedef enum
 
 +(SupplierDetail *)getSupplierDetailData;
 +(NegotiationDetail *)getNegotiationDetailData;
-
++(AuctionDetailForEdit *)getAuctionDetailForEditNegotiation;
 
 
 
@@ -55,8 +56,7 @@ typedef enum
 +(void)saveSupplierDetailData:(SupplierDetail *)Data;
 +(void)saveNegotiationDetailData:(NegotiationDetail *)Data;
 +(void)saveAuctionOrderHistory:(AuctionOrderHistory *)OrderHitoryData;
-
-
++(void)saveAuctionDetailForEditNegotiation:(AuctionDetailForEdit *)editNegotiation;
 
 
 

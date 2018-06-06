@@ -85,8 +85,8 @@
     tableView.delegate=self;
     tableView.dataSource=self;
     tableView.bounces=NO;
+    tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
     self.myTableView = tableView;
-    tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     
     UIScrollView *myScrollView=[[UIScrollView alloc]initWithFrame:CGRectMake(0, 0, _contentView.frame.size.width, _contentView.frame.size.height)];
     myScrollView.bounces=NO;

@@ -10,8 +10,5 @@
 
 @interface VcNegotiationDetail : UIViewController
 
-@property (nonatomic, strong) IBOutlet UITableView *myTableView;
-@property (nonatomic, strong) IBOutlet UIView * contentView;
-@property (nonatomic, strong) IBOutlet UIScrollView * myScrollView;
 
 @end

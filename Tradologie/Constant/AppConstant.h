@@ -23,6 +23,7 @@
 #import "SupplierDetail.h"
 #import "NegotiationDetail.h"
 #import "AuctionOrderHistory.h"
+#import "AuctionDetailForEdit.h"
 
 /*********************************************************************************************************/
 #pragma Mark- CUSTOM CELL IMPORT
@@ -33,6 +34,7 @@
 
 
 
+#import "LandScapeView.h"
 
 /*********************************************************************************************************/
 #pragma Mark- BASE URL IMPORT
@@ -79,6 +81,7 @@ static NSString *CREATE_NEGOTIATION_API = @"createauction";
 static NSString *ADD_UPDATE_NEGOTIATION_API = @"AddUpdateAuction";
 static NSString *AUCTION_ORDER_HISTORY_API = @"AuctionOrderHistory";
 static NSString *SUPPLIER_SHORTLIST_API = @"SupplierList_ByBuyer";
+static NSString *AUCTION_DETAIL_FOR_EDIT_API = @"AuctionDetailForEdit";
 /*********************************************************************************************************/
 #pragma CONTROLLER IDENTIFIRES
 /*********************************************************************************************************/

@@ -74,6 +74,21 @@
     
     return nil;
 }
++(AuctionDetailForEdit *)getAuctionDetailForEditNegotiation
+{
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(objType == %@)",[NSNumber numberWithInt:auctionDetailForEdit]];
+    
+    NSArray *array = [OfflineObject MR_findAllWithPredicate:predicate];
+    
+    if (array.count>0)
+    {
+        OfflineObject *object = array[0];
+        AuctionDetailForEdit *objAuctionDetail = [[AuctionDetailForEdit alloc] initWithString:object.objData error:nil];
+        return objAuctionDetail;
+    }
+    return nil;
+}
+
 +(SupplierDetail *)getSupplierDetailData;
 {
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(objType == %@)",[NSNumber numberWithInt:supplierDetail]];
@@ -243,6 +258,24 @@
          
      }];
     
+}
++ (void)saveAuctionDetailForEditNegotiation:(AuctionDetailForEdit *)editNegotiation
+{
+    [self deleteAllRecordsForType:auctionDetailForEdit];
+    
+    if (!editNegotiation) {
+        return;
+    }
+    
+    [MagicalRecord saveWithBlockAndWait:^(NSManagedObjectContext *localContext)
+     {
+         OfflineObject *newUser = [OfflineObject MR_createEntityInContext:localContext];
+         newUser.objData = editNegotiation.toJSONString;
+         newUser.objId = editNegotiation.detail.AuctionID;
+         newUser.objType = [NSNumber numberWithInt:auctionDetailForEdit];
+         newUser.objClass = NSStringFromClass([editNegotiation class]);
+         
+     }];
 }
 
 /*********************************************************************************************/

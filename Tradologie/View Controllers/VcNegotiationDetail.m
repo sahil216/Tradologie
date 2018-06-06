@@ -10,13 +10,23 @@
 #import "Constant.h"
 #import "AppConstant.h"
 #import "VCHomeNotifications.h"
+#import "MBDataBaseHandler.h"
+#import "TvAddProductScreen.h"
 
-@interface VcNegotiationDetail ()<UITableViewDataSource,UITableViewDelegate>
+
+#define K_CUSTOM_WIDTH 170
+
+@interface VcNegotiationDetail ()<UITableViewDataSource,UITableViewDelegate,LandScapeViewDelegate>
 {
-    CGFloat headerTotalWidth;
-    CGFloat height;
-
+    NSMutableArray *arrTittle;
+    NSMutableArray *arrData;
+    float headerTotalWidth;
+    NSInteger count;
+    CGFloat height , lblHeight;    
 }
+@property (nonatomic, strong) UIView * contentView;
+@property (nonatomic, strong) UITableView *myTableView;
+@property (nonatomic, strong)  LandScapeView * viewLandscape;
 
 @end
 
@@ -55,37 +65,48 @@
 /*****************************************************************************************************************/
 -(void)SetInitialSetup
 {
-    [_contentView setFrame:CGRectMake(0,0, SCREEN_WIDTH * 3, SCREEN_HEIGHT + 20)];
-    [_contentView setBackgroundColor:[UIColor grayColor]];
-//
-//    headerTotalWidth =  SCREEN_HEIGHT * 2;
-//
-//    height = ([SDVersion deviceSize] > Screen4Dot7inch)?_contentView.frame.size.height - 75:([SDVersion deviceSize] < Screen4Dot7inch)?_contentView.frame.size.height - 65:_contentView.frame.size.height - 70;
-//
-//    [self.myTableView setFrame:CGRectMake(0, 0, headerTotalWidth, height)];
-//
-   [_myScrollView setFrame:CGRectMake(0, 0, _contentView.frame.size.width * 3, _contentView.frame.size.height)];
-    _myScrollView.bounces=NO;
-    [_myScrollView setShowsHorizontalScrollIndicator:NO];
-    _myScrollView.contentSize = CGSizeMake(headerTotalWidth * 20, 0);
-    [_myScrollView setBackgroundColor:[UIColor redColor]];
-    //[_contentView addSubview:_myScrollView];
+    _contentView = [[UIView alloc] initWithFrame:CGRectMake(0,0, SCREEN_WIDTH, SCREEN_HEIGHT + 20)];
+    [_contentView setBackgroundColor:[UIColor whiteColor]];
+    [self.view addSubview:_contentView];
     
-  //  [self.view addSubview:_contentView];
-
-
+    headerTotalWidth =  SCREEN_WIDTH * 2.50;
+    
+    height = ([SDVersion deviceSize] > Screen4Dot7inch)?_contentView.frame.size.height - 75:([SDVersion deviceSize] < Screen4Dot7inch)?_contentView.frame.size.height - 65:_contentView.frame.size.height - 70;
+    
+    UITableView *tableView=[[UITableView alloc]initWithFrame:CGRectMake(0, 0, headerTotalWidth, height) style:UITableViewStylePlain];
+    tableView.delegate=self;
+    tableView.dataSource=self;
+    tableView.bounces=NO;
+    self.myTableView = tableView;
+    tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    
+    UIScrollView *myScrollView=[[UIScrollView alloc]initWithFrame:CGRectMake(0, 0, _contentView.frame.size.width, _contentView.frame.size.height)];
+    myScrollView.bounces=NO;
+    [myScrollView addSubview:tableView];
+    [myScrollView setShowsHorizontalScrollIndicator:NO];
+    myScrollView.contentSize = CGSizeMake(headerTotalWidth, 0);
+    [_contentView addSubview:myScrollView];
+    
+    NSArray *subviewArray = [[NSBundle mainBundle] loadNibNamed:@"LandScapeView" owner:self options:nil];
+    _viewLandscape = [subviewArray objectAtIndex:0];
+    [_viewLandscape setDelegate:self];
+    
 }
 /******************************************************************************************************************/
 #pragma mark ❉===❉=== TABLEVIEW DELEGATE & DATA SOURCE CALLED HERE ===❉===❉
 /*****************************************************************************************************************/
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 1;
+    return 2;
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 10;
+    if (section == 0)
+    {
+        return  0; 
+    }
+    return 1;
 }
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -108,9 +129,55 @@
     [cell.textLabel setText:[NSString stringWithFormat:@"%ld",(long)indexPath.row]];
     return cell;
 }
+-(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
+    if (section ==  0)
+    {
+        UIView *viewHeader=[[UIView alloc]initWithFrame:CGRectMake(0, 0,SCREEN_HEIGHT * 2 , _viewLandscape.frame.size.height - 150)];
+        [viewHeader setBackgroundColor:[UIColor whiteColor]];
+        [viewHeader addSubview:_viewLandscape];
+        AuctionDetailForEdit *data = [MBDataBaseHandler getAuctionDetailForEditNegotiation];
+        [_viewLandscape setDataDict:data];
+        return viewHeader;
+    }
+    else
+    {
+
+        /*
+         int xx = 0;
+         int width = 80;
+         
+         for(int i = 0 ; i < [arrTittle count] ; i++)
+         {
+         UILabel *headLabel=[[UILabel alloc]initWithFrame:CGRectMake(xx, 0, width, 45)];
+         [headLabel setText:[arrTittle objectAtIndex:i]];
+         [headLabel setTextAlignment:NSTextAlignmentCenter];
+         [headLabel setNumberOfLines:0];
+         [headLabel setTextColor:[UIColor whiteColor]];
+         [headLabel setLineBreakMode:NSLineBreakByWordWrapping];
+         [headLabel setFont:UI_DEFAULT_FONT_MEDIUM(18)];
+         [tableViewHeadView addSubview:headLabel];
+         
+         xx = xx + width;
+         width = K_CUSTOM_WIDTH;
+         }
+         */
+    }
+    UIView *tableViewHeadView=[[UIView alloc]initWithFrame:CGRectMake(0, 0, [arrTittle count] * K_CUSTOM_WIDTH, 45)];
+    [tableViewHeadView setBackgroundColor:DefaultThemeColor];
+    return tableViewHeadView;
+}
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     return 60 + 10;
+}
+-(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    if (section == 0)
+    {
+        return _viewLandscape.frame.size.height - 150;
+    }
+    return 50;
 }
 /******************************************************************************************************************/
 #pragma mark ❉===❉=== BUTTON ACTION EVENT CALLED HERE ===❉===❉
@@ -127,5 +194,14 @@
         [delegateClass setRootViewController:rootVC];
     });
 
+}
+/******************************************************************************************************************/
+#pragma mark ❉===❉=== LANDSCAPE VIEW DELEGATE CALLED HERE ===❉===❉
+/*****************************************************************************************************************/
+-(void)setSelectItemViewWithData:(UIButton *)sender
+{
+    [[UIDevice currentDevice] setValue:[NSNumber numberWithInteger: UIInterfaceOrientationPortrait] forKey:@"orientation"];
+    TvAddProductScreen *objAddScreen = [self.storyboard instantiateViewControllerWithIdentifier:@"TvAddProductScreen"];
+    [self.navigationController pushViewController:objAddScreen animated:YES];
 }
 @end

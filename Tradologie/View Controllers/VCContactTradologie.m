@@ -29,8 +29,10 @@
     [btnContact addTarget:self action:@selector(btnContactTapped:) forControlEvents:UIControlEventTouchUpInside];
     [btnEmail addTarget:self action:@selector(btnEmailTapped:) forControlEvents:UIControlEventTouchUpInside];
 
-   
-    
+    [btnLinked addTarget:self action:@selector(btnSocailMedialTaped:) forControlEvents:UIControlEventTouchUpInside];
+    [btnFaceBook addTarget:self action:@selector(btnSocailMedialTaped:) forControlEvents:UIControlEventTouchUpInside];
+    [btnTwitter addTarget:self action:@selector(btnSocailMedialTaped:) forControlEvents:UIControlEventTouchUpInside];
+
 }
 
 - (void)didReceiveMemoryWarning {
@@ -52,6 +54,23 @@
     else
     {
         [CommonUtility ShowAlertwithTittle:@"Call facility is not available!!!" withID:self];
+    }
+}
+-(IBAction)btnSocailMedialTaped:(UIButton *)sender
+{
+    if (sender.tag==1)
+    {
+        [CommonUtility OpenURLAccordingToUse:@"https://www.facebook.com/tradologie/"];
+    }
+    else if (sender.tag==2)
+    {
+        [CommonUtility OpenURLAccordingToUse:@"https://twitter.com/Tradologie"];
+
+    }
+    else if (sender.tag==3)
+    {
+        [CommonUtility OpenURLAccordingToUse:@"https://www.linkedin.com/company/tradologie-com/"];
+
     }
 }
 

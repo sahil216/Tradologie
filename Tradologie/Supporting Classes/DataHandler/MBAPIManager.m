@@ -393,6 +393,7 @@ void MBCall_GetAuctionOrderHistoryWithID(NSDictionary* params,RMApiManagerComple
          }
      }];
 }
+
 void MBCall_GetSupplierShortListedWithGroupID(NSDictionary* params,RMApiManagerCompletion completion)
 {
     NSString *strvalue = [NSString stringWithFormat:@"%@",[params valueForKey:@"GroupID"]];
@@ -414,4 +415,20 @@ void MBCall_GetSupplierShortListedWithGroupID(NSDictionary* params,RMApiManagerC
     }];
 }
 
+void MBCall_AuctionDetailForEditNegotiation(NSDictionary* params,RMApiManagerCompletion completion)
+{
+    [[MBHTTPClient sharedInstance] requestPOSTServiceOnURL:getUrlForMethod(AUCTION_DETAIL_FOR_EDIT_API) WithDictionary:params withCompletion:^(NSURLSessionDataTask *task, NSError *error, id response)
+     {
+         if (error)
+         {
+             completion(nil,filterErrorMessageUsingResponseRequestOperation(task, error),NO);
+             return;
+         }
+         else if(response)
+         {
+             completion(response,checkIfResponseHasErrorMessage(response),YES);
+             
+         }
+     }];
+}
 @end

@@ -335,7 +335,8 @@
                 {
                     if (response != (NSDictionary *)[NSNull null])
                     {
-                        
+                        NSString *strAuctionID = [[response valueForKey:@"AuctionID"] stringValue];
+                        [self AuctionDetailForEditNegotiationWithAuctionID:strAuctionID];
                         
                     }
                     else{
@@ -355,6 +356,56 @@
         [[CommonUtility new] show_ErrorAlertWithTitle:@"" withMessage:@"Internet Not Available Please Try Again..!"];
     }
 }
+/******************************************************************************************************************/
+#pragma mark ❉===❉=== AUCTION DETAIL FOR EDIT NEGOTIATION API CALLED HERE ===❉===❉
+/******************************************************************************************************************/
+-(void)AuctionDetailForEditNegotiationWithAuctionID:(NSString *)auctionID
+{
+    BuyerUserDetail *objBuyerdetail = [MBDataBaseHandler getBuyerUserDetail];
+    
+    NSMutableDictionary *dicParams = [[NSMutableDictionary alloc]init];
+    [dicParams setValue:objBuyerdetail.detail.APIVerificationCode forKey:@"Token"];
+    [dicParams setValue:auctionID forKey:@"AuctionID"];
+    [dicParams setValue:objBuyerdetail.detail.UserTimeZone forKey:@"UserTimeZone"];
+    
+    if (SharedObject.isNetAvailable)
+    {
+        [CommonUtility showProgressWithMessage:@"Please Wait.."];
+        
+        MBCall_AuctionDetailForEditNegotiation(dicParams, ^(id response, NSString *error, BOOL status)
+        {
+            [CommonUtility HideProgress];
+
+            if (status && [[response valueForKey:@"success"]isEqual:@1])
+            {
+                if (response != (NSDictionary *)[NSNull null])
+                {
+                    NSError *error;
+                    AuctionDetailForEdit *data = [[AuctionDetailForEdit alloc]initWithDictionary:response error:&error];
+                    [MBDataBaseHandler saveAuctionDetailForEditNegotiation:data];
+                    
+                    VcNegotiationDetail *objScreen =[self.storyboard instantiateViewControllerWithIdentifier:@"VcNegotiationDetail"];
+                    [[UIDevice currentDevice] setValue:[NSNumber numberWithInteger: UIInterfaceOrientationLandscapeRight] forKey:@"orientation"];
+                    [self.navigationController pushViewController:objScreen animated:YES];
+                }
+            }
+            else
+            {
+                [CommonUtility HideProgress];
+                [[CommonUtility new] show_ErrorAlertWithTitle:@"" withMessage:error];
+            }
+        });
+    }
+    else
+    {
+        [[CommonUtility new] show_ErrorAlertWithTitle:@"" withMessage:@"Internet Not Available Please Try Again..!"];
+    }
+    
+}
+
+
+
+
 /******************************************************************************************************************/
 #pragma mark ❉===❉=== SHOW POPUP DATA HERE ===❉===❉
 /******************************************************************************************************************/
