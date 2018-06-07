@@ -133,11 +133,11 @@
     [self.view endEditing:YES];
 
     BOOL isValidate=TRUE;
-//    [txtUserID setText:@"chandresh@tradologie.com"];
-//    [txtPassword setText:@"qwe123"];
+    [txtUserID setText:@"chandresh@tradologie.com"];
+    [txtPassword setText:@"qwe123"];
     
-    [txtUserID setText:@"sahil216@gmail.com"];
-    [txtPassword setText:@"supere249"];
+//    [txtUserID setText:@"sahil216@gmail.com"];
+//    [txtPassword setText:@"supere249"];
 
 
     if ([Validation validateTextField:txtUserID])

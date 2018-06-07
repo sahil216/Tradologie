@@ -24,4 +24,6 @@
     __weak IBOutlet UIButton *btnImagePickUp;
     
 }
+@property(nonatomic,weak)IBOutlet UIView * viewFooter;
+
 @end

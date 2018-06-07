@@ -138,28 +138,16 @@
                     
                     NSString *data = [[NSString alloc] initWithData:[NSJSONSerialization dataWithJSONObject:response options:0 error:nil] encoding:NSUTF8StringEncoding];
                     [MBDataBaseHandler saveDashBoradAuctionDataDetail:data];
+                                        
+                    [CommonUtility HideProgress];
                     
-                    NSMutableArray *arrValue = [[NSMutableArray alloc]init];
-                    arrValue = [[dicData valueForKey:@"AuctionDetail"] mutableCopy];
+                    [lblMessage setHidden:YES];
+                    [self.tbtNotify setSeparatorStyle:UITableViewCellSeparatorStyleSingleLine];
                     
-                    if (arrValue.count > 0)
-                    {
-                        [CommonUtility HideProgress];
-
-                        [lblMessage setHidden:YES];
-                        [self.tbtNotify setSeparatorStyle:UITableViewCellSeparatorStyleSingleLine];
-                        
-                        NSString *strValue = [NSString stringWithFormat:@"%@,%@",[dicData valueForKey:@"AuctionDraftCount"],[dicData valueForKey:@"AuctionNotStartCount"]];
-                        [arrNotificationList addObjectsFromArray:[strValue componentsSeparatedByString:@","]];
-                        [self.tbtNotify reloadData];
-                    }
-                    else{
-                        [CommonUtility HideProgress];
-
-                        [lblMessage setHidden:NO];
-                        [self.tbtNotify setSeparatorStyle:UITableViewCellSeparatorStyleNone];
-                        
-                    }
+                    NSString *strValue = [NSString stringWithFormat:@"%@,%@",[dicData valueForKey:@"AuctionDraftCount"],[dicData valueForKey:@"AuctionNotStartCount"]];
+                    [arrNotificationList addObjectsFromArray:[strValue componentsSeparatedByString:@","]];
+                    [self.tbtNotify reloadData];
+                    
                 }
             }
             else
