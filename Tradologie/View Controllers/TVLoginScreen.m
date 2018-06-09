@@ -58,8 +58,7 @@
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
     
     if (scrollView.contentOffset.y < 0) {
-        
-        scrollView.contentOffset = CGPointMake(0, -15);
+        scrollView.contentOffset =  ([SDVersion deviceSize] > Screen5Dot5inch) ? CGPointMake(0, -45): CGPointMake(0, -15);
     }
 }
 -(void)viewWillAppear:(BOOL)animated

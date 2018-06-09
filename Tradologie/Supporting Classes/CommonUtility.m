@@ -52,10 +52,17 @@
                                              alertType:ISAlertTypeCustom
                                          alertPosition:ISAlertPositionTop];
     
-    alert.titleLabelTextColor = [UIColor whiteColor];
-    alert.messageLabelFont = UI_DEFAULT_FONT_MEDIUM(16);
-    alert.messageLabelTextColor = [[UIColor whiteColor] colorWithAlphaComponent:0.8];
-    alert.alertViewBackgroundColor = [UIColor greenColor];
+    alert.messageLabelTextColor = [UIColor whiteColor];
+    CGFloat screenHeight = MAX([[UIScreen mainScreen] bounds].size.height, [[UIScreen mainScreen] bounds].size.width);
+    if (screenHeight == 568)
+    {
+        alert.messageLabelFont = UI_DEFAULT_FONT_MEDIUM(16);
+    }
+    else if((screenHeight == 667) || (screenHeight == 736) || (screenHeight == 812))
+    {
+        alert.messageLabelFont = UI_DEFAULT_FONT_MEDIUM(18);
+    }
+    alert.alertViewBackgroundColor = GET_COLOR_WITH_RGB(255, 38, 0, 1.0f);
     [alert show:nil didHide:nil];
     
 }
