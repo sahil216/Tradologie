@@ -8,7 +8,7 @@
 
 #import "TvAlreadyUserScreen.h"
 #import "TVForgotPassword.h"
-//#import "RootViewController.h"
+#import "TVLoginScreen.h"
 #import "TVCompanyRegister.h"
 #import "CommonUtility.h"
 #import "AppDelegate.h"
@@ -38,6 +38,7 @@
 
     [self.navigationController.navigationBar setNaviagtionStyleWithStatusbar:[UIColor whiteColor]];
     [self.tableView setScrollEnabled:NO];
+    
     [_btnLogin setDefaultButtonStyleWithHighLightEffect];
     [_btnLogin.titleLabel setFont:IS_IPHONE5?UI_DEFAULT_FONT_MEDIUM(18): UI_DEFAULT_FONT_MEDIUM(20)];
 
@@ -45,7 +46,7 @@
   
     NSString *string = @"Please visit us at www.tradologie.com for more Information.";
     [lblVisitUs setNumberOfLines:0];
-    NSDictionary *attributes = @{NSForegroundColorAttributeName: [UIColor blackColor],NSFontAttributeName:UI_DEFAULT_FONT(15)};
+    NSDictionary *attributes = @{NSForegroundColorAttributeName: [UIColor blackColor],NSFontAttributeName:UI_DEFAULT_FONT(16)};
     lblVisitUs.attributedText = [[NSAttributedString alloc]initWithString:string attributes:attributes];
     
     //Step 2: Define a selection handler block
@@ -64,13 +65,15 @@
     //Step 3: Add link substrings
     [lblVisitUs setLinksForSubstrings:@[@"www.tradologie.com",@"www.tradologie.com"] withLinkHandler:handler];
     [self SetAttributedStringWithUnderlineTittle];
-   
+    
 }
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    [self.navigationController setNavigationBarHidden:YES animated:NO];
 }
-- (void)didReceiveMemoryWarning {
+- (void)didReceiveMemoryWarning
+{
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
@@ -83,11 +86,29 @@
     return 1;
 }
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 8;
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    if ((SCREEN_MAX_LENGTH) == 568)
+    {
+        return 5;
+    }
+    else if ((SCREEN_MAX_LENGTH) == 736 || (SCREEN_MAX_LENGTH) == 812)
+    {
+        return 7;
+    }
+    
+    return 6;
 }
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
     [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+}
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath;
+{
+    if (indexPath.row == 4)
+    {
+        return ((SCREEN_MAX_LENGTH) == 568) ? 90 : ((SCREEN_MAX_LENGTH) == 736) ? 95 : 105;
+    }
+    return [super tableView:tableView heightForRowAtIndexPath:indexPath];
 }
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
     
@@ -103,14 +124,20 @@
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
-    return 50;
+    return 60;
 }
+
 /******************************************************************************************************************/
 #pragma mark ❉===❉=== BUTTON ACTION EVENT CALLED ===❉===❉
 /*****************************************************************************************************************/
 -(IBAction)btnBackClicked:(UIButton *)sender
 {
-    [self.navigationController popToRootViewControllerAnimated:YES];
+    UIStoryboard * storyboard=[UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    TVLoginScreen * rootVC = [storyboard instantiateViewControllerWithIdentifier:@"TVLoginScreen"];
+    UINavigationController *nav =[[UINavigationController alloc]initWithRootViewController:rootVC];
+    
+    AppDelegate *delegateClass = (AppDelegate *)[[UIApplication sharedApplication]delegate];
+    [delegateClass setRootViewController:nav];
 }
 -(IBAction)btnViewpasswordClick:(UIButton *)sender
 {
@@ -133,8 +160,8 @@
     [self.view endEditing:YES];
 
     BOOL isValidate=TRUE;
-    [txtUserID setText:@"chandresh@tradologie.com"];
-    [txtPassword setText:@"qwe123"];
+//    [txtUserID setText:@"chandresh@tradologie.com"];
+//    [txtPassword setText:@"qwe123"];
     
 //    [txtUserID setText:@"sahil216@gmail.com"];
 //    [txtPassword setText:@"supere249"];
@@ -197,10 +224,6 @@
                         RootViewController * rootVC = [self.storyboard instantiateViewControllerWithIdentifier:@"RootViewController"];
                         AppDelegate *delegateClass = (AppDelegate *)[[UIApplication sharedApplication]delegate];
                         [delegateClass setRootViewController:rootVC];
-//                        dispatch_async(dispatch_get_main_queue(), ^{
-//
-//
-//                        });
                     }
                 }
                 else{
@@ -236,7 +259,7 @@
                       range:(NSRange){0,[tncString length]}];
     
     [btnForgotPwd setAttributedTitle:tncString forState:UIControlStateNormal];
-    [btnForgotPwd.titleLabel setFont:UI_DEFAULT_FONT_MEDIUM(14)];
+    [btnForgotPwd.titleLabel setFont:UI_DEFAULT_FONT_MEDIUM(16)];
 }
 
 /******************************************************************************************************************/
@@ -247,4 +270,5 @@
     [textField resignFirstResponder];
     return YES;
 }
+
 @end

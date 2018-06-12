@@ -54,6 +54,18 @@
     [_btnGooglePlus setDefaultButtonStyleWithHighLightEffect];
     [_btnLinkedIn setDefaultButtonStyleWithHighLightEffect];
     
+    if ([SDVersion deviceSize] > Screen4inch)
+    {
+        [lblCopyRight setFont:UI_DEFAULT_FONT_MEDIUM(15)];
+    }
+    else
+    {
+        [lblCopyRight setFont:UI_DEFAULT_FONT_MEDIUM(12)];
+        [_btnCreateAccount.titleLabel setNumberOfLines:2];
+        [_btnCreateAccount.titleLabel setLineBreakMode:NSLineBreakByWordWrapping];
+        [_btnCreateAccount.titleLabel setTextAlignment:NSTextAlignmentCenter];
+    }
+    
 }
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
     
@@ -86,10 +98,11 @@
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
     [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
 }
--(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
-    
+-(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
     return _viewHeader;
 }
+
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
     return 50;

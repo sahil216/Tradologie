@@ -200,8 +200,20 @@
 /*****************************************************************************************************************/
 -(void)setSelectItemViewWithData:(UIButton *)sender
 {
-    [[UIDevice currentDevice] setValue:[NSNumber numberWithInteger: UIInterfaceOrientationPortrait] forKey:@"orientation"];
-    TvAddProductScreen *objAddScreen = [self.storyboard instantiateViewControllerWithIdentifier:@"TvAddProductScreen"];
-    [self.navigationController pushViewController:objAddScreen animated:YES];
+    UIAlertController * alert=[UIAlertController alertControllerWithTitle:@"Tradologie"
+                                                                  message:@"Comming Soon"
+                                                           preferredStyle:UIAlertControllerStyleAlert];
+    
+    UIAlertAction* cancel = [UIAlertAction actionWithTitle:@"Cancel"
+                                                        style:UIAlertActionStyleCancel
+                                                      handler:^(UIAlertAction * action)
+                                {
+                                }];
+    
+    [alert addAction:cancel];
+    [self presentViewController:alert animated:YES completion:nil];
+//    [[UIDevice currentDevice] setValue:[NSNumber numberWithInteger: UIInterfaceOrientationPortrait] forKey:@"orientation"];
+//    TvAddProductScreen *objAddScreen = [self.storyboard instantiateViewControllerWithIdentifier:@"TvAddProductScreen"];
+//    [self.navigationController pushViewController:objAddScreen animated:YES];
 }
 @end

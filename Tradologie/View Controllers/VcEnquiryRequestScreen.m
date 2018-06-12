@@ -29,7 +29,6 @@
 
 @property (nonatomic, strong) UIView * contentView;
 @property (nonatomic, strong) UITableView *myTableView;
-@property (nonatomic, assign) BOOL hideStatusBar;
 
 @end
 
@@ -77,7 +76,7 @@
     [_contentView setBackgroundColor:[UIColor whiteColor]];
     [self.view addSubview:_contentView];
     
-    headerTotalWidth =  SCREEN_WIDTH * 2.50;
+    headerTotalWidth = ((SCREEN_MAX_LENGTH) == 568) ? SCREEN_WIDTH * 3: SCREEN_WIDTH * 2.50;
     
     height = ([SDVersion deviceSize] > Screen4Dot7inch)?_contentView.frame.size.height - 75:([SDVersion deviceSize] < Screen4Dot7inch)?_contentView.frame.size.height - 65:_contentView.frame.size.height - 70;
     
@@ -85,7 +84,7 @@
     tableView.delegate=self;
     tableView.dataSource=self;
     tableView.bounces=NO;
-    tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
+    tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.myTableView = tableView;
     
     UIScrollView *myScrollView=[[UIScrollView alloc]initWithFrame:CGRectMake(0, 0, _contentView.frame.size.width, _contentView.frame.size.height)];

@@ -34,9 +34,18 @@
     [self.titleLabel setFont:IS_IPHONE5? UI_DEFAULT_FONT_MEDIUM(12):UI_DEFAULT_FONT_MEDIUM(15)];
     [self setTintColor:[UIColor clearColor]];
 }
--(void)setDefaultButtonStyleWithHighLightEffect{
+-(void)setDefaultButtonStyleWithHighLightEffect
+{
     [self.layer setCornerRadius:5.0f];
     [self setShowsTouchWhenHighlighted: YES];
-    [self.titleLabel setFont:IS_IPHONE5?UI_DEFAULT_FONT_MEDIUM(12): UI_DEFAULT_FONT_MEDIUM(15)];
+
+    if (SCREEN_MAX_LENGTH == 568)
+    {
+        [self.titleLabel setFont:UI_DEFAULT_FONT_MEDIUM(15)];
+    }
+    else if((SCREEN_MAX_LENGTH == 667) || (SCREEN_MAX_LENGTH == 736) || (SCREEN_MAX_LENGTH == 812))
+    {
+        [self.titleLabel setFont:UI_DEFAULT_FONT_MEDIUM(16)];
+    }
 }
 @end

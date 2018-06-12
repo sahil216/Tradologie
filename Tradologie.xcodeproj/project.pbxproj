@@ -50,6 +50,7 @@
 		4A245619209DD456000B3B64 /* FRHyperLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A245617209DD455000B3B64 /* FRHyperLabel.m */; };
 		4A24BFC720A02BFA009BB5C4 /* TVForgotPassword.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A24BFC620A02BFA009BB5C4 /* TVForgotPassword.m */; };
 		4A24BFCF20A05118009BB5C4 /* VcPopScreen.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A24BFCE20A05118009BB5C4 /* VcPopScreen.m */; };
+		4A265F4020CBE002007B44B8 /* TvCellEnquiry.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A265F3F20CBE002007B44B8 /* TvCellEnquiry.m */; };
 		4A268F7B20AAA2ED00753F5E /* TVCompanyRegister.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A268F7A20AAA2ED00753F5E /* TVCompanyRegister.m */; };
 		4A268F8220AAD69400753F5E /* ProductCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A268F8120AAD69400753F5E /* ProductCategory.m */; };
 		4A268F8520AAE57500753F5E /* OfflineObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A268F8420AAE57500753F5E /* OfflineObject.m */; };
@@ -72,7 +73,6 @@
 		4A4A2C5120A314F9000B8EB4 /* UINavigationItem+Extra.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A4A2C5020A314F8000B8EB4 /* UINavigationItem+Extra.m */; };
 		4A6065F220BFB5E300BA5F0B /* NegotiationDetail.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A6065F120BFB5E300BA5F0B /* NegotiationDetail.m */; };
 		4A6065FB20C022CC00BA5F0B /* TVCreateNeogotiation.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A6065FA20C022CC00BA5F0B /* TVCreateNeogotiation.m */; };
-		4A8194D420AEFCF3003A8F5C /* TvCellEnquiry.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A8194D320AEFCF3003A8F5C /* TvCellEnquiry.m */; };
 		4ADBDBD420C7ADCE0044E454 /* LandScapeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4ADBDBD320C7ADCE0044E454 /* LandScapeView.m */; };
 		4ADBDBD620C7ADDD0044E454 /* LandScapeView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4ADBDBD520C7ADDD0044E454 /* LandScapeView.xib */; };
 		4ADBDBD920C7B8470044E454 /* SBaseLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4ADBDBD820C7B8470044E454 /* SBaseLabel.m */; };
@@ -182,6 +182,8 @@
 		4A24BFC620A02BFA009BB5C4 /* TVForgotPassword.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TVForgotPassword.m; sourceTree = "<group>"; };
 		4A24BFCD20A05118009BB5C4 /* VcPopScreen.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VcPopScreen.h; sourceTree = "<group>"; };
 		4A24BFCE20A05118009BB5C4 /* VcPopScreen.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VcPopScreen.m; sourceTree = "<group>"; };
+		4A265F3E20CBE002007B44B8 /* TvCellEnquiry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TvCellEnquiry.h; sourceTree = "<group>"; };
+		4A265F3F20CBE002007B44B8 /* TvCellEnquiry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TvCellEnquiry.m; sourceTree = "<group>"; };
 		4A268F7920AAA2ED00753F5E /* TVCompanyRegister.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TVCompanyRegister.h; sourceTree = "<group>"; };
 		4A268F7A20AAA2ED00753F5E /* TVCompanyRegister.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TVCompanyRegister.m; sourceTree = "<group>"; };
 		4A268F8020AAD69400753F5E /* ProductCategory.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ProductCategory.h; sourceTree = "<group>"; };
@@ -211,6 +213,7 @@
 		4A36374A20A6BF7900DF37D2 /* MBErrorUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBErrorUtility.h; sourceTree = "<group>"; };
 		4A36374C20A6FD8A00DF37D2 /* VCMessageScreen.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VCMessageScreen.h; sourceTree = "<group>"; };
 		4A36374D20A6FD8A00DF37D2 /* VCMessageScreen.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VCMessageScreen.m; sourceTree = "<group>"; };
+		4A36DC0B20CF85A9003876B2 /* Tradologie.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Tradologie.entitlements; sourceTree = "<group>"; };
 		4A3A9ECB20A9613400356E77 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
 		4A3A9ECD20A9660B00356E77 /* SafariServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SafariServices.framework; path = System/Library/Frameworks/SafariServices.framework; sourceTree = SDKROOT; };
 		4A3A9ED220A975A400356E77 /* VCTradePolicyScreen.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VCTradePolicyScreen.h; sourceTree = "<group>"; };
@@ -225,8 +228,6 @@
 		4A6065F120BFB5E300BA5F0B /* NegotiationDetail.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NegotiationDetail.m; sourceTree = "<group>"; };
 		4A6065F920C022CC00BA5F0B /* TVCreateNeogotiation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TVCreateNeogotiation.h; sourceTree = "<group>"; };
 		4A6065FA20C022CC00BA5F0B /* TVCreateNeogotiation.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TVCreateNeogotiation.m; sourceTree = "<group>"; };
-		4A8194D220AEFCF3003A8F5C /* TvCellEnquiry.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TvCellEnquiry.h; sourceTree = "<group>"; };
-		4A8194D320AEFCF3003A8F5C /* TvCellEnquiry.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TvCellEnquiry.m; sourceTree = "<group>"; };
 		4ADBDBD220C7ADCE0044E454 /* LandScapeView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LandScapeView.h; sourceTree = "<group>"; };
 		4ADBDBD320C7ADCE0044E454 /* LandScapeView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LandScapeView.m; sourceTree = "<group>"; };
 		4ADBDBD520C7ADDD0044E454 /* LandScapeView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LandScapeView.xib; sourceTree = "<group>"; };
@@ -318,6 +319,7 @@
 		4A1C5C82209C19A900A87222 /* Tradologie */ = {
 			isa = PBXGroup;
 			children = (
+				4A36DC0B20CF85A9003876B2 /* Tradologie.entitlements */,
 				4A4A2C4520A30976000B8EB4 /* Base Class */,
 				4A268F7C20AAD5F300753F5E /* Models */,
 				4A245601209D7CCD000B3B64 /* Supporting Classes */,
@@ -535,8 +537,8 @@
 		4A8194D120AEFCC6003A8F5C /* Custom Cell  */ = {
 			isa = PBXGroup;
 			children = (
-				4A8194D220AEFCF3003A8F5C /* TvCellEnquiry.h */,
-				4A8194D320AEFCF3003A8F5C /* TvCellEnquiry.m */,
+				4A265F3E20CBE002007B44B8 /* TvCellEnquiry.h */,
+				4A265F3F20CBE002007B44B8 /* TvCellEnquiry.m */,
 				4A07719E20C56B4900A8F28F /* TVCellOrderHistory.h */,
 				4A07719F20C56B4900A8F28F /* TVCellOrderHistory.m */,
 				4A23FEB820C66E2C0083B3B8 /* TVCellSupplierList.h */,
@@ -640,10 +642,15 @@
 					4A1C5C7F209C19A900A87222 = {
 						CreatedOnToolsVersion = 9.2;
 						ProvisioningStyle = Manual;
+						SystemCapabilities = {
+							com.apple.Push = {
+								enabled = 1;
+							};
+						};
 					};
 					4A1C5C9A209C19A900A87222 = {
 						CreatedOnToolsVersion = 9.2;
-						ProvisioningStyle = Automatic;
+						ProvisioningStyle = Manual;
 						TestTargetID = 4A1C5C7F209C19A900A87222;
 					};
 					4A1C5CA5209C19AA00A87222 = {
@@ -879,6 +886,7 @@
 				4A23FEB720C66D0B0083B3B8 /* VCSupplierShortlist.m in Sources */,
 				4ADBDBDD20C7C1700044E454 /* AuctionDetailForEdit.m in Sources */,
 				4A245607209D7D4A000B3B64 /* ISMessages.m in Sources */,
+				4A265F4020CBE002007B44B8 /* TvCellEnquiry.m in Sources */,
 				4A24BFCF20A05118009BB5C4 /* VcPopScreen.m in Sources */,
 				4A23FEBA20C66E2C0083B3B8 /* TVCellSupplierList.m in Sources */,
 				4A4A2C5120A314F9000B8EB4 /* UINavigationItem+Extra.m in Sources */,
@@ -891,7 +899,6 @@
 				4A1C5CDA209C781700A87222 /* TvAlreadyUserScreen.m in Sources */,
 				4A07719D20C569A900A8F28F /* VCOrderHistory.m in Sources */,
 				4A1C5CD0209C306A00A87222 /* NSDictionary+CheckNullValue.m in Sources */,
-				4A8194D420AEFCF3003A8F5C /* TvCellEnquiry.m in Sources */,
 				4A4A2C4420A2FDDE000B8EB4 /* VCHomeNotifications.m in Sources */,
 				4A245604209D7CDC000B3B64 /* CommonUtility.m in Sources */,
 				4A6065FB20C022CC00BA5F0B /* TVCreateNeogotiation.m in Sources */,
@@ -1008,7 +1015,7 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -1065,7 +1072,7 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
@@ -1091,8 +1098,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_ENTITLEMENTS = Tradologie/Tradologie.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Super E Factory Depot Private limited (3SHU27LL97)";
 				CODE_SIGN_STYLE = Manual;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 3SHU27LL97;
+				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -1102,7 +1112,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.tradologie.buyer;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE = "312b167d-43fc-404e-adfd-c70ab891a5de";
+				PROVISIONING_PROFILE_SPECIFIER = "Tradologie Distribution";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
@@ -1113,8 +1124,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_ENTITLEMENTS = Tradologie/Tradologie.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Super E Factory Depot Private limited (3SHU27LL97)";
 				CODE_SIGN_STYLE = Manual;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 3SHU27LL97;
+				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -1124,7 +1138,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.tradologie.buyer;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE = "312b167d-43fc-404e-adfd-c70ab891a5de";
+				PROVISIONING_PROFILE_SPECIFIER = "Tradologie Distribution";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
@@ -1134,11 +1149,17 @@
 			baseConfigurationReference = A5BE337F24634D9C6A7CB4B6 /* Pods-TradologieTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = 3SHU27LL97;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = TradologieTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.chandresh.TradologieTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Tradologie.app/Tradologie";
 			};
@@ -1149,11 +1170,17 @@
 			baseConfigurationReference = 51AF5D25230069E268878696 /* Pods-TradologieTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = 3SHU27LL97;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = TradologieTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.chandresh.TradologieTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Tradologie.app/Tradologie";
 			};
@@ -1164,10 +1191,12 @@
 			baseConfigurationReference = 4515055525FDF5DE5CCC6194 /* Pods-TradologieUITests.debug.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = TradologieUITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.chandresh.TradologieUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_TARGET_NAME = Tradologie;
 			};
@@ -1178,10 +1207,12 @@
 			baseConfigurationReference = E9CD0BFAE02374EBD01D3874 /* Pods-TradologieUITests.release.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = TradologieUITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.chandresh.TradologieUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_TARGET_NAME = Tradologie;
 			};

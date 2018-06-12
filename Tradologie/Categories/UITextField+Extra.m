@@ -13,7 +13,14 @@
 {
     [self setPlaceholder:placeholder];
     [self setValue:[UIColor lightGrayColor] forKeyPath:@"_placeholderLabel.textColor"];
-    [self setFont:UI_DEFAULT_FONT(15)];
+    if (SCREEN_MAX_LENGTH == 568)
+    {
+        [self setFont:UI_DEFAULT_FONT(14)];
+    }
+    else if((SCREEN_MAX_LENGTH == 667) || (SCREEN_MAX_LENGTH == 736) || (SCREEN_MAX_LENGTH == 812))
+    {
+        [self setFont:UI_DEFAULT_FONT(17)];
+    }
     [self setTag:tag];
     [self setTintColor:[UIColor colorWithRed:29.0f/255.0f green:65.0f/255.0f blue:160.0f/255.0f alpha:1.0f]];
     [self.layer setBorderWidth:1.0f];
@@ -35,8 +42,14 @@
 {
     [self setPlaceholder:placeholder];
     [self setValue:[UIColor lightGrayColor] forKeyPath:@"_placeholderLabel.textColor"];
-    [self setFont:UI_DEFAULT_FONT(15)];
-    [self setSecureTextEntry:YES];
+    if (SCREEN_MAX_LENGTH == 568)
+    {
+        [self setFont:UI_DEFAULT_FONT(14)];
+    }
+    else if((SCREEN_MAX_LENGTH == 667) || (SCREEN_MAX_LENGTH == 736) || (SCREEN_MAX_LENGTH == 812))
+    {
+        [self setFont:UI_DEFAULT_FONT(17)];
+    }    [self setSecureTextEntry:YES];
 
     [self setTintColor:[UIColor colorWithRed:29.0f/255.0f green:65.0f/255.0f blue:160.0f/255.0f alpha:1.0f]];
     [self.layer setBorderWidth:1.0f];
@@ -67,7 +80,14 @@
 {
     [self setPlaceholder:placeholder];
     [self setValue:[UIColor lightGrayColor] forKeyPath:@"_placeholderLabel.textColor"];
-    [self setFont:UI_DEFAULT_FONT(15)];
+    if (SCREEN_MAX_LENGTH == 568)
+    {
+        [self setFont:UI_DEFAULT_FONT(14)];
+    }
+    else if((SCREEN_MAX_LENGTH == 667) || (SCREEN_MAX_LENGTH == 736) || (SCREEN_MAX_LENGTH == 812))
+    {
+        [self setFont:UI_DEFAULT_FONT(17)];
+    }
     [self setTag:tag];
     [self setTintColor:[UIColor colorWithRed:29.0f/255.0f green:65.0f/255.0f blue:160.0f/255.0f alpha:1.0f]];
     [self.layer setBorderWidth:1.0f];
@@ -84,7 +104,14 @@
 {
     [self setPlaceholder:placeholder];
     [self setValue:[UIColor lightGrayColor] forKeyPath:@"_placeholderLabel.textColor"];
-    [self setFont:UI_DEFAULT_FONT(15)];
+    if (SCREEN_MAX_LENGTH == 568)
+    {
+        [self setFont:UI_DEFAULT_FONT(14)];
+    }
+    else if((SCREEN_MAX_LENGTH == 667) || (SCREEN_MAX_LENGTH == 736) || (SCREEN_MAX_LENGTH == 812))
+    {
+        [self setFont:UI_DEFAULT_FONT(17)];
+    }
     [self setTintColor:[UIColor colorWithRed:29.0f/255.0f green:65.0f/255.0f blue:160.0f/255.0f alpha:1.0f]];
     [self.layer setBorderWidth:1.0f];
     [self.layer setCornerRadius:5.0f];
@@ -113,7 +140,14 @@
 {
     [self setPlaceholder:placeholder];
     [self setValue:[UIColor lightGrayColor] forKeyPath:@"_placeholderLabel.textColor"];
-    [self setFont:UI_DEFAULT_FONT(15)];
+    if (SCREEN_MAX_LENGTH == 568)
+    {
+        [self setFont:UI_DEFAULT_FONT(14)];
+    }
+    else if((SCREEN_MAX_LENGTH == 667) || (SCREEN_MAX_LENGTH == 736) || (SCREEN_MAX_LENGTH == 812))
+    {
+        [self setFont:UI_DEFAULT_FONT(17)];
+    }
     [self setTintColor:[UIColor colorWithRed:29.0f/255.0f green:65.0f/255.0f blue:160.0f/255.0f alpha:1.0f]];
     [self.layer setBorderWidth:1.0f];
     [self.layer setCornerRadius:5.0f];
@@ -137,7 +171,14 @@
 {
     [self setPlaceholder:placeholder];
     [self setValue:[UIColor lightGrayColor] forKeyPath:@"_placeholderLabel.textColor"];
-    [self setFont:UI_DEFAULT_FONT(15)];
+    if (SCREEN_MAX_LENGTH == 568)
+    {
+        [self setFont:UI_DEFAULT_FONT(14)];
+    }
+    else if((SCREEN_MAX_LENGTH == 667) || (SCREEN_MAX_LENGTH == 736) || (SCREEN_MAX_LENGTH == 812))
+    {
+        [self setFont:UI_DEFAULT_FONT(17)];
+    }
     [self setTintColor:[UIColor colorWithRed:29.0f/255.0f green:65.0f/255.0f blue:160.0f/255.0f alpha:1.0f]];
     [self.layer setBorderWidth:1.0f];
     [self.layer setCornerRadius:5.0f];

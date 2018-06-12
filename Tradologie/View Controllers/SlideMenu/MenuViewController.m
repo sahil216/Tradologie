@@ -11,7 +11,7 @@
 #import "VCHomeNotifications.h"
 #import "VcEnquiryRequestScreen.h"
 #import "VCContactTradologie.h"
-
+#import "TvAlreadyUserScreen.h"
 #import "VCAddNegotiation.h"
 #import "VCOrderHistory.h"
 #import "Constant.h"
@@ -114,19 +114,55 @@ static NSString *const  kCellIdentifire = @"MenuViewCell";
     [viewProfile addGestureRecognizer:singleTapGestureRecognizer];
     [imgViewProfile.layer setCornerRadius:imgViewProfile.frame.size.height/2];
     dispatch_async(dispatch_get_main_queue(), ^{
-        [tblView reloadData];
+        [self->tblView reloadData];
     });
 }
 //************************************************************************************************
 #pragma mark ❉===❉=== USER LOGOUT ===❉===❉
 //************************************************************************************************
 
--(IBAction)clickOnLogoutBtn:(id)sender
+-(IBAction)clickOnLogoutBtn:(UIButton *)sender
 {
     [indicator startAnimating];
     [indicator setColor:[UIColor whiteColor]];
-    // TODO: Some stuff here...
+    [sender setTitle:@"" forState:UIControlStateNormal];
+    
+    UIAlertController * alert=[UIAlertController alertControllerWithTitle:@"Tradologie"
+                                                                  message:@"Are you Sure You want to LogOut"
+                                                           preferredStyle:UIAlertControllerStyleAlert];
+    
+    UIAlertAction* yesButton = [UIAlertAction actionWithTitle:@"Yes, please"
+                                                        style:UIAlertActionStyleDefault
+                                                      handler:^(UIAlertAction * action)
+    {
+        [self->indicator stopAnimating];
+        [self->indicator setHidesWhenStopped:YES];
+        [sender setTitle:@"LogOut" forState:UIControlStateNormal];
+        [MBDataBaseHandler clearAllDataBase];
+        
+        UIStoryboard * storyboard=[UIStoryboard storyboardWithName:@"Main" bundle:nil];
+        TvAlreadyUserScreen * rootVC = [storyboard instantiateViewControllerWithIdentifier:@"TvAlreadyUserScreen"];
+        UINavigationController *nav =[[UINavigationController alloc]initWithRootViewController:rootVC];
+        
+        AppDelegate *delegateClass = (AppDelegate *)[[UIApplication sharedApplication]delegate];
+        [delegateClass setRootViewController:nav];
+    }];
+    
+    UIAlertAction* noButton = [UIAlertAction actionWithTitle:@"No, thanks"
+                                                       style:UIAlertActionStyleDefault
+                                                     handler:^(UIAlertAction * action)
+    {
+        [self->indicator stopAnimating];
+        [self->indicator setHidesWhenStopped:YES];
+        [sender setTitle:@"LogOut" forState:UIControlStateNormal];
+    }];
+    
+    [alert addAction:yesButton];
+    [alert addAction:noButton];
+    
+    [self presentViewController:alert animated:YES completion:nil];
 }
+
 
 //************************************************************************************************
 #pragma mark ❉===❉=== UITapGestureRecognizer Method ===❉===❉

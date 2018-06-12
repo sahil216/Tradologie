@@ -42,9 +42,10 @@
     [btnAddNegotiation addTarget:self action:@selector(btnAddNegotiationCalled:) forControlEvents:UIControlEventTouchUpInside];
     [btnContactUs addTarget:self action:@selector(btnContactUsCalled:) forControlEvents:UIControlEventTouchUpInside];
 
+    [btnAddNegotiation.titleLabel setFont:((SCREEN_MAX_LENGTH) == 568) ?UI_DEFAULT_FONT_MEDIUM(16):UI_DEFAULT_FONT_MEDIUM(18)];
     arrNotificationList = [[NSMutableArray alloc]init];
+
     [self getDashboardNotificationAPI];
-    // Do any additional setup after loading the view.
 }
 -(void)viewWillAppear:(BOOL)animated
 {
@@ -133,26 +134,26 @@
             {
                 if (response != (NSDictionary *)[NSNull null])
                 {
-                    dicData = [[NSMutableDictionary alloc]init];
-                    dicData = [[[response valueForKey:@"detail"]objectAtIndex:0] mutableCopy];
+                    self->dicData = [[NSMutableDictionary alloc]init];
+                    self->dicData = [[[response valueForKey:@"detail"]objectAtIndex:0] mutableCopy];
                     
                     NSString *data = [[NSString alloc] initWithData:[NSJSONSerialization dataWithJSONObject:response options:0 error:nil] encoding:NSUTF8StringEncoding];
                     [MBDataBaseHandler saveDashBoradAuctionDataDetail:data];
                                         
                     [CommonUtility HideProgress];
                     
-                    [lblMessage setHidden:YES];
+                    [self->lblMessage setHidden:YES];
                     [self.tbtNotify setSeparatorStyle:UITableViewCellSeparatorStyleSingleLine];
                     
-                    NSString *strValue = [NSString stringWithFormat:@"%@,%@",[dicData valueForKey:@"AuctionDraftCount"],[dicData valueForKey:@"AuctionNotStartCount"]];
-                    [arrNotificationList addObjectsFromArray:[strValue componentsSeparatedByString:@","]];
+                    NSString *strValue = [NSString stringWithFormat:@"%@,%@",[self->dicData valueForKey:@"AuctionDraftCount"],[self->dicData valueForKey:@"AuctionNotStartCount"]];
+                    [self->arrNotificationList addObjectsFromArray:[strValue componentsSeparatedByString:@","]];
                     [self.tbtNotify reloadData];
                     
                 }
             }
             else
             {
-                [lblMessage setHidden:NO];
+                [self->lblMessage setHidden:NO];
                 [CommonUtility HideProgress];
                 [self.tbtNotify setSeparatorStyle:UITableViewCellSeparatorStyleNone];
                 

@@ -201,10 +201,6 @@
     BOOL isValidate=TRUE;
     [self.view endEditing:YES];
     
-    VcNegotiationDetail *objScreen =[self.storyboard instantiateViewControllerWithIdentifier:@"VcNegotiationDetail"];
-    [[UIDevice currentDevice] setValue:[NSNumber numberWithInteger: UIInterfaceOrientationLandscapeRight] forKey:@"orientation"];
-    [self.navigationController pushViewController:objScreen animated:YES];
-    
     NSInteger value = [txtTotlaQuality.text integerValue];
     NSInteger MinOrder = [txtMinOrder.text integerValue];
     NSInteger precentage = (value * 30)/100;
@@ -387,6 +383,7 @@
                     VcNegotiationDetail *objScreen =[self.storyboard instantiateViewControllerWithIdentifier:@"VcNegotiationDetail"];
                     [[UIDevice currentDevice] setValue:[NSNumber numberWithInteger: UIInterfaceOrientationLandscapeRight] forKey:@"orientation"];
                     [self.navigationController pushViewController:objScreen animated:YES];
+                    
                 }
             }
             else

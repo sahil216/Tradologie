@@ -25,7 +25,7 @@
     [titleNav setNumberOfLines:0];
     [titleNav setLineBreakMode:NSLineBreakByWordWrapping];
     [titleNav setTextColor:[UIColor orangeColor]];
-    [titleNav setFont:([SDVersion deviceSize] > Screen4Dot7inch)?UI_DEFAULT_LOGO_FONT_MEDIUM(24):([SDVersion deviceSize] < Screen4Dot7inch)?UI_DEFAULT_LOGO_FONT_MEDIUM(20):UI_DEFAULT_LOGO_FONT_MEDIUM(22)];
+    [titleNav setFont:([SDVersion deviceSize] > Screen4Dot7inch)?UI_DEFAULT_LOGO_FONT_MEDIUM(22):([SDVersion deviceSize] < Screen4Dot7inch)?UI_DEFAULT_LOGO_FONT_MEDIUM(17):UI_DEFAULT_LOGO_FONT_MEDIUM(22)];
     [vvBG addSubview:titleNav];
     [self setTitleView:vvBG];
 }
@@ -59,7 +59,7 @@
     [titleNav setNumberOfLines:0];
     [titleNav setLineBreakMode:NSLineBreakByWordWrapping];
     [titleNav setTextColor:[UIColor orangeColor]];
-    [titleNav setFont:([SDVersion deviceSize] > Screen4Dot7inch)?UI_DEFAULT_LOGO_FONT_MEDIUM(24):([SDVersion deviceSize] < Screen4Dot7inch)?UI_DEFAULT_LOGO_FONT_MEDIUM(20):UI_DEFAULT_LOGO_FONT_MEDIUM(22)];
+    [titleNav setFont:([SDVersion deviceSize] > Screen4Dot7inch)?UI_DEFAULT_LOGO_FONT_MEDIUM(22):([SDVersion deviceSize] < Screen4Dot7inch)?UI_DEFAULT_LOGO_FONT_MEDIUM(20):UI_DEFAULT_LOGO_FONT_MEDIUM(22)];
     [vvBG addSubview:titleNav];
     [self setTitleView:vvBG];
 }

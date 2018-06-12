@@ -13,6 +13,8 @@
 {
     __weak IBOutlet UIButton   *btnOr;
     __weak IBOutlet UIImageView * imgRice;
+    __weak IBOutlet UILabel   *lblCopyRight;
+
 }
 
 @property(nonatomic,weak)IBOutlet UIView * viewHeader;

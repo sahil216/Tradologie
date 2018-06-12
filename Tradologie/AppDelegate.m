@@ -160,7 +160,8 @@
 
 - (void)setRootViewController:(UIViewController *)controller
 {
-    switch (_rootController) {
+    switch (_rootController)
+    {
         case kLoginVC:
         {
             [UIView transitionWithView:self.window

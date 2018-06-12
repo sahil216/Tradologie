@@ -54,26 +54,13 @@
     int width = 80;
     for(int i = 0 ; i < [keyArray count] ; i++)
     {
+        
+        bgView = [[UIView alloc] initWithFrame:CGRectMake(xx, 0, width, itemSize.height)];
+        [bgView setBackgroundColor:[UIColor whiteColor]];
+
         if (i == 2)
         {
-             bgView = [[UIView alloc] initWithFrame:CGRectMake(xx, 20, width, itemSize.height - 40)];
-        }
-        else
-        {
-             bgView = [[UIView alloc] initWithFrame:CGRectMake(xx, 0, width, itemSize.height)];
-        }
-        [bgView setBackgroundColor:[UIColor whiteColor]];
-        [self addSubview:bgView];
-        
-        if (i ==  1)
-        {
-            btnViewRate = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, bgView.frame.size.width , bgView.frame.size.height)];
-            [btnViewRate setBackgroundColor:[UIColor clearColor]];
-            [bgView addSubview:btnViewRate];
-            [labelArray addObject:btnViewRate];
-        }
-        else{
-            headLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, bgView.frame.size.width , bgView.frame.size.height)];
+            headLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 20, bgView.frame.size.width , bgView.frame.size.height - 40)];
             [headLabel setBackgroundColor:[UIColor clearColor]];
             [headLabel setFont:UI_DEFAULT_FONT(16)];
             [headLabel setNumberOfLines:5];
@@ -81,6 +68,30 @@
             [bgView addSubview:headLabel];
             [labelArray addObject:headLabel];
         }
+        else if (i ==  1)
+        {
+            btnViewRate = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, bgView.frame.size.width , bgView.frame.size.height)];
+            [btnViewRate setBackgroundColor:[UIColor clearColor]];
+            [bgView addSubview:btnViewRate];
+            [labelArray addObject:btnViewRate];
+        }
+        else
+        {
+            headLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, bgView.frame.size.width , bgView.frame.size.height)];
+            [headLabel setBackgroundColor:[UIColor clearColor]];
+            [headLabel setFont:UI_DEFAULT_FONT(16)];
+            [headLabel setNumberOfLines:5];
+            [headLabel setLineBreakMode:NSLineBreakByWordWrapping];
+            [bgView addSubview:headLabel];
+            [labelArray addObject:headLabel];
+
+        }
+        [self addSubview:bgView];
+        
+        UILabel *lblline = [[UILabel alloc]init];
+        [lblline setFrame:CGRectMake(0, bgView.frame.size.height + 5, width, 1)];
+        [lblline setBackgroundColor:[UIColor lightGrayColor]];
+        [bgView addSubview:lblline];
         [bgArray addObject:bgView];
         xx = xx + width;
         width = itemSize.width;
