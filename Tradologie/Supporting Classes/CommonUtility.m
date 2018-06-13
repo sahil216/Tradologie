@@ -307,5 +307,18 @@
     
     return flippedImage;
 }
-
+//************************************************************************************************
+#pragma mark ❉===❉=== GET DATE ACCORDING TO NSDATEFORMATTER ===❉===❉
+//************************************************************************************************
++(NSString *)getDateFromSting:(NSString *)strDate fromFromate:(NSString *)StrGivenFormate withRequiredDateFormate:(NSString *)strRequiredDateFormate
+{
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:StrGivenFormate];
+    NSDate *date = [dateFormatter dateFromString:strDate];
+    [date descriptionWithLocale: [NSLocale currentLocale]];
+    [dateFormatter setDateFormat:strRequiredDateFormate];
+    NSString *newDate = [dateFormatter stringFromDate:date];
+    
+    return newDate;
+}
 @end

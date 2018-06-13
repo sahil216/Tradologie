@@ -10,10 +10,14 @@
 #import "Constant.h"
 #import "AppConstant.h"
 #import "MBDataBaseHandler.h"
+#import "SharedManager.h"
 #import "VCAddNegotiation.h"
 #import "VCHomeNotifications.h"
+#import "VCViewEnquiryScreen.h"
 #import "RootViewController.h"
 #import "AppDelegate.h"
+#import "CommonUtility.h"
+#import "MBAPIManager.h"
 
 #define K_CUSTOM_WIDTH 170
 
@@ -174,8 +178,61 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    AuctionDetail *objAuctionDetail = [MBDataBaseHandler getAuctionDetail];
+    NSMutableArray *arrValue = [[NSMutableArray alloc]init];
+    [arrValue addObjectsFromArray:[objAuctionDetail.detail mutableCopy]];
+    NSString *strID = [NSString stringWithFormat:@"%@",[[arrValue valueForKey:@"AuctionID"]objectAtIndex:indexPath.row]];
+    
+    [self AuctionDetailForEditNegotiationWithAuctionID:strID];
+}
+
+/******************************************************************************************************************/
+#pragma mark ❉===❉=== AUCTION DETAIL FOR EDIT NEGOTIATION API CALLED HERE ===❉===❉
+/******************************************************************************************************************/
+-(void)AuctionDetailForEditNegotiationWithAuctionID:(NSString *)auctionID
+{
+    BuyerUserDetail *objBuyerdetail = [MBDataBaseHandler getBuyerUserDetail];
+    
+    NSMutableDictionary *dicParams = [[NSMutableDictionary alloc]init];
+    [dicParams setValue:objBuyerdetail.detail.APIVerificationCode forKey:@"Token"];
+    [dicParams setValue:auctionID forKey:@"AuctionID"];
+    [dicParams setValue:objBuyerdetail.detail.UserTimeZone forKey:@"UserTimeZone"];
+    
+    if (SharedObject.isNetAvailable)
+    {
+        [CommonUtility showProgressWithMessage:@"Please Wait.."];
+        
+        MBCall_AuctionDetailForEditNegotiation(dicParams, ^(id response, NSString *error, BOOL status)
+        {
+            [CommonUtility HideProgress];
+            
+            if (status && [[response valueForKey:@"success"]isEqual:@1])
+            {
+                if (response != (NSDictionary *)[NSNull null])
+                {
+                    NSError *error;
+                    AuctionDetailForEdit *data = [[AuctionDetailForEdit alloc]initWithDictionary:response error:&error];
+                    [MBDataBaseHandler saveAuctionDetailForEditNegotiation:data];
+                    
+                    VCViewEnquiryScreen *objScreen =[self.storyboard instantiateViewControllerWithIdentifier:@"VCViewEnquiryScreen"];
+                    [[UIDevice currentDevice] setValue:[NSNumber numberWithInteger: UIInterfaceOrientationLandscapeRight] forKey:@"orientation"];
+                    [self.navigationController pushViewController:objScreen animated:YES];
+                }
+            }
+            else
+            {
+                [CommonUtility HideProgress];
+                [[CommonUtility new] show_ErrorAlertWithTitle:@"" withMessage:error];
+            }
+        });
+    }
+    else
+    {
+        [[CommonUtility new] show_ErrorAlertWithTitle:@"" withMessage:@"Internet Not Available Please Try Again..!"];
+    }
     
 }
+
 /******************************************************************************************************************/
 #pragma mark ❉===❉=== SCROLL VIEW DELEGATE CALLED HERE ===❉===❉
 /*****************************************************************************************************************/
@@ -192,9 +249,9 @@
 /*****************************************************************************************************************/
 -(void)setSelectItemViewWithData:(NSIndexPath *)selectedIndex withTittle:(NSString *)btnState
 {
-    if ([btnState isEqualToString:@""])
+    if ([btnState isEqualToString:@"View Rate"])
     {
-        
+        NSLog(@"%@",btnState);
     }
     
 }
@@ -262,7 +319,7 @@
                       imageArray:nil
                        doneBlock:^(NSInteger selectedIndex)
      {
-         (sender.tag == 1001)?[txtGPSCode setText:[arrGPS objectAtIndex:selectedIndex]]: [txtSortBuy setText:[arrSortBy objectAtIndex:selectedIndex]];
+         (sender.tag == 1001)?[self->txtGPSCode setText:[arrGPS objectAtIndex:selectedIndex]]: [self->txtSortBuy setText:[arrSortBy objectAtIndex:selectedIndex]];
          // [_myTableView reloadData];
          
      } dismissBlock:^{

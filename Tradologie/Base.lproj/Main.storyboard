@@ -1926,6 +1926,43 @@
                                             <outlet property="lblNotifyName" destination="9iU-oq-JhG" id="Df4-pV-Djf"/>
                                         </connections>
                                     </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="CellLiveEnquiryIdentifier" rowHeight="80" id="UeV-5o-t9L" customClass="NotificationList">
+                                        <rect key="frame" x="0.0" y="88" width="375" height="80"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="UeV-5o-t9L" id="RzU-gi-IjC">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="79.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RXi-UG-ilt">
+                                                    <rect key="frame" x="15" y="5" width="345" height="45"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KRZ-Rv-9mm">
+                                                    <rect key="frame" x="164" y="49" width="211" height="30"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="211" id="vqw-NY-wAJ"/>
+                                                    </constraints>
+                                                    <state key="normal" title="Button"/>
+                                                </button>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="KRZ-Rv-9mm" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="RzU-gi-IjC" secondAttribute="leading" constant="20" symbolic="YES" id="EKI-gz-w2u"/>
+                                                <constraint firstItem="RXi-UG-ilt" firstAttribute="top" secondItem="RzU-gi-IjC" secondAttribute="top" constant="5" id="HAH-sC-w1Y"/>
+                                                <constraint firstItem="KRZ-Rv-9mm" firstAttribute="top" secondItem="RzU-gi-IjC" secondAttribute="topMargin" constant="38" id="Iau-4p-0zr"/>
+                                                <constraint firstAttribute="trailing" secondItem="RXi-UG-ilt" secondAttribute="trailing" constant="15" id="bVf-NK-mUw"/>
+                                                <constraint firstAttribute="bottomMargin" secondItem="KRZ-Rv-9mm" secondAttribute="bottom" constant="-10" id="jZn-Ml-Vzv"/>
+                                                <constraint firstAttribute="trailing" secondItem="KRZ-Rv-9mm" secondAttribute="trailing" id="qqp-sq-vV5"/>
+                                                <constraint firstItem="RXi-UG-ilt" firstAttribute="bottom" secondItem="KRZ-Rv-9mm" secondAttribute="bottom" constant="-29" id="xk4-C2-Nr4"/>
+                                                <constraint firstItem="RXi-UG-ilt" firstAttribute="leading" secondItem="RzU-gi-IjC" secondAttribute="leading" constant="15" id="zHO-I0-Fgc"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="btnplaceOrder" destination="KRZ-Rv-9mm" id="O69-qk-CWG"/>
+                                            <outlet property="lblEnquiry" destination="RXi-UG-ilt" id="GsL-2p-22y"/>
+                                        </connections>
+                                    </tableViewCell>
                                 </prototypes>
                                 <connections>
                                     <outlet property="dataSource" destination="c2a-Wo-Tvb" id="JTw-Eo-UXg"/>
@@ -3554,6 +3591,21 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Q2e-cg-EKe" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="10168.799999999999" y="-763.26836581709154"/>
+        </scene>
+        <!--View Enquiry Screen-->
+        <scene sceneID="ePg-6K-frl">
+            <objects>
+                <viewController storyboardIdentifier="VCViewEnquiryScreen" id="VdX-qT-AP7" customClass="VCViewEnquiryScreen" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Hye-MK-RSa">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="teN-II-e4P"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="9N7-bV-xLV" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="10810" y="-771"/>
         </scene>
         <!--Login Screen-->
         <scene sceneID="AuD-fE-gil">

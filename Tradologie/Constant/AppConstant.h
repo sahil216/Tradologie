@@ -35,7 +35,7 @@
 
 
 #import "LandScapeView.h"
-
+#import "ViewEnquiryState.h"
 /*********************************************************************************************************/
 #pragma Mark- BASE URL IMPORT
 /*********************************************************************************************************/
@@ -55,7 +55,7 @@ static NSString *UNCHECK_IMAGE = @"IconUnCheckBox";
 
 static NSString *COLLECTION_CELL_ID = @"CVcell_Identifier";
 static NSString *COMMON_CELL_ID = @"Cell_Identifier";
-
+static NSString *ENQUIRY_LIVE_CELL_ID = @"CellLiveEnquiryIdentifier";
 
 /*********************************************************************************************************/
 #pragma Mark - API KEY NAME

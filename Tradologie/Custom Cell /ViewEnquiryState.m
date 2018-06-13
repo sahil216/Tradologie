@@ -1,16 +1,15 @@
 //
-//  LandScapeView.m
+//  ViewEnquiryState.m
 //  Tradologie
 //
-//  Created by Chandresh Maurya on 06/06/18.
+//  Created by Chandresh Maurya on 13/06/18.
 //  Copyright © 2018 Chandresh Maurya. All rights reserved.
 //
 
-#import "LandScapeView.h"
+#import "ViewEnquiryState.h"
 #import "CommonUtility.h"
 
-@implementation LandScapeView
-
+@implementation ViewEnquiryState
 - (id)initWithFrame:(CGRect)frame
 {
     if ((self = [super initWithFrame:frame]))
@@ -32,11 +31,13 @@
     
     ([dataDict.detail.StartDate isEqualToString:@""])?[lblStartDate setText:@"N.A"]
     :[lblStartDate setText:dataDict.detail.StartDate];
-
+    
     ([dataDict.detail.EndDate isEqualToString:@""])?[lblEndDate setText:@"N.A"]
     :[lblEndDate setText:dataDict.detail.EndDate];
     
-   
+    
+//    NSString *strDeliveryLastDate = [NSString stringWithFormat:@"%@",[self datefromCurrentString:dataDict.detail.DeliveryLastDate]];
+    
     NSString *strDeliveryLastDate = [CommonUtility getDateFromSting:dataDict.detail.DeliveryLastDate fromFromate:@"yyyy/mm/dd" withRequiredDateFormate:@"dd-MMM-yyyy"];
     [lblDateofDelivery setText:strDeliveryLastDate];
     
@@ -51,16 +52,9 @@
     [lblDeliveryLocation setText:dataDict.detail.DeliveryAddress];
     [lblInspectionAgency setText:dataDict.detail.AgencyCompanyName];
     NSString * newReplacedString = [dataDict.detail.Remarks stringByReplacingOccurrencesOfString:@"\r\n" withString:@". "];
-
+    
     [lblRemarks setText:newReplacedString];
     
 }
 
--(void)btnAddProductNegotiation:(UIButton *)sender
-{
-    if([_delegate respondsToSelector:@selector(setSelectItemViewWithData:)])
-    {
-        [_delegate setSelectItemViewWithData:sender];
-    }
-}
 @end
