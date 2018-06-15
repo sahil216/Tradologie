@@ -138,7 +138,7 @@
     
     [_imgMembershipType setImageWithURL:[NSURL URLWithString:[objSupplierDetail.MembershipTypeImage checkIfEmpty]] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL)
      {
-         [_imgMembershipType setImage:image];
+         [self->_imgMembershipType setImage:image];
      }usingActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
     
     
@@ -148,36 +148,34 @@
          {
              if(cacheType == SDImageCacheTypeNone)
              {
-                 _imgSupplier.alpha = 0;
-                 
-                 [UIView transitionWithView:_imgSupplier
+                 self->_imgSupplier.alpha = 0;
+                 [UIView transitionWithView:self->_imgSupplier
                                    duration:1.0
                                     options:UIViewAnimationOptionTransitionCrossDissolve
                                  animations:^{
                                      if (image==nil)
                                      {
-                                         [_imgSupplier setImage:[UIImage imageNamed:@"IconNoImageAvailable"]];
+                                         [self->_imgSupplier setImage:[UIImage imageNamed:@"IconNoImageAvailable"]];
                                      }
                                      else
                                      {
-                                         [_imgSupplier setImage:image];
+                                         [self->_imgSupplier setImage:image];
                                      }
                                      
-                                     _imgSupplier.alpha = 1.0;
+                                     self->_imgSupplier.alpha = 1.0;
                                  } completion:NULL];
              }
              else
              {
-                 _imgSupplier.alpha = 1;
+                 self->_imgSupplier.alpha = 1;
              }
          }
          else
          {
-             [_imgSupplier setImage:[UIImage imageNamed:@"IconNoImageAvailable"]];
+             [self->_imgSupplier setImage:[UIImage imageNamed:@"IconNoImageAvailable"]];
          }
      } usingActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
 }
-
 /******************************************************************************************************************/
 #pragma mark ❉===❉===  BUTTON ACTION EVENT CALLED HERE ===❉===❉
 /******************************************************************************************************************/

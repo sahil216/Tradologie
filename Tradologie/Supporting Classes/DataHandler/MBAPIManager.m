@@ -431,4 +431,37 @@ void MBCall_AuctionDetailForEditNegotiation(NSDictionary* params,RMApiManagerCom
          }
      }];
 }
+void MBCall_AuctionItemListWithProductList(NSDictionary* params,RMApiManagerCompletion completion)
+{
+    [[MBHTTPClient sharedInstance] requestPOSTServiceOnURL:getUrlForMethod(AUCTION_ITEM_LIST_API) WithDictionary:params withCompletion:^(NSURLSessionDataTask *task, NSError *error, id response)
+     {
+         if (error)
+         {
+             completion(nil,filterErrorMessageUsingResponseRequestOperation(task, error),NO);
+             return;
+         }
+         else if(response)
+         {
+             completion(response,checkIfResponseHasErrorMessage(response),YES);
+             
+         }
+     }];
+}
+
+void MBCall_AuctionSupplierWithAuctionID(NSDictionary* params,RMApiManagerCompletion completion)
+{
+    [[MBHTTPClient sharedInstance] requestPOSTServiceOnURL:getUrlForMethod(AUCTION_SUPPLIER_LIST_API) WithDictionary:params withCompletion:^(NSURLSessionDataTask *task, NSError *error, id response)
+     {
+         if (error)
+         {
+             completion(nil,filterErrorMessageUsingResponseRequestOperation(task, error),NO);
+             return;
+         }
+         else if(response)
+         {
+             completion(response,checkIfResponseHasErrorMessage(response),YES);
+             
+         }
+     }];
+}
 @end

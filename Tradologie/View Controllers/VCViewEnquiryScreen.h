@@ -10,4 +10,7 @@
 
 @interface VCViewEnquiryScreen : UIViewController
 
+@property (strong, nonatomic) NSMutableArray *arrProductListData;
+
+
 @end

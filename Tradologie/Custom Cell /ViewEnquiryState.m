@@ -22,6 +22,10 @@
 {
     [lblNegotiationCode setText:dataDict.detail.AuctionCode];
     [lblNegotiationName setText:dataDict.detail.AuctionName];
+    lblNegotiationName.numberOfLines = 1;
+    lblNegotiationName.minimumScaleFactor = 8./lblNegotiationName.font.pointSize;;
+    lblNegotiationName.adjustsFontSizeToFitWidth = YES;
+    
     ([dataDict.detail.PortOfDischarge isEqualToString:@""])?[lblPortDischarge setText:@"N.A"]
     :[lblPortDischarge setText:dataDict.detail.PortOfDischarge];
     [lblStateofDelivery setText:dataDict.detail.DeliveryState];
@@ -34,9 +38,6 @@
     
     ([dataDict.detail.EndDate isEqualToString:@""])?[lblEndDate setText:@"N.A"]
     :[lblEndDate setText:dataDict.detail.EndDate];
-    
-    
-//    NSString *strDeliveryLastDate = [NSString stringWithFormat:@"%@",[self datefromCurrentString:dataDict.detail.DeliveryLastDate]];
     
     NSString *strDeliveryLastDate = [CommonUtility getDateFromSting:dataDict.detail.DeliveryLastDate fromFromate:@"yyyy/mm/dd" withRequiredDateFormate:@"dd-MMM-yyyy"];
     [lblDateofDelivery setText:strDeliveryLastDate];

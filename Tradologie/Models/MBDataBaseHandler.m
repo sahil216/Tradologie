@@ -134,6 +134,36 @@
     
     return nil;
 }
++(AuctionItemList *)getAuctionItemListWithData;
+{
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(objType == %@)",[NSNumber numberWithInt:auctionItem]];
+    
+    NSArray *array = [OfflineObject MR_findAllWithPredicate:predicate];
+    
+    if (array.count>0)
+    {
+        OfflineObject *object = array[0];
+        AuctionItemList *objAuctionItemList = [[AuctionItemList alloc] initWithString:object.objData error:nil];
+        return objAuctionItemList;
+    }
+    
+    return nil;
+}
++(AuctionSupplierList *)getAuctionSupplierListWithData;
+{
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(objType == %@)",[NSNumber numberWithInt:auctionSupplier]];
+    
+    NSArray *array = [OfflineObject MR_findAllWithPredicate:predicate];
+    
+    if (array.count>0)
+    {
+        OfflineObject *object = array[0];
+        AuctionSupplierList *objAuctionItemList = [[AuctionSupplierList alloc] initWithString:object.objData error:nil];
+        return objAuctionItemList;
+    }
+    
+    return nil;
+}
 
 /*********************************************************************************************/
 #pragma mark ❉===❉=== SETTER METHOD TO SET VALUE IN DATABASE ❉===❉===
@@ -277,7 +307,41 @@
          
      }];
 }
-
++ (void)saveAuctionItemListData:(AuctionItemList *)auctionItemList
+{
+    [self deleteAllRecordsForType:auctionItem];
+    
+    if (!auctionItemList) {
+        return;
+    }
+    
+    [MagicalRecord saveWithBlockAndWait:^(NSManagedObjectContext *localContext)
+     {
+         OfflineObject *newUser = [OfflineObject MR_createEntityInContext:localContext];
+         newUser.objData = auctionItemList.toJSONString;
+         newUser.objType = [NSNumber numberWithInt:auctionItem];
+         newUser.objClass = NSStringFromClass([AuctionItemList class]);
+         
+     }];
+}
++(void)saveAuctionSupplierListWithData:(AuctionSupplierList *)auctionSupplierList;
+{
+    [self deleteAllRecordsForType:auctionSupplier];
+    
+    if (!auctionSupplierList) {
+        return;
+    }
+    
+    [MagicalRecord saveWithBlockAndWait:^(NSManagedObjectContext *localContext)
+     {
+         OfflineObject *newUser = [OfflineObject MR_createEntityInContext:localContext];
+         newUser.objData = auctionSupplierList.toJSONString;
+         newUser.objType = [NSNumber numberWithInt:auctionSupplier];
+         newUser.objClass = NSStringFromClass([auctionSupplierList class]);
+         
+     }];
+    
+}
 /*********************************************************************************************/
 #pragma mark ❉===❉=== DELETE ALL RECORD"S FROM DATABASE ❉===❉===
 /*********************************************************************************************/

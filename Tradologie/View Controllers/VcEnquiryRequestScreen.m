@@ -48,7 +48,7 @@
     [self.navigationItem setHidesBackButton:YES];
     [self.navigationItem SetBackButtonWithID:self withSelectorAction:@selector(btnBackItemTaped:)];
     [self.navigationItem SetRightButtonWithID:self withSelectorAction:@selector(btnRightItemTaped:)withImage:@"IconAddNegotiation"];
-
+    
     lblHeight = 90;
     [self SetInitialSetup];
     // Do any additional setup after loading the view.
@@ -68,7 +68,7 @@
         self.automaticallyAdjustsScrollViewInsets = NO;
         self.myTableView.contentInset = UIEdgeInsetsMake(0, 0, 0, 0);
     });
- [[UIApplication sharedApplication] setStatusBarOrientation:UIInterfaceOrientationLandscapeRight animated:YES];
+    [[UIApplication sharedApplication] setStatusBarOrientation:UIInterfaceOrientationLandscapeRight animated:YES];
     [[UIApplication sharedApplication] setStatusBarHidden:NO animated:YES];
 }
 /******************************************************************************************************************/
@@ -187,8 +187,9 @@
 }
 
 /******************************************************************************************************************/
-#pragma mark ❉===❉=== AUCTION DETAIL FOR EDIT NEGOTIATION API CALLED HERE ===❉===❉
+#pragma mark ❉===❉=== GET AUCTION DETAIL FROM NEGOTIATION API ===❉===❉
 /******************************************************************************************************************/
+
 -(void)AuctionDetailForEditNegotiationWithAuctionID:(NSString *)auctionID
 {
     BuyerUserDetail *objBuyerdetail = [MBDataBaseHandler getBuyerUserDetail];
@@ -214,7 +215,52 @@
                     AuctionDetailForEdit *data = [[AuctionDetailForEdit alloc]initWithDictionary:response error:&error];
                     [MBDataBaseHandler saveAuctionDetailForEditNegotiation:data];
                     
+                     [self getAuctionListAPIWithAuctionID:auctionID];
+                    [self getAuctionSellerListAPIWithAuctionID:auctionID];
+
+                }
+            }
+            else
+            {
+                [CommonUtility HideProgress];
+                [[CommonUtility new] show_ErrorAlertWithTitle:@"" withMessage:error];
+            }
+        });
+    }
+    else
+    {
+        [[CommonUtility new] show_ErrorAlertWithTitle:@"" withMessage:@"Internet Not Available Please Try Again..!"];
+    }
+}
+/******************************************************************************************************************/
+#pragma mark ❉===❉=== GET AUCTION LIST ITEM API ===❉===❉
+/******************************************************************************************************************/
+-(void)getAuctionListAPIWithAuctionID:(NSString *)auctionID
+{
+    BuyerUserDetail *objBuyerdetail = [MBDataBaseHandler getBuyerUserDetail];
+    
+    NSMutableDictionary *dicParams = [[NSMutableDictionary alloc]init];
+    [dicParams setValue:objBuyerdetail.detail.APIVerificationCode forKey:@"Token"];
+    [dicParams setValue:auctionID forKey:@"AuctionID"];
+    
+    if (SharedObject.isNetAvailable)
+    {
+        [CommonUtility showProgressWithMessage:@"Please Wait.."];
+        
+        MBCall_AuctionItemListWithProductList(dicParams, ^(id response, NSString *error, BOOL status)
+        {
+            [CommonUtility HideProgress];
+            
+            if (status && [[response valueForKey:@"success"]isEqual:@1])
+            {
+                if (response != (NSDictionary *)[NSNull null])
+                {
+                    NSError *error;
+                    AuctionItemList *objData = [[AuctionItemList alloc]initWithDictionary:response error:&error];
+                    [MBDataBaseHandler saveAuctionItemListData:objData];
+                    
                     VCViewEnquiryScreen *objScreen =[self.storyboard instantiateViewControllerWithIdentifier:@"VCViewEnquiryScreen"];
+                    //objScreen.dicData = [response valueForKey:@"detail"];
                     [[UIDevice currentDevice] setValue:[NSNumber numberWithInteger: UIInterfaceOrientationLandscapeRight] forKey:@"orientation"];
                     [self.navigationController pushViewController:objScreen animated:YES];
                 }
@@ -232,7 +278,47 @@
     }
     
 }
-
+/******************************************************************************************************************/
+#pragma mark ❉===❉=== GET AUCTION LIST ITEM API ===❉===❉
+/******************************************************************************************************************/
+-(void)getAuctionSellerListAPIWithAuctionID:(NSString *)auctionID
+{
+    BuyerUserDetail *objBuyerdetail = [MBDataBaseHandler getBuyerUserDetail];
+    
+    NSMutableDictionary *dicParams = [[NSMutableDictionary alloc]init];
+    [dicParams setValue:objBuyerdetail.detail.APIVerificationCode forKey:@"Token"];
+    [dicParams setValue:auctionID forKey:@"AuctionID"];
+    
+    if (SharedObject.isNetAvailable)
+    {
+        [CommonUtility showProgressWithMessage:@"Please Wait.."];
+        
+        MBCall_AuctionSupplierWithAuctionID(dicParams, ^(id response, NSString *error, BOOL status)
+        {
+            [CommonUtility HideProgress];
+            
+            if (status && [[response valueForKey:@"success"]isEqual:@1])
+            {
+                if (response != (NSDictionary *)[NSNull null])
+                {
+                    NSError *error;
+                    AuctionSupplierList *objData = [[AuctionSupplierList alloc]initWithDictionary:response error:&error];
+                    [MBDataBaseHandler saveAuctionSupplierListWithData:objData];
+                }
+            }
+            else
+            {
+                [CommonUtility HideProgress];
+                [[CommonUtility new] show_ErrorAlertWithTitle:@"" withMessage:error];
+            }
+        });
+    }
+    else
+    {
+        [[CommonUtility new] show_ErrorAlertWithTitle:@"" withMessage:@"Internet Not Available Please Try Again..!"];
+    }
+    
+}
 /******************************************************************************************************************/
 #pragma mark ❉===❉=== SCROLL VIEW DELEGATE CALLED HERE ===❉===❉
 /*****************************************************************************************************************/
@@ -318,13 +404,13 @@
                    withMenuArray:(sender.tag == 1001)?arrGPS:arrSortBy
                       imageArray:nil
                        doneBlock:^(NSInteger selectedIndex)
-     {
-         (sender.tag == 1001)?[self->txtGPSCode setText:[arrGPS objectAtIndex:selectedIndex]]: [self->txtSortBuy setText:[arrSortBy objectAtIndex:selectedIndex]];
-         // [_myTableView reloadData];
-         
-     } dismissBlock:^{
-         
-     }];
+    {
+        (sender.tag == 1001)?[self->txtGPSCode setText:[arrGPS objectAtIndex:selectedIndex]]: [self->txtSortBuy setText:[arrSortBy objectAtIndex:selectedIndex]];
+        // [_myTableView reloadData];
+        
+    } dismissBlock:^{
+        
+    }];
 }
 /******************************************************************************************************************/
 #pragma mark ❉===❉=== GET DATA FROM DATABASE HERE ===❉===❉
@@ -363,9 +449,10 @@
         [dataDict setObject:data.AuctionCode forKey:[arrTittle objectAtIndex:2]];
         [dataDict setObject:data.AuctionName forKey:[arrTittle objectAtIndex:3]];
         [dataDict setObject:data.Status forKey:[arrTittle objectAtIndex:4]];
-        NSString *startDate = [NSString stringWithFormat:@"%@",[self dateFromString:[NSString stringWithFormat:@"%@",data.StartDate]]];
-        NSString *EndDate = [NSString stringWithFormat:@" %@",[self dateFromString:[NSString stringWithFormat:@"%@",data.EndDate]]];
-        [dataDict setObject:[startDate stringByAppendingString:EndDate] forKey:[arrTittle objectAtIndex:5]];
+        NSString *startDate = [CommonUtility getDateFromSting:data.StartDate fromFromate:@"dd/mm/yyyy hh:mm:ss a" withRequiredDateFormate:@"dd-MMM-yyyy hh:mm"];
+        NSString *EndDate = [CommonUtility getDateFromSting:data.EndDate fromFromate:@"dd/mm/yyyy hh:mm:ss a" withRequiredDateFormate:@"dd-MMM-yyyy hh:mm"];
+        
+        [dataDict setObject:[startDate stringByAppendingString:[@"\n" stringByAppendingString:EndDate]] forKey:[arrTittle objectAtIndex:5]];
         [dataDict setObject:data.PaymentTerm forKey:[arrTittle objectAtIndex:6]];
         [dataDict setObject:data.PartialDelivery forKey:[arrTittle objectAtIndex:7]];
         [dataDict setObject:data.DeliveryAddress forKey:[arrTittle objectAtIndex:8]];
@@ -376,18 +463,4 @@
     }
     [self.myTableView reloadData];
 }
--(NSString *)dateFromString:(NSString *)dateString
-{
-    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    [dateFormatter setDateFormat:@"dd/mm/yyyy hh:mm:ss a"];
-    NSLocale *locale = [[NSLocale alloc]initWithLocaleIdentifier:@"en_US_POSIX"];
-    [dateFormatter setLocale:locale];
-    
-    NSDate *date = [dateFormatter dateFromString:dateString];
-    [dateFormatter setDateFormat:@"dd-MMM-yyyy hh:mm"];
-    NSString *newDate = [dateFormatter stringFromDate:date];
-    
-    return newDate;
-}
-
 @end

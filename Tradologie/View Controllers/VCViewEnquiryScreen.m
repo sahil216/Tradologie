@@ -13,15 +13,15 @@
 #import "VCHomeNotifications.h"
 #import "MBDataBaseHandler.h"
 
-#define K_CUSTOM_WIDTH 170
+#define K_CUSTOM_WIDTH 150
 
 
 @interface VCViewEnquiryScreen ()<UITableViewDataSource,UITableViewDelegate>
 {
-    NSMutableArray *arrTittle;
-    NSMutableArray *arrData;
+    NSMutableArray *arrTittle ,*arrAuctionSellerList;
+    NSMutableArray *arrData ,*arrAuctionSupplierData;
     float headerTotalWidth;
-    NSInteger count;
+    NSInteger count,SupplierCount;
     CGFloat height , lblHeight;
 }
 @property (nonatomic, strong) UIView * contentView;
@@ -40,6 +40,11 @@
     [self.navigationController.navigationItem setHidesBackButton:YES animated:YES];
     [self.navigationItem setHidesBackButton:YES];
     
+    arrTittle = [[NSMutableArray alloc]initWithObjects:@"Sr.No",@"Grade",@"Quantity",@"Packing Type",@"Packing Size",@"Packing Image",nil];
+    
+    arrAuctionSellerList = [[NSMutableArray alloc]initWithObjects:@"Sr.No",@"Seller Name",@"Company Name",nil];
+    
+    lblHeight = 120;
     [self SetInitialSetup];
     [self.navigationItem SetBackButtonWithID:self withSelectorAction:@selector(btnBackItem:)];
 }
@@ -70,7 +75,7 @@
     [_contentView setBackgroundColor:[UIColor whiteColor]];
     [self.view addSubview:_contentView];
     
-    headerTotalWidth =  SCREEN_WIDTH * 2.50;
+    headerTotalWidth =  SCREEN_WIDTH * 1.35;
     
     height = ([SDVersion deviceSize] > Screen4Dot7inch)?_contentView.frame.size.height - 75:([SDVersion deviceSize] < Screen4Dot7inch)?_contentView.frame.size.height - 65:_contentView.frame.size.height - 70;
     
@@ -90,15 +95,17 @@
     
     NSArray *subviewArray = [[NSBundle mainBundle] loadNibNamed:@"ViewEnquiryState" owner:self options:nil];
     _viewLandscape = [subviewArray objectAtIndex:0];
-   
-    
+
+    [self getAuctionDataListfromDataBase];
+    [self getAuctionSellerDataListfromDataBase];
+
 }
 /******************************************************************************************************************/
 #pragma mark ❉===❉=== TABLEVIEW DELEGATE & DATA SOURCE CALLED HERE ===❉===❉
 /*****************************************************************************************************************/
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 2;
+    return 3;
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -107,79 +114,128 @@
     {
         return  0;
     }
-    return 1;
+    else if (section == 1)
+    {
+        return  arrData.count;
+    }
+    
+    return arrAuctionSupplierData.count;
 }
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSString *cellIdentifier=@"cell_Identifier";
     
-    UITableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+   static NSString *cellIdentifier = @"";
     
-    if(cell == nil)
+    if(indexPath.section == 1)
     {
-        cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
-        cell.selectionStyle=UITableViewCellSelectionStyleNone;
-        CGFloat hue = ( arc4random() % 256 / 256.0 );
-        CGFloat saturation = ( arc4random() % 128 / 256.0 ) + 0.5;
-        CGFloat brightness = ( arc4random() % 128 / 256.0 ) + 0.5;
-        UIColor *color = [UIColor colorWithHue:hue saturation:saturation brightness:brightness alpha:1];
-        [cell.textLabel setBackgroundColor:color];
+        cellIdentifier = COMMON_CELL_ID;
+        TVcellNotificationlist *cell = (TVcellNotificationlist *)[tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+        if(cell==nil)
+        {
+            cell=[[TVcellNotificationlist alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier itemSize:CGSizeMake(K_CUSTOM_WIDTH, lblHeight) headerArray:arrTittle];
+            cell.selectionStyle=UITableViewCellSelectionStyleNone;
+        }
+        cell.dataDict = [arrData objectAtIndex:indexPath.row];
+        
+        return cell;
     }
-    
-    
-    [cell.textLabel setText:[NSString stringWithFormat:@"%ld",(long)indexPath.row]];
-    return cell;
+    else if (indexPath.section== 2)
+    {
+        cellIdentifier = @"Cell_ID_LIST";
+        
+        TVCellAuctionSeller *cell = (TVCellAuctionSeller *) [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+        if(cell == nil)
+        {
+            cell=[[TVCellAuctionSeller alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier itemSize:CGSizeMake(K_CUSTOM_WIDTH + 100, 60) headerArray:arrTittle];
+            cell.selectionStyle=UITableViewCellSelectionStyleNone;
+        }
+        cell.dataDict = [arrAuctionSupplierData objectAtIndex:indexPath.row];
+        return cell;
+    }
+    return nil;
 }
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
     if (section ==  0)
     {
-        UIView *viewHeader=[[UIView alloc]initWithFrame:CGRectMake(0, 0,SCREEN_HEIGHT * 2 , _viewLandscape.frame.size.height - 150)];
-        [viewHeader setBackgroundColor:[UIColor whiteColor]];
-        [viewHeader addSubview:_viewLandscape];
         AuctionDetailForEdit *data = [MBDataBaseHandler getAuctionDetailForEditNegotiation];
         [_viewLandscape setDataDict:data];
-        return viewHeader;
+        return _viewLandscape;
     }
-    else
+    else if (section ==  1)
     {
+        UIView *Viewsection2 = [[UIView alloc]initWithFrame:CGRectMake(0, 0, [arrTittle count] * K_CUSTOM_WIDTH, 90)];
+        [Viewsection2 setBackgroundColor:DefaultThemeColor];
         
-        /*
-         int xx = 0;
-         int width = 80;
-         
+        [self getLableAccordingtoView:Viewsection2 withTittle:@"Negotiation Product list"];
+        int xx = 0;
+        int width = 80;
+        
          for(int i = 0 ; i < [arrTittle count] ; i++)
          {
-         UILabel *headLabel=[[UILabel alloc]initWithFrame:CGRectMake(xx, 0, width, 45)];
+         UILabel *headLabel=[[UILabel alloc]initWithFrame:CGRectMake(xx, Viewsection2.frame.size.height/2, width, Viewsection2.frame.size.height/2)];
          [headLabel setText:[arrTittle objectAtIndex:i]];
          [headLabel setTextAlignment:NSTextAlignmentCenter];
          [headLabel setNumberOfLines:0];
          [headLabel setTextColor:[UIColor whiteColor]];
          [headLabel setLineBreakMode:NSLineBreakByWordWrapping];
          [headLabel setFont:UI_DEFAULT_FONT_MEDIUM(18)];
-         [tableViewHeadView addSubview:headLabel];
+         [Viewsection2 addSubview:headLabel];
          
          xx = xx + width;
          width = K_CUSTOM_WIDTH;
          }
-         */
+         return Viewsection2;
     }
-    UIView *tableViewHeadView=[[UIView alloc]initWithFrame:CGRectMake(0, 0, [arrTittle count] * K_CUSTOM_WIDTH, 45)];
+    
+    UIView *tableViewHeadView=[[UIView alloc]initWithFrame:CGRectMake(0, 0, [arrTittle count] * K_CUSTOM_WIDTH, 90)];
     [tableViewHeadView setBackgroundColor:DefaultThemeColor];
+    [self getLableAccordingtoView:tableViewHeadView withTittle:@"Auction Seller List"];
+    int xx = 0;
+    int width = 100;
+    
+    for(int i = 0 ; i < [arrAuctionSellerList count] ; i++)
+    {
+        UILabel *headLabel=[[UILabel alloc]initWithFrame:CGRectMake(xx, tableViewHeadView.frame.size.height/2, width, tableViewHeadView.frame.size.height/2)];
+        [headLabel setText:[arrAuctionSellerList objectAtIndex:i]];
+        [headLabel setTextAlignment:NSTextAlignmentCenter];
+        [headLabel setNumberOfLines:0];
+        [headLabel setTextColor:[UIColor whiteColor]];
+        [headLabel setLineBreakMode:NSLineBreakByWordWrapping];
+        [headLabel setFont:UI_DEFAULT_FONT_MEDIUM(18)];
+        [tableViewHeadView addSubview:headLabel];
+        
+        xx = xx + width;
+        width = K_CUSTOM_WIDTH + 100;
+    }
     return tableViewHeadView;
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 60 + 10;
+    if (indexPath.section == 1)
+    {
+        return lblHeight + 10;
+    }
+    return 60;
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
     if (section == 0)
     {
-        return _viewLandscape.frame.size.height - 150;
+        return _viewLandscape.frame.size.height - 200;
     }
-    return 50;
+    return 90;
 }
+
+-(void)getLableAccordingtoView:(UIView *)viewBG withTittle:(NSString *)strTittle
+{
+    UILabel *lblbHeaderTittle= [[UILabel alloc]initWithFrame:CGRectMake(20, 0, viewBG.frame.size.width - 20, 45)];
+    [lblbHeaderTittle setText:strTittle];
+    [lblbHeaderTittle setFont:UI_DEFAULT_FONT_MEDIUM(18)];
+    [lblbHeaderTittle setTextColor:[UIColor whiteColor]];
+    [viewBG addSubview:lblbHeaderTittle];
+}
+
 /******************************************************************************************************************/
 #pragma mark ❉===❉=== BUTTON ACTION EVENT CALLED HERE ===❉===❉
 /*****************************************************************************************************************/
@@ -195,6 +251,55 @@
         [delegateClass setRootViewController:rootVC];
     });
     
+}
+
+/******************************************************************************************************************/
+#pragma mark ❉===❉=== GET DATA FROM DATABASE HERE ===❉===❉
+/******************************************************************************************************************/
+-(void)getAuctionDataListfromDataBase
+{
+    AuctionItemList *objData = [MBDataBaseHandler getAuctionItemListWithData];
+    arrData = [[NSMutableArray alloc]init];
+    count = 0;
+    
+    for (AuctionItemListData *data in objData.detail)
+    {
+        NSMutableDictionary *dataDict = [NSMutableDictionary new];
+        count ++;
+        
+        [dataDict setObject:[NSString stringWithFormat:@"%lu",count] forKey:[arrTittle objectAtIndex:0]];
+        [dataDict setObject:[data.CategoryName stringByAppendingString:[@"\n" stringByAppendingString:[data.AttributeValue1 stringByAppendingString:[@"\n" stringByAppendingString:data.AttributeValue2]]]] forKey:[arrTittle objectAtIndex:1]];
+        [dataDict setObject:data.Quantity forKey:[arrTittle objectAtIndex:2]];
+        [dataDict setObject:data.PackingType forKey:[arrTittle objectAtIndex:3]];
+        [dataDict setObject:data.PackingSize forKey:[arrTittle objectAtIndex:4]];
+        [dataDict setObject:data.PackingImage forKey:[arrTittle objectAtIndex:5]];
+        
+        [arrData addObject:dataDict];
+    }
+    [self.myTableView reloadData];
+}
+/******************************************************************************************************************/
+#pragma mark ❉===❉=== GET DATA FROM DATABASE HERE ===❉===❉
+/******************************************************************************************************************/
+-(void)getAuctionSellerDataListfromDataBase
+{
+    AuctionSupplierList *objData = [MBDataBaseHandler getAuctionSupplierListWithData];
+    arrAuctionSupplierData = [[NSMutableArray alloc]init];
+    
+    SupplierCount = 0;
+    
+    for (AuctionSupplierListData *data in objData.detail)
+    {
+        NSMutableDictionary *dataDict = [NSMutableDictionary new];
+        SupplierCount ++;
+        [dataDict setObject:[NSString stringWithFormat:@"%lu",SupplierCount] forKey:[arrAuctionSellerList objectAtIndex:0]];
+        [dataDict setObject:data.VendorName forKey:[arrAuctionSellerList objectAtIndex:1]];
+        [dataDict setObject:data.CompanyName forKey:[arrAuctionSellerList objectAtIndex:2]];
+      
+        
+        [arrAuctionSupplierData addObject:dataDict];
+    }
+    [self.myTableView reloadData];
 }
 @end
 
