@@ -20,7 +20,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Tradologie/Custom Cell /ViewEnquiryState.m"
-            timestampString = "550588228.727278"
+            timestampString = "550736758.288855"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "14"
@@ -35,13 +35,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Tradologie/View Controllers/VCViewEnquiryScreen.m"
-            timestampString = "550734189.2288001"
+            filePath = "Tradologie/View Controllers/VCViewRateScreen.m"
+            timestampString = "550746450.185508"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "158"
-            endingLineNumber = "158"
-            landmarkName = "-tableView:viewForHeaderInSection:"
+            startingLineNumber = "209"
+            endingLineNumber = "209"
+            landmarkName = "-getAuctionDataListfromDataBase"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

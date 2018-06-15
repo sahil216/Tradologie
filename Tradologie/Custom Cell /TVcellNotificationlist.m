@@ -102,6 +102,8 @@
                 
             case 1:
                 [tempLabel setText:[dataDict objectForKey:[keyArray objectAtIndex:i]]];
+                [tempLabel setNumberOfLines:5];
+                [tempLabel setLineBreakMode:NSLineBreakByWordWrapping];
                 [tempLabel setTextAlignment:NSTextAlignmentCenter];
                 break;
                 

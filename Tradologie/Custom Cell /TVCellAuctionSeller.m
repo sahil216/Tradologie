@@ -51,7 +51,7 @@
 {
     int xx = 0;
     
-    int width = 80;
+    int width = 150;
     for(int i = 0 ; i < [keyArray count] ; i++)
     {
         
@@ -59,7 +59,7 @@
         [bgView setBackgroundColor:[UIColor whiteColor]];
         
         
-        headLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, bgView.frame.size.width , bgView.frame.size.height)];
+        headLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, bgView.frame.size.width - 30 , bgView.frame.size.height)];
         [headLabel setBackgroundColor:[UIColor clearColor]];
         [headLabel setFont:UI_DEFAULT_FONT(16)];
         [headLabel setNumberOfLines:5];
@@ -90,22 +90,22 @@
         {
             case 0:
             {
-                [tempLabel setText:[dataDict objectForKey:[keyArray objectAtIndex:i]]];
-                [tempLabel setTextAlignment:NSTextAlignmentCenter];
+                [tempLabel setText:[@"  " stringByAppendingString:[dataDict objectForKey:[keyArray objectAtIndex:i]]]];
+                [tempLabel setTextAlignment:NSTextAlignmentLeft];
             }
                 break;
                 
             case 1:
             {
                 [tempLabel setText:[dataDict objectForKey:[keyArray objectAtIndex:i]]];
-                [tempLabel setTextAlignment:NSTextAlignmentCenter];
+                [tempLabel setTextAlignment:NSTextAlignmentLeft];
             }
                 break;
                 
             case 2:
             {
                 [tempLabel setText:[dataDict objectForKey:[keyArray objectAtIndex:i]]];
-                [tempLabel setTextAlignment:NSTextAlignmentCenter];
+                [tempLabel setTextAlignment:NSTextAlignmentLeft];
             }
                 break;
                 

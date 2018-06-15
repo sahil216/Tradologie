@@ -9,10 +9,9 @@
 #import "VCTradePolicyScreen.h"
 #import "Constant.h"
 #import "AppConstant.h"
-#import <SafariServices/SafariServices.h>
 #import "CommonUtility.h"
 
-@interface VCTradePolicyScreen ()<SFSafariViewControllerDelegate>
+@interface VCTradePolicyScreen ()
 {
     NSMutableArray *arrTradeName;
 }

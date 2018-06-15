@@ -42,7 +42,7 @@
     
     arrTittle = [[NSMutableArray alloc]initWithObjects:@"Sr.No",@"Grade",@"Quantity",@"Packing Type",@"Packing Size",@"Packing Image",nil];
     
-    arrAuctionSellerList = [[NSMutableArray alloc]initWithObjects:@"Sr.No",@"Seller Name",@"Company Name",nil];
+    arrAuctionSellerList = [[NSMutableArray alloc]initWithObjects:@"  Sr.No",@"Seller Name",@"Company Name",nil];
     
     lblHeight = 120;
     [self SetInitialSetup];
@@ -132,7 +132,7 @@
         TVcellNotificationlist *cell = (TVcellNotificationlist *)[tableView dequeueReusableCellWithIdentifier:cellIdentifier];
         if(cell==nil)
         {
-            cell=[[TVcellNotificationlist alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier itemSize:CGSizeMake(K_CUSTOM_WIDTH, lblHeight) headerArray:arrTittle];
+            cell=[[TVcellNotificationlist alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier itemSize:CGSizeMake(K_CUSTOM_WIDTH +50, lblHeight) headerArray:arrTittle];
             cell.selectionStyle=UITableViewCellSelectionStyleNone;
         }
         cell.dataDict = [arrData objectAtIndex:indexPath.row];
@@ -141,12 +141,12 @@
     }
     else if (indexPath.section== 2)
     {
-        cellIdentifier = @"Cell_ID_LIST";
+        cellIdentifier = @"cell_Identifier";
         
         TVCellAuctionSeller *cell = (TVCellAuctionSeller *) [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
         if(cell == nil)
         {
-            cell=[[TVCellAuctionSeller alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier itemSize:CGSizeMake(K_CUSTOM_WIDTH + 100, 60) headerArray:arrTittle];
+            cell=[[TVCellAuctionSeller alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier itemSize:CGSizeMake(K_CUSTOM_WIDTH + 200, 60) headerArray:arrAuctionSellerList];
             cell.selectionStyle=UITableViewCellSelectionStyleNone;
         }
         cell.dataDict = [arrAuctionSupplierData objectAtIndex:indexPath.row];
@@ -183,7 +183,7 @@
          [Viewsection2 addSubview:headLabel];
          
          xx = xx + width;
-         width = K_CUSTOM_WIDTH;
+         width = K_CUSTOM_WIDTH + 50 ;
          }
          return Viewsection2;
     }
@@ -192,13 +192,13 @@
     [tableViewHeadView setBackgroundColor:DefaultThemeColor];
     [self getLableAccordingtoView:tableViewHeadView withTittle:@"Auction Seller List"];
     int xx = 0;
-    int width = 100;
+    int width = 150;
     
     for(int i = 0 ; i < [arrAuctionSellerList count] ; i++)
     {
         UILabel *headLabel=[[UILabel alloc]initWithFrame:CGRectMake(xx, tableViewHeadView.frame.size.height/2, width, tableViewHeadView.frame.size.height/2)];
         [headLabel setText:[arrAuctionSellerList objectAtIndex:i]];
-        [headLabel setTextAlignment:NSTextAlignmentCenter];
+        [headLabel setTextAlignment:NSTextAlignmentLeft];
         [headLabel setNumberOfLines:0];
         [headLabel setTextColor:[UIColor whiteColor]];
         [headLabel setLineBreakMode:NSLineBreakByWordWrapping];
@@ -206,7 +206,7 @@
         [tableViewHeadView addSubview:headLabel];
         
         xx = xx + width;
-        width = K_CUSTOM_WIDTH + 100;
+        width = K_CUSTOM_WIDTH + 200;
     }
     return tableViewHeadView;
 }
@@ -241,16 +241,7 @@
 /*****************************************************************************************************************/
 -(IBAction)btnBackItem:(UIButton *)sender
 {
-    [[UIDevice currentDevice] setValue:
-     [NSNumber numberWithInteger: UIInterfaceOrientationPortrait] forKey:@"orientation"];
-    [self.navigationItem setNavigationTittleWithLogo:@"tradologie.com"];
-    
-    dispatch_async(dispatch_get_main_queue(), ^{
-        RootViewController * rootVC = [self.storyboard instantiateViewControllerWithIdentifier:@"RootViewController"];
-        AppDelegate *delegateClass = (AppDelegate *)[[UIApplication sharedApplication]delegate];
-        [delegateClass setRootViewController:rootVC];
-    });
-    
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 /******************************************************************************************************************/
@@ -268,7 +259,7 @@
         count ++;
         
         [dataDict setObject:[NSString stringWithFormat:@"%lu",count] forKey:[arrTittle objectAtIndex:0]];
-        [dataDict setObject:[data.CategoryName stringByAppendingString:[@"\n" stringByAppendingString:[data.AttributeValue1 stringByAppendingString:[@"\n" stringByAppendingString:data.AttributeValue2]]]] forKey:[arrTittle objectAtIndex:1]];
+        [dataDict setObject:[data.CategoryName stringByAppendingString:[@"\n " stringByAppendingString:[data.AttributeValue1 stringByAppendingString:[@"\n " stringByAppendingString:data.AttributeValue2]]]] forKey:[arrTittle objectAtIndex:1]];
         [dataDict setObject:data.Quantity forKey:[arrTittle objectAtIndex:2]];
         [dataDict setObject:data.PackingType forKey:[arrTittle objectAtIndex:3]];
         [dataDict setObject:data.PackingSize forKey:[arrTittle objectAtIndex:4]];

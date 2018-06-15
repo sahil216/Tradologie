@@ -162,7 +162,7 @@
     BOOL isValidate=TRUE;
 //    [txtUserID setText:@"sgsirsa2@gmail.com"];
 //    [txtPassword setText:@"reset"];
-    
+//    
     
     [txtUserID setText:@"sahil216@gmail.com"];
     [txtPassword setText:@"supere249"];

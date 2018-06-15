@@ -12,6 +12,7 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 #import <MagicalRecord/MagicalRecord.h>
+#import <SafariServices/SFSafariViewController.h>
 
 /*********************************************************************************************************/
 #pragma Mark- MODEL IMPORT
@@ -88,6 +89,8 @@ static NSString *AUCTION_DETAIL_FOR_EDIT_API = @"AuctionDetailForEdit";
 
 static NSString *AUCTION_ITEM_LIST_API =@"AuctionItemSubmittedList";
 static NSString *AUCTION_SUPPLIER_LIST_API =@"AutionSupplierList";
+static NSString *AUCTION_ORDER_PROCESS_API =@"AuctionOrderProcessDetail";
+
 
 /*********************************************************************************************************/
 #pragma CONTROLLER IDENTIFIRES

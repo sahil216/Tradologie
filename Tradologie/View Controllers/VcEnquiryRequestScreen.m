@@ -18,6 +18,8 @@
 #import "AppDelegate.h"
 #import "CommonUtility.h"
 #import "MBAPIManager.h"
+#import "VCViewRateScreen.h"
+#import "VCViewAuctionEnquiry.h"
 
 #define K_CUSTOM_WIDTH 170
 
@@ -97,6 +99,7 @@
     [myScrollView setShowsHorizontalScrollIndicator:NO];
     myScrollView.contentSize = CGSizeMake(headerTotalWidth, 0);
     [_contentView addSubview:myScrollView];
+    
     [self getAuctionDataListfromDataBase];
 }
 /******************************************************************************************************************/
@@ -118,7 +121,7 @@
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NSString *cellIdentifier=@"cell_Identifier";
-    TvCellEnquiry *cell=[tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+    TvCellEnquiry *cell = (TvCellEnquiry *)[tableView dequeueReusableCellWithIdentifier:cellIdentifier];
     if(cell==nil)
     {
         cell=[[TvCellEnquiry alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier itemSize:CGSizeMake(K_CUSTOM_WIDTH, lblHeight) headerArray:arrTittle];
@@ -215,9 +218,9 @@
                     AuctionDetailForEdit *data = [[AuctionDetailForEdit alloc]initWithDictionary:response error:&error];
                     [MBDataBaseHandler saveAuctionDetailForEditNegotiation:data];
                     
-                     [self getAuctionListAPIWithAuctionID:auctionID];
+                    [self getAuctionListAPIWithAuctionID:auctionID];
                     [self getAuctionSellerListAPIWithAuctionID:auctionID];
-
+                    
                 }
             }
             else
@@ -260,7 +263,48 @@
                     [MBDataBaseHandler saveAuctionItemListData:objData];
                     
                     VCViewEnquiryScreen *objScreen =[self.storyboard instantiateViewControllerWithIdentifier:@"VCViewEnquiryScreen"];
-                    //objScreen.dicData = [response valueForKey:@"detail"];
+                    
+                    [[UIDevice currentDevice] setValue:[NSNumber numberWithInteger: UIInterfaceOrientationLandscapeRight] forKey:@"orientation"];
+                    [self.navigationController pushViewController:objScreen animated:YES];
+                    
+                }
+            }
+            else
+            {
+                [CommonUtility HideProgress];
+                [[CommonUtility new] show_ErrorAlertWithTitle:@"" withMessage:error];
+            }
+        });
+    }
+    else
+    {
+        [[CommonUtility new] show_ErrorAlertWithTitle:@"" withMessage:@"Internet Not Available Please Try Again..!"];
+    }
+}
+/******************************************************************************************************************/
+#pragma mark ❉===❉=== GET AUCTION LIST ITEM API ===❉===❉
+/******************************************************************************************************************/
+-(void)getAuctionListAPIWithAuctionCode:(NSString *)auctionCode
+{
+    BuyerUserDetail *objBuyerdetail = [MBDataBaseHandler getBuyerUserDetail];
+    
+    NSMutableDictionary *dicParams = [[NSMutableDictionary alloc]init];
+    [dicParams setValue:objBuyerdetail.detail.APIVerificationCode forKey:@"Token"];
+    [dicParams setValue:auctionCode forKey:@"AuctionCode"];
+    
+    if (SharedObject.isNetAvailable)
+    {
+        [CommonUtility showProgressWithMessage:@"Please Wait.."];
+        
+        MBCall_GetAuctionOrderProcessDetailWithAuctionCode(dicParams, ^(id response, NSString *error, BOOL status)
+        {
+            [CommonUtility HideProgress];
+            
+            if (status && [[response valueForKey:@"success"]isEqual:@1])
+            {
+                if (response != (NSDictionary *)[NSNull null])
+                {
+                    VCViewRateScreen *objScreen =[self.storyboard instantiateViewControllerWithIdentifier:@"VCViewRateScreen"];
                     [[UIDevice currentDevice] setValue:[NSNumber numberWithInteger: UIInterfaceOrientationLandscapeRight] forKey:@"orientation"];
                     [self.navigationController pushViewController:objScreen animated:YES];
                 }
@@ -276,7 +320,6 @@
     {
         [[CommonUtility new] show_ErrorAlertWithTitle:@"" withMessage:@"Internet Not Available Please Try Again..!"];
     }
-    
 }
 /******************************************************************************************************************/
 #pragma mark ❉===❉=== GET AUCTION LIST ITEM API ===❉===❉
@@ -335,9 +378,28 @@
 /*****************************************************************************************************************/
 -(void)setSelectItemViewWithData:(NSIndexPath *)selectedIndex withTittle:(NSString *)btnState
 {
+    AuctionDetail *objAuctionDetail = [MBDataBaseHandler getAuctionDetail];
+    NSMutableArray *arrValue = [[NSMutableArray alloc]init];
+    [arrValue addObjectsFromArray:[objAuctionDetail.detail mutableCopy]];
+    NSString *strCode = [NSString stringWithFormat:@"%@",[[arrValue valueForKey:@"AuctionCode"]objectAtIndex:selectedIndex.row]];
+    
     if ([btnState isEqualToString:@"View Rate"])
     {
-        NSLog(@"%@",btnState);
+        [self getAuctionListAPIWithAuctionCode:strCode];
+    }
+    else if ([btnState isEqualToString:@"View Enquiry"])
+    {
+           [[UIDevice currentDevice] setValue:[NSNumber numberWithInteger: UIInterfaceOrientationLandscapeRight] forKey:@"orientation"];
+        
+        BuyerUserDetail *objBuyerdetail = [MBDataBaseHandler getBuyerUserDetail];
+
+        NSString *loadURL= [NSString stringWithFormat:@"http://tradologie.com/APIAuctionLive/%@/%@",objBuyerdetail.detail.APIVerificationCode,strCode];
+        NSURL *url = [[NSURL alloc] initWithString:loadURL];
+        SFSafariViewController *sfcontroller = [[SFSafariViewController alloc] initWithURL:url];
+        [self.navigationController presentViewController:sfcontroller animated:YES completion:^{
+
+            [[UIApplication sharedApplication] setStatusBarHidden:YES animated:YES];
+        }];
     }
     
 }

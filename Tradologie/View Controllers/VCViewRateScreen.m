@@ -1,45 +1,49 @@
 //
-//  VcNegotiationDetail.m
+//  VCViewRateScreen.m
 //  Tradologie
 //
-//  Created by Chandresh Maurya on 02/06/18.
+//  Created by Chandresh Maurya on 15/06/18.
 //  Copyright © 2018 Chandresh Maurya. All rights reserved.
 //
 
-#import "VcNegotiationDetail.h"
+#import "VCViewRateScreen.h"
 #import "Constant.h"
 #import "AppConstant.h"
 #import "VCHomeNotifications.h"
 #import "MBDataBaseHandler.h"
-#import "TvAddProductScreen.h"
+
+#define K_CUSTOM_WIDTH 150
 
 
-#define K_CUSTOM_WIDTH 170
-
-@interface VcNegotiationDetail ()<UITableViewDataSource,UITableViewDelegate,LandScapeViewDelegate>
+@interface VCViewRateScreen ()<UITableViewDataSource,UITableViewDelegate>
 {
     NSMutableArray *arrTittle;
     NSMutableArray *arrData;
     float headerTotalWidth;
-    NSInteger count;
-    CGFloat height , lblHeight;    
+    NSInteger count,SupplierCount;
+    CGFloat height , lblHeight;
 }
 @property (nonatomic, strong) UIView * contentView;
 @property (nonatomic, strong) UITableView *myTableView;
-@property (nonatomic, strong)  LandScapeView * viewLandscape;
+@property (nonatomic, strong) ViewEnquiryState * viewLandscape;
 
 @end
 
-@implementation VcNegotiationDetail
+
+@implementation VCViewRateScreen
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [self.navigationItem setNavigationTittleWithLogoforLanscapeMode:@"Negotiation Details"];
+    [self.navigationItem setNavigationTittleWithLogoforLanscapeMode:@"View Rate"];
     [self.navigationController setNavigationBarHidden:NO animated:YES];
     [self.navigationController.navigationItem setHidesBackButton:YES animated:YES];
     [self.navigationItem setHidesBackButton:YES];
     
+    arrTittle = [[NSMutableArray alloc]initWithObjects:@"Sr.No",@"Grade",@"Enquiry Quantity",@"Packing Type",@"Packing Size",@"Packing Image",nil];
+    
+    
+    lblHeight = 120;
     [self SetInitialSetup];
     [self.navigationItem SetBackButtonWithID:self withSelectorAction:@selector(btnBackItem:)];
 }
@@ -47,6 +51,7 @@
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
 }
 - (void)viewWillAppear:(BOOL)animated
 {
@@ -69,7 +74,7 @@
     [_contentView setBackgroundColor:[UIColor whiteColor]];
     [self.view addSubview:_contentView];
     
-    headerTotalWidth =  SCREEN_WIDTH * 2.50;
+    headerTotalWidth =  SCREEN_WIDTH * 1.35;
     
     height = ([SDVersion deviceSize] > Screen4Dot7inch)?_contentView.frame.size.height - 75:([SDVersion deviceSize] < Screen4Dot7inch)?_contentView.frame.size.height - 65:_contentView.frame.size.height - 70;
     
@@ -87,9 +92,10 @@
     myScrollView.contentSize = CGSizeMake(headerTotalWidth, 0);
     [_contentView addSubview:myScrollView];
     
-    NSArray *subviewArray = [[NSBundle mainBundle] loadNibNamed:@"LandScapeView" owner:self options:nil];
+    NSArray *subviewArray = [[NSBundle mainBundle] loadNibNamed:@"ViewEnquiryState" owner:self options:nil];
     _viewLandscape = [subviewArray objectAtIndex:0];
-    [_viewLandscape setDelegate:self];
+    
+//    [self getAuctionDataListfromDataBase];
     
 }
 /******************************************************************************************************************/
@@ -104,81 +110,82 @@
 {
     if (section == 0)
     {
-        return  0; 
+        return  0;
     }
-    return 1;
+    return  arrData.count;
 }
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSString *cellIdentifier=@"cell_Identifier";
+    static NSString *cellIdentifier = @"";
     
-    UITableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:cellIdentifier];
-    
-    if(cell == nil)
+    if(indexPath.section == 1)
     {
-        cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
-        cell.selectionStyle=UITableViewCellSelectionStyleNone;
-        CGFloat hue = ( arc4random() % 256 / 256.0 );
-        CGFloat saturation = ( arc4random() % 128 / 256.0 ) + 0.5;
-        CGFloat brightness = ( arc4random() % 128 / 256.0 ) + 0.5;
-        UIColor *color = [UIColor colorWithHue:hue saturation:saturation brightness:brightness alpha:1];
-        [cell.textLabel setBackgroundColor:color];
+        cellIdentifier = COMMON_CELL_ID;
+        TVcellNotificationlist *cell = (TVcellNotificationlist *)[tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+        if(cell==nil)
+        {
+            cell=[[TVcellNotificationlist alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier itemSize:CGSizeMake(K_CUSTOM_WIDTH +50, lblHeight) headerArray:arrTittle];
+            cell.selectionStyle=UITableViewCellSelectionStyleNone;
+        }
+        cell.dataDict = [arrData objectAtIndex:indexPath.row];
+        
+        return cell;
     }
-   
-    
-    [cell.textLabel setText:[NSString stringWithFormat:@"%ld",(long)indexPath.row]];
-    return cell;
+    return nil;
 }
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
-    if (section ==  0)
+    if (section == 0)
     {
-//        UIView *viewHeader=[[UIView alloc]initWithFrame:CGRectMake(0, 0,SCREEN_HEIGHT * 2 , _viewLandscape.frame.size.height - 150)];
-//        [viewHeader setBackgroundColor:[UIColor whiteColor]];
-//        [viewHeader addSubview:_viewLandscape];
         AuctionDetailForEdit *data = [MBDataBaseHandler getAuctionDetailForEditNegotiation];
         [_viewLandscape setDataDict:data];
         return _viewLandscape;
     }
-    else
+    UIView *Viewsection2 = [[UIView alloc]initWithFrame:CGRectMake(0, 0, [arrTittle count] * K_CUSTOM_WIDTH, 90)];
+    [Viewsection2 setBackgroundColor:DefaultThemeColor];
+    
+    [self getLableAccordingtoView:Viewsection2 withTittle:@"Negotiation Product list"];
+    int xx = 0;
+    int width = 80;
+    
+    for(int i = 0 ; i < [arrTittle count] ; i++)
     {
-
-        /*
-         int xx = 0;
-         int width = 80;
-         
-         for(int i = 0 ; i < [arrTittle count] ; i++)
-         {
-         UILabel *headLabel=[[UILabel alloc]initWithFrame:CGRectMake(xx, 0, width, 45)];
-         [headLabel setText:[arrTittle objectAtIndex:i]];
-         [headLabel setTextAlignment:NSTextAlignmentCenter];
-         [headLabel setNumberOfLines:0];
-         [headLabel setTextColor:[UIColor whiteColor]];
-         [headLabel setLineBreakMode:NSLineBreakByWordWrapping];
-         [headLabel setFont:UI_DEFAULT_FONT_MEDIUM(18)];
-         [tableViewHeadView addSubview:headLabel];
-         
-         xx = xx + width;
-         width = K_CUSTOM_WIDTH;
-         }
-         */
+        UILabel *headLabel=[[UILabel alloc]initWithFrame:CGRectMake(xx, Viewsection2.frame.size.height/2, width, Viewsection2.frame.size.height/2)];
+        [headLabel setText:[arrTittle objectAtIndex:i]];
+        [headLabel setTextAlignment:NSTextAlignmentCenter];
+        [headLabel setNumberOfLines:0];
+        [headLabel setTextColor:[UIColor whiteColor]];
+        [headLabel setLineBreakMode:NSLineBreakByWordWrapping];
+        [headLabel setFont:UI_DEFAULT_FONT_MEDIUM(18)];
+        [Viewsection2 addSubview:headLabel];
+        
+        xx = xx + width;
+        width = K_CUSTOM_WIDTH + 50 ;
     }
-    UIView *tableViewHeadView=[[UIView alloc]initWithFrame:CGRectMake(0, 0, [arrTittle count] * K_CUSTOM_WIDTH, 45)];
-    [tableViewHeadView setBackgroundColor:DefaultThemeColor];
-    return tableViewHeadView;
+    return Viewsection2;
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 60 + 10;
+    return lblHeight + 10;
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
     if (section == 0)
     {
-        return _viewLandscape.frame.size.height - 150;
+        return _viewLandscape.frame.size.height - 200;
     }
-    return 50;
+    return 90;
 }
+
+-(void)getLableAccordingtoView:(UIView *)viewBG withTittle:(NSString *)strTittle
+{
+    UILabel *lblbHeaderTittle= [[UILabel alloc]initWithFrame:CGRectMake(20, 0, viewBG.frame.size.width - 20, 45)];
+    [lblbHeaderTittle setText:strTittle];
+    [lblbHeaderTittle setFont:UI_DEFAULT_FONT_MEDIUM(18)];
+    [lblbHeaderTittle setTextColor:[UIColor whiteColor]];
+    [viewBG addSubview:lblbHeaderTittle];
+}
+
 /******************************************************************************************************************/
 #pragma mark ❉===❉=== BUTTON ACTION EVENT CALLED HERE ===❉===❉
 /*****************************************************************************************************************/
@@ -193,27 +200,32 @@
         AppDelegate *delegateClass = (AppDelegate *)[[UIApplication sharedApplication]delegate];
         [delegateClass setRootViewController:rootVC];
     });
-
+    
 }
+
 /******************************************************************************************************************/
-#pragma mark ❉===❉=== LANDSCAPE VIEW DELEGATE CALLED HERE ===❉===❉
-/*****************************************************************************************************************/
--(void)setSelectItemViewWithData:(UIButton *)sender
+#pragma mark ❉===❉=== GET DATA FROM DATABASE HERE ===❉===❉
+/******************************************************************************************************************/
+-(void)getAuctionDataListfromDataBase
 {
-    UIAlertController * alert=[UIAlertController alertControllerWithTitle:@"Tradologie"
-                                                                  message:@"Comming Soon"
-                                                           preferredStyle:UIAlertControllerStyleAlert];
+    AuctionItemList *objData = [MBDataBaseHandler getAuctionItemListWithData];
+    arrData = [[NSMutableArray alloc]init];
+    count = 0;
     
-    UIAlertAction* cancel = [UIAlertAction actionWithTitle:@"Cancel"
-                                                        style:UIAlertActionStyleCancel
-                                                      handler:^(UIAlertAction * action)
-                                {
-                                }];
-    
-    [alert addAction:cancel];
-    [self presentViewController:alert animated:YES completion:nil];
-//    [[UIDevice currentDevice] setValue:[NSNumber numberWithInteger: UIInterfaceOrientationPortrait] forKey:@"orientation"];
-//    TvAddProductScreen *objAddScreen = [self.storyboard instantiateViewControllerWithIdentifier:@"TvAddProductScreen"];
-//    [self.navigationController pushViewController:objAddScreen animated:YES];
+    for (AuctionItemListData *data in objData.detail)
+    {
+        NSMutableDictionary *dataDict = [NSMutableDictionary new];
+        count ++;
+        
+        [dataDict setObject:[NSString stringWithFormat:@"%lu",count] forKey:[arrTittle objectAtIndex:0]];
+        [dataDict setObject:[data.CategoryName stringByAppendingString:[@"\n " stringByAppendingString:[data.AttributeValue1 stringByAppendingString:[@"\n " stringByAppendingString:data.AttributeValue2]]]] forKey:[arrTittle objectAtIndex:1]];
+        [dataDict setObject:data.Quantity forKey:[arrTittle objectAtIndex:2]];
+        [dataDict setObject:data.PackingType forKey:[arrTittle objectAtIndex:3]];
+        [dataDict setObject:data.PackingSize forKey:[arrTittle objectAtIndex:4]];
+        [dataDict setObject:data.PackingImage forKey:[arrTittle objectAtIndex:5]];
+        
+        [arrData addObject:dataDict];
+    }
+    [self.myTableView reloadData];
 }
 @end
