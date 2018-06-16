@@ -1933,34 +1933,53 @@
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="79.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RXi-UG-ilt">
-                                                    <rect key="frame" x="15" y="5" width="345" height="45"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="LabelLabelLabelLabel" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RXi-UG-ilt">
+                                                    <rect key="frame" x="15" y="0.0" width="250" height="45"/>
+                                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KRZ-Rv-9mm">
-                                                    <rect key="frame" x="164" y="49" width="211" height="30"/>
+                                                    <rect key="frame" x="235" y="45" width="140" height="35"/>
+                                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="211" id="vqw-NY-wAJ"/>
+                                                        <constraint firstAttribute="height" constant="35" id="TRs-gg-bek"/>
+                                                        <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="140" id="qbJ-pS-bQI"/>
                                                     </constraints>
-                                                    <state key="normal" title="Button"/>
+                                                    <fontDescription key="fontDescription" name="AvenirNext-Heavy" family="Avenir Next" pointSize="14"/>
+                                                    <state key="normal" title="Click here to view">
+                                                        <color key="titleColor" red="1" green="0.57647058819999997" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    </state>
                                                 </button>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="npZ-US-6aC">
+                                                    <rect key="frame" x="267" y="5" width="108" height="35"/>
+                                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="35" id="1A5-Xs-PdN"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="12"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="KRZ-Rv-9mm" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="RzU-gi-IjC" secondAttribute="leading" constant="20" symbolic="YES" id="EKI-gz-w2u"/>
-                                                <constraint firstItem="RXi-UG-ilt" firstAttribute="top" secondItem="RzU-gi-IjC" secondAttribute="top" constant="5" id="HAH-sC-w1Y"/>
-                                                <constraint firstItem="KRZ-Rv-9mm" firstAttribute="top" secondItem="RzU-gi-IjC" secondAttribute="topMargin" constant="38" id="Iau-4p-0zr"/>
-                                                <constraint firstAttribute="trailing" secondItem="RXi-UG-ilt" secondAttribute="trailing" constant="15" id="bVf-NK-mUw"/>
-                                                <constraint firstAttribute="bottomMargin" secondItem="KRZ-Rv-9mm" secondAttribute="bottom" constant="-10" id="jZn-Ml-Vzv"/>
-                                                <constraint firstAttribute="trailing" secondItem="KRZ-Rv-9mm" secondAttribute="trailing" id="qqp-sq-vV5"/>
-                                                <constraint firstItem="RXi-UG-ilt" firstAttribute="bottom" secondItem="KRZ-Rv-9mm" secondAttribute="bottom" constant="-29" id="xk4-C2-Nr4"/>
-                                                <constraint firstItem="RXi-UG-ilt" firstAttribute="leading" secondItem="RzU-gi-IjC" secondAttribute="leading" constant="15" id="zHO-I0-Fgc"/>
+                                                <constraint firstItem="npZ-US-6aC" firstAttribute="leading" secondItem="KRZ-Rv-9mm" secondAttribute="leading" constant="32" id="Bfv-yJ-itc"/>
+                                                <constraint firstItem="RXi-UG-ilt" firstAttribute="leading" secondItem="RzU-gi-IjC" secondAttribute="leading" constant="15" id="Yjz-FX-YXk"/>
+                                                <constraint firstAttribute="bottom" secondItem="KRZ-Rv-9mm" secondAttribute="bottom" id="c1D-QE-v2i"/>
+                                                <constraint firstItem="npZ-US-6aC" firstAttribute="top" secondItem="RzU-gi-IjC" secondAttribute="top" constant="5" id="dfg-EK-97y"/>
+                                                <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="KRZ-Rv-9mm" secondAttribute="trailing" id="gdV-q1-rAB"/>
+                                                <constraint firstItem="RXi-UG-ilt" firstAttribute="top" secondItem="RzU-gi-IjC" secondAttribute="top" id="mdm-Ru-UQV"/>
+                                                <constraint firstItem="KRZ-Rv-9mm" firstAttribute="leading" secondItem="RzU-gi-IjC" secondAttribute="leading" constant="235" id="pWN-xS-oWt"/>
+                                                <constraint firstItem="KRZ-Rv-9mm" firstAttribute="top" secondItem="RXi-UG-ilt" secondAttribute="bottom" id="sFU-gu-1iV"/>
+                                                <constraint firstItem="npZ-US-6aC" firstAttribute="leading" secondItem="RXi-UG-ilt" secondAttribute="trailing" constant="2" id="tDB-ew-blQ"/>
+                                                <constraint firstAttribute="trailing" secondItem="npZ-US-6aC" secondAttribute="trailing" id="ufN-ew-Ld8"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="btnplaceOrder" destination="KRZ-Rv-9mm" id="O69-qk-CWG"/>
                                             <outlet property="lblEnquiry" destination="RXi-UG-ilt" id="GsL-2p-22y"/>
+                                            <outlet property="lblTimer" destination="npZ-US-6aC" id="6sn-HJ-hKP"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -3621,21 +3640,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ty3-1d-VRS" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="11485" y="-772"/>
-        </scene>
-        <!--View Auction Enquiry-->
-        <scene sceneID="kPF-8t-9Vf">
-            <objects>
-                <viewController storyboardIdentifier="VCViewAuctionEnquiry" id="Rz0-9e-7cI" customClass="VCViewAuctionEnquiry" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="CDq-qp-88P">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <viewLayoutGuide key="safeArea" id="rzY-Np-7iB"/>
-                    </view>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Q72-Qz-rf4" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="12209" y="-839"/>
         </scene>
         <!--Login Screen-->
         <scene sceneID="AuD-fE-gil">

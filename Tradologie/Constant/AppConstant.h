@@ -27,6 +27,7 @@
 #import "AuctionDetailForEdit.h"
 #import "AuctionItemList.h"
 #import "AuctionSupplierList.h"
+#import "LiveAuctionData.h"
 
 /*********************************************************************************************************/
 #pragma Mark- CUSTOM CELL IMPORT

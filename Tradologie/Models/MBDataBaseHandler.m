@@ -44,7 +44,7 @@
     
     return nil;
 }
-+(NSString *)getAuctionDataUsingDashBoard
++(LiveAuctionData *)getliveAuctionDataUsingDashBoard
 {
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(objType == %@)",[NSNumber numberWithInt:dashboardDetail]];
     
@@ -53,8 +53,8 @@
     if (array.count>0)
     {
         OfflineObject *object = array[0];
-        NSString *listData = object.objData;
-        return listData;
+        LiveAuctionData *objCommondata = [[LiveAuctionData alloc] initWithString:object.objData error:nil];
+        return objCommondata;
     }
     
     return nil;
@@ -203,7 +203,7 @@
         
     }];
 }
-+(void)saveDashBoradAuctionDataDetail:(NSString*)Data;
++(void)saveDashBoradLiveAuctionDataDetail:(LiveAuctionData *)Data
 {
     [self deleteAllRecordsForType:dashboardDetail];
     
@@ -214,7 +214,7 @@
     [MagicalRecord saveWithBlockAndWait:^(NSManagedObjectContext *localContext)
      {
          OfflineObject *newUser = [OfflineObject MR_createEntityInContext:localContext];
-         newUser.objData = Data;
+         newUser.objData = Data.toJSONString;
          newUser.objType = [NSNumber numberWithInt:dashboardDetail];
          newUser.objClass = NSStringFromClass([Data class]);
          

@@ -147,9 +147,9 @@
         [CommonUtility showPopUpWithData:viewtoShow withArray:arrCategoryList withCompletion:^(NSInteger response)
         {
             [self.navigationController.navigationBar setNaviagtionStyleWithStatusbar:[UIColor whiteColor]];
-            [txtCategory setText:[arrCategoryList objectAtIndex:response]];
-            selectedCategoryID = [NSString stringWithFormat:@"%@",[arrCategoryID objectAtIndex:response]];
-             [self getSupplierShortlistAccordingToGroupID:[arrCategoryID objectAtIndex:response]];
+            [self->txtCategory setText:[self->arrCategoryList objectAtIndex:response]];
+            self->selectedCategoryID = [NSString stringWithFormat:@"%@",[self->arrCategoryID objectAtIndex:response]];
+            [self getSupplierShortlistAccordingToGroupID:[self->arrCategoryID objectAtIndex:response]];
         } withDismissBlock:^{
             [self.navigationController.navigationBar setNaviagtionStyleWithStatusbar:[UIColor whiteColor]];
         }];
@@ -205,7 +205,7 @@
                                            {
                                                if (response != (NSDictionary *)[NSNull null])
                                                {
-                                                   [arrSupplierList removeObjectAtIndex:selectedIndex.row];
+                                                   [self->arrSupplierList removeObjectAtIndex:selectedIndex.row];
                                                    [self reloadTableWithData];
                                                }
                                                else{
@@ -215,7 +215,7 @@
                                            else
                                            {
                                                [CommonUtility HideProgress];
-                                               [lblMessage setHidden:NO];
+                                               [self->lblMessage setHidden:NO];
                                                [self.tbtSupplierShortlist reloadData];
                                            }
                                            
@@ -243,14 +243,14 @@
         
         MBCall_GetSupplierShortListedWithGroupID(dicParams, ^(id response, NSString *error, BOOL status)
         {
-            arrSupplierList = [[NSMutableArray alloc]init];
-            arr_Is_shortlisted = [[NSMutableArray alloc]init];
+            self->arrSupplierList = [[NSMutableArray alloc]init];
+            self->arr_Is_shortlisted = [[NSMutableArray alloc]init];
             [CommonUtility HideProgress];
 
             if (status && [[response valueForKey:@"success"]isEqual:@1])
             {
-                [lblMessage setHidden:YES];
-                [btnFilter setHidden:NO];
+                [self->lblMessage setHidden:YES];
+                [self->btnFilter setHidden:NO];
 
                 if (response != (NSDictionary *)[NSNull null])
                 {
@@ -260,16 +260,16 @@
                     
                     for (SupplierDetailData *data in objSupplierDetail.detail)
                     {
-                        [arrSupplierList addObject:data];
-                        [arr_Is_shortlisted addObject:@0];
+                        [self->arrSupplierList addObject:data];
+                        [self->arr_Is_shortlisted addObject:@0];
                     }
                     [self reloadTableViewAndScrollToTop:YES];
                 }
             }
             else
             {
-                [lblMessage setHidden:NO];
-                [btnFilter setHidden:YES];
+                [self->lblMessage setHidden:NO];
+                [self->btnFilter setHidden:YES];
                 [self.tbtSupplierShortlist reloadData];
             }
             
@@ -289,7 +289,7 @@
 {
     dispatch_async(dispatch_get_main_queue(), ^{
         
-        [btnFilter setHidden:NO];
+        [self->btnFilter setHidden:NO];
         [self.tbtSupplierShortlist reloadData];
         
         if (scrollToTop)

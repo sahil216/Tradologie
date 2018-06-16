@@ -19,11 +19,18 @@
 @property (strong, nonatomic) IBOutlet UITableView *tbtNotify;
 
 @end
+
+
 @interface NotificationList : UITableViewCell
+
 @property (strong, nonatomic) IBOutlet UILabel *lblNotifyName;
 @property (strong, nonatomic) IBOutlet UILabel *lblEnquiry;
+@property (strong, nonatomic) IBOutlet UILabel *lblTimer;
+
 @property (strong, nonatomic) IBOutlet UIButton *btnplaceOrder;
+
 - (void)ConfigureNotificationListbyCellwithData:(NSString *)strValue;
-- (void)ConfigureCellWithLiveDataEnquiry:(NSString *)strValue;
+//- (void)ConfigureCellWithLiveDataEnquiry:(NSString *)strValue;
+- (void)ConfigureCellWithLiveDataEnquiry:(NSString *)strValue withEndDate:(NSString *)strEndDate;
 
 @end

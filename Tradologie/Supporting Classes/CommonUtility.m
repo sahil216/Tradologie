@@ -210,10 +210,14 @@
     {
         if ([[UIApplication sharedApplication] respondsToSelector:@selector(openURL:options:completionHandler:)])
         {
-            [[UIApplication sharedApplication] openURL:url options:@{}
-                                     completionHandler:^(BOOL success)
-             {
-             }];
+            if (@available(iOS 10.0, *)) {
+                [[UIApplication sharedApplication] openURL:url options:@{}
+                                         completionHandler:^(BOOL success)
+                 {
+                 }];
+            } else {
+                // Fallback on earlier versions
+            }
         }
         else
         {

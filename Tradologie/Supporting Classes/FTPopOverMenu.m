@@ -152,7 +152,7 @@ typedef NS_ENUM(NSUInteger, FTPopOverMenuArrowDirection) {
                             if (configuration.ignoreImageOriginalColor) {
                                 image = [image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
                             }
-                            _iconImageView.image = image;
+                            self->_iconImageView.image = image;
                         }];
         [self.contentView addSubview:self.iconImageView];
     }
@@ -769,8 +769,8 @@ typedef NS_ENUM(NSUInteger, FTPopOverMenuArrowDirection) {
     self.isCurrentlyOnScreen = YES;
     [UIView animateWithDuration:FTDefaultAnimationDuration
                      animations:^{
-                         _popMenuView.alpha = 1;
-                         _popMenuView.transform = CGAffineTransformMakeScale(1, 1);
+                         self->_popMenuView.alpha = 1;
+                         self->_popMenuView.transform = CGAffineTransformMakeScale(1, 1);
                      }];
 }
 
@@ -788,8 +788,8 @@ typedef NS_ENUM(NSUInteger, FTPopOverMenuArrowDirection) {
 {
     [UIView animateWithDuration:FTDefaultAnimationDuration
                      animations:^{
-                         _popMenuView.alpha = 0;
-                         _popMenuView.transform = CGAffineTransformMakeScale(0.1, 0.1);
+                         self->_popMenuView.alpha = 0;
+                         self->_popMenuView.transform = CGAffineTransformMakeScale(0.1, 0.1);
                      }completion:^(BOOL finished) {
                          if (finished) {
                              [self.popMenuView removeFromSuperview];

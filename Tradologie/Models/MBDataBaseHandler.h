@@ -39,7 +39,7 @@ typedef enum
 
 +(ProductCategory *)getAllProductCategories;
 +(BuyerUserDetail *)getBuyerUserDetail;
-+(NSString *)getAuctionDataUsingDashBoard;
++(LiveAuctionData *)getliveAuctionDataUsingDashBoard;
 +(AuctionDetail *)getAuctionDetail;
 +(AuctionOrderHistory *)getAuctionOrderHistory;
 
@@ -54,7 +54,7 @@ typedef enum
 
 +(void)saveProductCategoryDetail:(ProductCategory *)Categories;
 +(void)saveCommonDataDetail:(BuyerUserDetail *)objBuyerUserDetail;
-+(void)saveDashBoradAuctionDataDetail:(NSString*)Data;
++(void)saveDashBoradLiveAuctionDataDetail:(LiveAuctionData *)Data;
 +(void)saveAuctionDetailData:(AuctionDetail *)Data;
 +(void)saveSupplierDetailData:(SupplierDetail *)Data;
 +(void)saveNegotiationDetailData:(NegotiationDetail *)Data;

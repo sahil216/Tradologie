@@ -58,7 +58,7 @@
         
         if (i == 5)
         {
-            imgPacking = [[UIImageView alloc]initWithFrame:CGRectMake(25, 5, bgView.frame.size.width - 50 , bgView.frame.size.height -10)];
+            imgPacking = [[UIImageView alloc]initWithFrame:CGRectMake(25, 10, 100 , itemSize.height - 20)];
             [imgPacking setBackgroundColor:[UIColor redColor]];
             [bgView addSubview:imgPacking];
             [labelArray addObject:imgPacking];
@@ -124,8 +124,7 @@
                 
             case 5:
             {
-
-                UIImageView * imgProfilepic = [labelArray objectAtIndex:i];
+               __weak UIImageView * imgProfilepic = [labelArray objectAtIndex:i];
                 [imgProfilepic setBackgroundColor:[UIColor clearColor]];
                 [imgProfilepic setImageWithURL:[NSURL URLWithString:[[dataDict objectForKey:[keyArray objectAtIndex:i]] checkIfEmpty]] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL)
                  {

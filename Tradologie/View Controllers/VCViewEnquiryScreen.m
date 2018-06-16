@@ -75,7 +75,7 @@
     [_contentView setBackgroundColor:[UIColor whiteColor]];
     [self.view addSubview:_contentView];
     
-    headerTotalWidth =  SCREEN_WIDTH * 1.35;
+    headerTotalWidth =  SCREEN_WIDTH * 1.70;
     
     height = ([SDVersion deviceSize] > Screen4Dot7inch)?_contentView.frame.size.height - 75:([SDVersion deviceSize] < Screen4Dot7inch)?_contentView.frame.size.height - 65:_contentView.frame.size.height - 70;
     

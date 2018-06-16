@@ -27,8 +27,8 @@
 @property (strong, nonatomic) IBOutlet UILabel *lblCertification;
 @property (strong, nonatomic) IBOutlet UIButton *btnAddShort;
 @property (strong, nonatomic) IBOutlet UIButton *btnMicroSite;
-@property (assign, nonatomic) IBOutlet UIImageView *imgSupplier;
-@property (assign, nonatomic) IBOutlet UIImageView *imgMembershipType;
+@property (weak, nonatomic) IBOutlet UIImageView *imgSupplier;
+@property (weak, nonatomic) IBOutlet UIImageView *imgMembershipType;
 @property (nonatomic,assign) id<SupplierCellDelegate> delegate;
 
 

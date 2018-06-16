@@ -19,11 +19,11 @@
 #import "CommonUtility.h"
 #import "MBAPIManager.h"
 #import "VCViewRateScreen.h"
-#import "VCViewAuctionEnquiry.h"
 
 #define K_CUSTOM_WIDTH 170
 
-@interface VcEnquiryRequestScreen ()<UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate,TvCellEnquiryDelegate>
+@interface VcEnquiryRequestScreen ()<UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate,
+TvCellEnquiryDelegate,SFSafariViewControllerDelegate>
 {
     NSMutableArray *arrTittle;
     NSMutableArray *arrData;
@@ -389,19 +389,27 @@
     }
     else if ([btnState isEqualToString:@"View Enquiry"])
     {
-           [[UIDevice currentDevice] setValue:[NSNumber numberWithInteger: UIInterfaceOrientationLandscapeRight] forKey:@"orientation"];
-        
+        [[UIDevice currentDevice] setValue:[NSNumber numberWithInteger: UIInterfaceOrientationLandscapeRight] forKey:@"orientation"];
+        [[UIApplication sharedApplication] setStatusBarHidden:YES animated:YES];
+        [CommonUtility showProgressWithMessage:@"Please Wait"];
+
         BuyerUserDetail *objBuyerdetail = [MBDataBaseHandler getBuyerUserDetail];
 
         NSString *loadURL= [NSString stringWithFormat:@"http://tradologie.com/APIAuctionLive/%@/%@",objBuyerdetail.detail.APIVerificationCode,strCode];
         NSURL *url = [[NSURL alloc] initWithString:loadURL];
         SFSafariViewController *sfcontroller = [[SFSafariViewController alloc] initWithURL:url];
+        [sfcontroller setDelegate:self];
+        [sfcontroller setPreferredBarTintColor:DefaultThemeColor];
+
         [self.navigationController presentViewController:sfcontroller animated:YES completion:^{
 
-            [[UIApplication sharedApplication] setStatusBarHidden:YES animated:YES];
         }];
     }
-    
+}
+
+- (void)safariViewController:(SFSafariViewController *)controller didCompleteInitialLoad:(BOOL)didLoadSuccessfully
+{
+    [CommonUtility HideProgress];
 }
 /******************************************************************************************************************/
 #pragma mark ❉===❉=== TEXTFIELD DELEGATE CALLED HERE ===❉===❉

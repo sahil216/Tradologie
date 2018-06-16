@@ -133,7 +133,7 @@
 //=====================================================Fonts======================================================//
 #define UI_DEFAULT_FONT(_size)        [UIFont fontWithName:@"HelveticaNeue" size:_size]
 #define UI_DEFAULT_FONT_BOLD(_size)   [UIFont fontWithName:@"HelveticaNeue-Bold" size:_size]
-#define UI_DEFAULT_FONT_LIGHT(_size)  [UIFont fontWithName:@"Roboto-Light" size:_size]
+#define UI_DEFAULT_FONT_LIGHT(_size)  [UIFont fontWithName:@"HelveticaNeue-Light" size:_size]
 #define UI_DEFAULT_FONT_MEDIUM(_size) [UIFont fontWithName:@"HelveticaNeue-Medium" size:_size]
 #define UI_DEFAULT_FONT_THIN(_size)   [UIFont fontWithName:@"Roboto-Thin" size:_size]
 #define UI_DEFAULT_LOGO_FONT(_size)   [UIFont fontWithName:@"Neuropol-Regular" size:_size]
