@@ -160,12 +160,12 @@
     [self.view endEditing:YES];
 
     BOOL isValidate=TRUE;
-//    [txtUserID setText:@"sgsirsa2@gmail.com"];
-//    [txtPassword setText:@"reset"];
-//    
+    [txtUserID setText:@"mahendra.chaudhary2004@gmail.com"];
+    [txtPassword setText:@"reset"];
     
-    [txtUserID setText:@"sahil216@gmail.com"];
-    [txtPassword setText:@"supere249"];
+    
+//    [txtUserID setText:@"sahil216@gmail.com"];
+//    [txtPassword setText:@"supere249"];
 
 
     if ([Validation validateTextField:txtUserID])

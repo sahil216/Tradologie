@@ -59,7 +59,7 @@
     
     return nil;
 }
-+(AuctionDetail *)getAuctionDetail;
++(AuctionDetail *)getAuctionDetail
 {
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(objType == %@)",[NSNumber numberWithInt:auctionData]];
     
@@ -89,7 +89,7 @@
     return nil;
 }
 
-+(SupplierDetail *)getSupplierDetailData;
++(SupplierDetail *)getSupplierDetailData
 {
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(objType == %@)",[NSNumber numberWithInt:supplierDetail]];
     
@@ -104,7 +104,7 @@
     
     return nil;
 }
-+(NegotiationDetail *)getNegotiationDetailData;
++(NegotiationDetail *)getNegotiationDetailData
 {
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(objType == %@)",[NSNumber numberWithInt:negotiationDetail]];
     
@@ -119,7 +119,7 @@
     
     return nil;
 }
-+(AuctionOrderHistory *)getAuctionOrderHistory;
++(AuctionOrderHistory *)getAuctionOrderHistory
 {
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(objType == %@)",[NSNumber numberWithInt:OrderHistory]];
     
@@ -134,7 +134,7 @@
     
     return nil;
 }
-+(AuctionItemList *)getAuctionItemListWithData;
++(AuctionItemList *)getAuctionItemListWithData
 {
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(objType == %@)",[NSNumber numberWithInt:auctionItem]];
     
@@ -149,7 +149,7 @@
     
     return nil;
 }
-+(AuctionSupplierList *)getAuctionSupplierListWithData;
++(AuctionSupplierList *)getAuctionSupplierListWithData
 {
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(objType == %@)",[NSNumber numberWithInt:auctionSupplier]];
     
@@ -164,7 +164,21 @@
     
     return nil;
 }
-
++(NSString *)getAuctionOrderProcessItemWithData
+{
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(objType == %@)",[NSNumber numberWithInt:auctionOrderProcessItem]];
+    
+    NSArray *array = [OfflineObject MR_findAllWithPredicate:predicate];
+    
+    if (array.count>0)
+    {
+        OfflineObject *object = array[0];
+        NSString *listData = object.objData;
+        return listData;
+    }
+    
+    return nil;
+}//auctionOrderProcessItem
 /*********************************************************************************************/
 #pragma mark ❉===❉=== SETTER METHOD TO SET VALUE IN DATABASE ❉===❉===
 /*********************************************************************************************/
@@ -271,7 +285,7 @@
          
      }];
 }
-+(void)saveAuctionOrderHistory:(AuctionOrderHistory *)OrderHitoryData;
++(void)saveAuctionOrderHistory:(AuctionOrderHistory *)OrderHitoryData
 {
     [self deleteAllRecordsForType:OrderHistory];
     
@@ -324,7 +338,7 @@
          
      }];
 }
-+(void)saveAuctionSupplierListWithData:(AuctionSupplierList *)auctionSupplierList;
++(void)saveAuctionSupplierListWithData:(AuctionSupplierList *)auctionSupplierList
 {
     [self deleteAllRecordsForType:auctionSupplier];
     
@@ -341,6 +355,23 @@
          
      }];
     
+}
++(void)saveAuctionOrderProcessItemWithData:(NSString *)AuctionOrderProcess
+{
+    [self deleteAllRecordsForType:auctionOrderProcessItem];
+    
+    if (!AuctionOrderProcess) {
+        return;
+    }
+    
+    [MagicalRecord saveWithBlockAndWait:^(NSManagedObjectContext *localContext)
+     {
+         OfflineObject *newUser = [OfflineObject MR_createEntityInContext:localContext];
+         newUser.objData = AuctionOrderProcess;
+         newUser.objType = [NSNumber numberWithInt:auctionOrderProcessItem];
+         newUser.objClass = NSStringFromClass([AuctionOrderProcess class]);
+         
+     }];
 }
 /*********************************************************************************************/
 #pragma mark ❉===❉=== DELETE ALL RECORD"S FROM DATABASE ❉===❉===

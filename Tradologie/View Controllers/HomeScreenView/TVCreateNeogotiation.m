@@ -415,17 +415,17 @@
         [CommonUtility showPopUpWithData:viewtoShow withArray:arrInspectionAgency withCompletion:^(NSInteger response)
          {
              [self.navigationController.navigationBar setNaviagtionStyleWithStatusbar:[UIColor whiteColor]];
-             NSString *strValue = [NSString stringWithFormat:@"%@",[arrInspectionAgency objectAtIndex:response]];
-             [txtInspectionAgency setText:strValue];
-             if ([strValue isEqualToString:[arrInspectionAgency lastObject]])
+             NSString *strValue = [NSString stringWithFormat:@"%@",[self->arrInspectionAgency objectAtIndex:response]];
+             [self->txtInspectionAgency setText:strValue];
+             if ([strValue isEqualToString:[self->arrInspectionAgency lastObject]])
              {
-                 isOthers = true;
-                 strInspectionID = [NSString stringWithFormat:@"%@",[arrInspectionID lastObject]];
+                 self->isOthers = true;
+                 self->strInspectionID = [NSString stringWithFormat:@"%@",[self->arrInspectionID lastObject]];
              }
              else
              {
-                 isOthers = false;
-                 strInspectionID = [NSString stringWithFormat:@"%@",[arrInspectionID objectAtIndex:response]];
+                 self->isOthers = false;
+                 self->strInspectionID = [NSString stringWithFormat:@"%@",[self->arrInspectionID objectAtIndex:response]];
              }
              [self.tableView reloadData];
              

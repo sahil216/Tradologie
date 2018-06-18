@@ -137,7 +137,7 @@
     NSString * code;
     for (NSDictionary * group in groups) {
         
-        code =[group objectForKey:key];
+        code = [group objectForKey:key];
         
         if ([listNamesEncountered indexOfObject: code] == NSNotFound) {
             

@@ -125,19 +125,21 @@
         self->dicData = [[NSMutableDictionary alloc]init];
         self->dicData = [objlivedata.detail objectAtIndex:0];
         
-        if ([[dicData valueForKey:@"AuctionDraftCount"] isEqual:selectedvalue])
+        if (![[dicData valueForKey:@"AuctionDraftCount"] isEqual:@0] && ![[dicData valueForKey:@"AuctionNotStartCount"] isEqual:@0] )
         {
-            [self GetNegotiationListUsingAuction:@"Draft"];
+            if ([[dicData valueForKey:@"AuctionDraftCount"] isEqual:selectedvalue])
+            {
+                [self GetNegotiationListUsingAuction:@"Draft"];
+            }
+            else if ([[dicData valueForKey:@"AuctionNotStartCount"] isEqual:selectedvalue])
+            {
+                [self GetNegotiationListUsingAuction:@"NotStart"];
+            }
+            else
+            {
+                [self GetNegotiationListUsingAuction:@""];
+            }
         }
-        else if ([[dicData valueForKey:@"AuctionNotStartCount"] isEqual:selectedvalue])
-        {
-            [self GetNegotiationListUsingAuction:@"NotStart"];
-        }
-        else
-        {
-            [self GetNegotiationListUsingAuction:@""];
-        }
-        
     }
 }
 
@@ -354,7 +356,7 @@
     
     strEndDate = [strEndDate stringByReplacingOccurrencesOfString:@"T" withString:@" "];
     
-    NSDate *date = [dateFormatter dateFromString:strEndDate];
+    //NSDate *date = [dateFormatter dateFromString:strEndDate];
     
    // [_lblTimer setText:[self timeLeftSinceDate:date]];
 }

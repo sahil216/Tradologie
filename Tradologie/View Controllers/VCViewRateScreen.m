@@ -11,8 +11,9 @@
 #import "AppConstant.h"
 #import "VCHomeNotifications.h"
 #import "MBDataBaseHandler.h"
+#import "CommonUtility.h"
 
-#define K_CUSTOM_WIDTH 150
+#define K_CUSTOM_WIDTH 200
 
 
 @interface VCViewRateScreen ()<UITableViewDataSource,UITableViewDelegate>
@@ -22,6 +23,9 @@
     float headerTotalWidth;
     NSInteger count,SupplierCount;
     CGFloat height , lblHeight;
+    NSMutableDictionary *dicRateData;
+    NSString *strRate;
+
 }
 @property (nonatomic, strong) UIView * contentView;
 @property (nonatomic, strong) UITableView *myTableView;
@@ -35,15 +39,15 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+
     [self.navigationItem setNavigationTittleWithLogoforLanscapeMode:@"View Rate"];
     [self.navigationController setNavigationBarHidden:NO animated:YES];
     [self.navigationController.navigationItem setHidesBackButton:YES animated:YES];
     [self.navigationItem setHidesBackButton:YES];
+
+    lblHeight = 100;
     
-    arrTittle = [[NSMutableArray alloc]initWithObjects:@"Sr.No",@"Grade",@"Enquiry Quantity",@"Packing Type",@"Packing Size",@"Packing Image",nil];
-    
-    
-    lblHeight = 120;
+    [self GetHeaderTittleValue];
     [self SetInitialSetup];
     [self.navigationItem SetBackButtonWithID:self withSelectorAction:@selector(btnBackItem:)];
 }
@@ -74,8 +78,8 @@
     [_contentView setBackgroundColor:[UIColor whiteColor]];
     [self.view addSubview:_contentView];
     
-    headerTotalWidth =  SCREEN_WIDTH * 1.35;
-    
+    headerTotalWidth = SCREEN_WIDTH * ([arrTittle count] / 2);
+
     height = ([SDVersion deviceSize] > Screen4Dot7inch)?_contentView.frame.size.height - 75:([SDVersion deviceSize] < Screen4Dot7inch)?_contentView.frame.size.height - 65:_contentView.frame.size.height - 70;
     
     UITableView *tableView=[[UITableView alloc]initWithFrame:CGRectMake(0, 0, headerTotalWidth, height) style:UITableViewStylePlain];
@@ -95,7 +99,7 @@
     NSArray *subviewArray = [[NSBundle mainBundle] loadNibNamed:@"ViewEnquiryState" owner:self options:nil];
     _viewLandscape = [subviewArray objectAtIndex:0];
     
-//    [self getAuctionDataListfromDataBase];
+    [self getAuctionOrderProcessItemListDataFromDB];
     
 }
 /******************************************************************************************************************/
@@ -103,7 +107,7 @@
 /*****************************************************************************************************************/
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 2;
+    return 3;
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -112,22 +116,37 @@
     {
         return  0;
     }
-    return  arrData.count;
+    else  if (section == 1)
+    {
+        return  arrData.count;
+    }
+    return  1;
 }
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *cellIdentifier = @"";
-    
     if(indexPath.section == 1)
     {
-        cellIdentifier = COMMON_CELL_ID;
-        TVcellNotificationlist *cell = (TVcellNotificationlist *)[tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+        TVCellEnquiryRate *cell = (TVCellEnquiryRate *)[tableView dequeueReusableCellWithIdentifier:COMMON_CELL_ID];
+        
         if(cell==nil)
         {
-            cell=[[TVcellNotificationlist alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier itemSize:CGSizeMake(K_CUSTOM_WIDTH +50, lblHeight) headerArray:arrTittle];
+            cell=[[TVCellEnquiryRate alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:COMMON_CELL_ID itemSize:CGSizeMake(K_CUSTOM_WIDTH + 150, lblHeight) headerArray:arrTittle];
             cell.selectionStyle=UITableViewCellSelectionStyleNone;
         }
-        cell.dataDict = [arrData objectAtIndex:indexPath.row];
+        [cell setDataDict:[arrData objectAtIndex:indexPath.row] WithIndex:indexPath.row];
+        
+        return cell;
+    }
+    else if (indexPath.section == 2)
+    {
+        TVCellCounterTime *cell = (TVCellCounterTime *)[tableView dequeueReusableCellWithIdentifier:@"Cell_ID"];
+        
+        if(cell==nil)
+        {
+            cell = [[TVCellCounterTime alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"Cell_ID" itemSize:CGSizeMake(K_CUSTOM_WIDTH + 150, lblHeight) headerArray:arrTittle];
+            cell.selectionStyle=UITableViewCellSelectionStyleNone;
+        }
+        [cell setDataDict:nil WithIndex:indexPath.row];
         
         return cell;
     }
@@ -141,28 +160,54 @@
         [_viewLandscape setDataDict:data];
         return _viewLandscape;
     }
-    UIView *Viewsection2 = [[UIView alloc]initWithFrame:CGRectMake(0, 0, [arrTittle count] * K_CUSTOM_WIDTH, 90)];
-    [Viewsection2 setBackgroundColor:DefaultThemeColor];
+    UIView *viewHeader = [[UIView alloc]initWithFrame:CGRectMake(0, 0, [arrTittle count] * K_CUSTOM_WIDTH, 60)];
+    [viewHeader setBackgroundColor:DefaultThemeColor];
     
-    [self getLableAccordingtoView:Viewsection2 withTittle:@"Negotiation Product list"];
-    int xx = 0;
-    int width = 80;
-    
-    for(int i = 0 ; i < [arrTittle count] ; i++)
+    if (section == 1)
     {
-        UILabel *headLabel=[[UILabel alloc]initWithFrame:CGRectMake(xx, Viewsection2.frame.size.height/2, width, Viewsection2.frame.size.height/2)];
-        [headLabel setText:[arrTittle objectAtIndex:i]];
-        [headLabel setTextAlignment:NSTextAlignmentCenter];
-        [headLabel setNumberOfLines:0];
-        [headLabel setTextColor:[UIColor whiteColor]];
-        [headLabel setLineBreakMode:NSLineBreakByWordWrapping];
-        [headLabel setFont:UI_DEFAULT_FONT_MEDIUM(18)];
-        [Viewsection2 addSubview:headLabel];
+        int xx = 0;
+        int width = 80;
         
-        xx = xx + width;
-        width = K_CUSTOM_WIDTH + 50 ;
+        for(int i = 0 ; i < [arrTittle count] ; i++)
+        {
+            
+            UILabel *headLabel=[[UILabel alloc]initWithFrame:CGRectMake(xx, 0 , width, viewHeader.frame.size.height)];
+            [headLabel setText:[[arrTittle objectAtIndex:i]capitalizedString]];
+            [headLabel setNumberOfLines:0];
+            [headLabel setTextColor:[UIColor whiteColor]];
+            [headLabel setLineBreakMode:NSLineBreakByWordWrapping];
+            [headLabel setFont:UI_DEFAULT_FONT_MEDIUM(17)];
+            [viewHeader addSubview:headLabel];
+            
+            xx = xx + width;
+            
+            if (i == 0)
+            {
+                width = 150;
+                [headLabel setTextAlignment:NSTextAlignmentLeft];
+                
+            }
+            else if (i == 1)
+            {
+                width = 120;
+                [headLabel setTextAlignment:NSTextAlignmentLeft];
+                
+            }
+            else if (i == arrTittle.count - 1)
+            {
+                width = 100;
+                [headLabel setTextAlignment:NSTextAlignmentLeft];
+            }
+            else
+            {
+                width = K_CUSTOM_WIDTH + 150;
+                [headLabel setTextAlignment:NSTextAlignmentCenter];
+                
+            }
+        }
     }
-    return Viewsection2;
+    
+    return viewHeader;
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -174,16 +219,11 @@
     {
         return _viewLandscape.frame.size.height - 200;
     }
-    return 90;
-}
-
--(void)getLableAccordingtoView:(UIView *)viewBG withTittle:(NSString *)strTittle
-{
-    UILabel *lblbHeaderTittle= [[UILabel alloc]initWithFrame:CGRectMake(20, 0, viewBG.frame.size.width - 20, 45)];
-    [lblbHeaderTittle setText:strTittle];
-    [lblbHeaderTittle setFont:UI_DEFAULT_FONT_MEDIUM(18)];
-    [lblbHeaderTittle setTextColor:[UIColor whiteColor]];
-    [viewBG addSubview:lblbHeaderTittle];
+    else if(section == 1)
+    {
+        return 60;
+    }
+    return CGFLOAT_MIN;
 }
 
 /******************************************************************************************************************/
@@ -206,26 +246,53 @@
 /******************************************************************************************************************/
 #pragma mark ❉===❉=== GET DATA FROM DATABASE HERE ===❉===❉
 /******************************************************************************************************************/
--(void)getAuctionDataListfromDataBase
+-(void)getAuctionOrderProcessItemListDataFromDB
 {
-    AuctionItemList *objData = [MBDataBaseHandler getAuctionItemListWithData];
-    arrData = [[NSMutableArray alloc]init];
-    count = 0;
+    NSString *objData = [MBDataBaseHandler getAuctionOrderProcessItemWithData];
+    NSMutableDictionary *dataDict = [NSJSONSerialization JSONObjectWithData:[objData dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingMutableContainers error:nil];
     
-    for (AuctionItemListData *data in objData.detail)
+    NSMutableArray *arrObject = [[dataDict valueForKey:@"detail"] mutableCopy];
+    arrData = [[NSMutableArray alloc]init];
+ 
+    for (NSMutableDictionary *dicData in arrObject)
     {
         NSMutableDictionary *dataDict = [NSMutableDictionary new];
         count ++;
         
         [dataDict setObject:[NSString stringWithFormat:@"%lu",count] forKey:[arrTittle objectAtIndex:0]];
-        [dataDict setObject:[data.CategoryName stringByAppendingString:[@"\n " stringByAppendingString:[data.AttributeValue1 stringByAppendingString:[@"\n " stringByAppendingString:data.AttributeValue2]]]] forKey:[arrTittle objectAtIndex:1]];
-        [dataDict setObject:data.Quantity forKey:[arrTittle objectAtIndex:2]];
-        [dataDict setObject:data.PackingType forKey:[arrTittle objectAtIndex:3]];
-        [dataDict setObject:data.PackingSize forKey:[arrTittle objectAtIndex:4]];
-        [dataDict setObject:data.PackingImage forKey:[arrTittle objectAtIndex:5]];
-        
+        [dataDict setObject:[[dicData valueForKey:@"AuctionCategoryName"] stringByAppendingString:[@"\n " stringByAppendingString:[[dicData valueForKey:@"AuctionAttributeValue1"] stringByAppendingString:[@"\n " stringByAppendingString:[dicData valueForKey:@"AuctionAttributeValue2"]]]]] forKey:[arrTittle objectAtIndex:1]];
+        [dataDict setObject:[dicData valueForKey:@"Quantity"] forKey:[arrTittle objectAtIndex:2]];
+        [dataDict setObject:[dicData valueForKey:@"Rate"] forKey:@"RATE"];
+
         [arrData addObject:dataDict];
     }
+
     [self.myTableView reloadData];
+}
+-(void)GetHeaderTittleValue
+{
+    NSString *objData = [MBDataBaseHandler getAuctionOrderProcessItemWithData];
+    NSMutableDictionary *dataDict = [NSJSONSerialization JSONObjectWithData:[objData dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingMutableContainers error:nil];
+    
+    arrTittle = [[NSMutableArray alloc]init];
+    
+    for (NSMutableDictionary *dicData in [dataDict valueForKey:@"detail"])
+    {
+        dicRateData = [[NSMutableDictionary alloc]init];
+        for (NSMutableDictionary *dicRate in [dicData valueForKey:@"Rate"])
+        {
+            [arrTittle addObject:[dicRate valueForKey:@"SupplierName"]];
+        }
+    }
+    NSOrderedSet *orderedSet = [NSOrderedSet orderedSetWithArray:arrTittle];
+    [arrTittle removeAllObjects];
+    
+    arrTittle = [[orderedSet array] mutableCopy];
+    [arrTittle insertObject:@"  Sr.No" atIndex:0];
+    [arrTittle insertObject:@"Description" atIndex:1];
+    [arrTittle insertObject:@"Enquiry QTY" atIndex:2];
+    [arrTittle insertObject:@"" atIndex:arrTittle.count];
+    
+    NSLog(@"TITLE ======> %@",arrTittle);
 }
 @end

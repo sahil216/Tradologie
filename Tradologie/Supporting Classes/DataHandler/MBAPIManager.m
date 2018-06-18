@@ -480,4 +480,23 @@ void MBCall_GetAuctionOrderProcessDetailWithAuctionCode(NSDictionary* params,RMA
          }
      }];
 }
+
+void MBCall_GetAuctionOrderProcessItemListWithAuctionCodeandPONO(NSDictionary* params,RMApiManagerCompletion completion)
+{
+    [[MBHTTPClient sharedInstance] requestPOSTServiceOnURL:getUrlForMethod(AUCTION_ORDER_PROCESS_ITEM_API) WithDictionary:params withCompletion:^(NSURLSessionDataTask *task, NSError *error, id response)
+     {
+         if (error)
+         {
+             completion(nil,filterErrorMessageUsingResponseRequestOperation(task, error),NO);
+             return;
+         }
+         else if(response)
+         {
+             completion(response,checkIfResponseHasErrorMessage(response),YES);
+             
+         }
+     }];
+}
+
+
 @end

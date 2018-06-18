@@ -11,6 +11,8 @@
 		3523E44417BBEBB5541FBA81 /* libPods-TradologieTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 343C22DFF27448BE73EE85DB /* libPods-TradologieTests.a */; };
 		4A07719D20C569A900A8F28F /* VCOrderHistory.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A07719C20C569A900A8F28F /* VCOrderHistory.m */; };
 		4A0771A020C56B4900A8F28F /* TVCellOrderHistory.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A07719F20C56B4900A8F28F /* TVCellOrderHistory.m */; };
+		4A134A0820D4E129009AC498 /* AuctionOrderProcessItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A134A0720D4E129009AC498 /* AuctionOrderProcessItem.m */; };
+		4A134A0B20D4FA02009AC498 /* TVCellEnquiryRate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A134A0A20D4FA02009AC498 /* TVCellEnquiryRate.m */; };
 		4A15E99220A4510000192B46 /* VcEnquiryRequestScreen.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A15E99120A4510000192B46 /* VcEnquiryRequestScreen.m */; };
 		4A19611120B7EA08005E3B02 /* AuctionDetail.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A19611020B7EA08005E3B02 /* AuctionDetail.m */; };
 		4A1C5C85209C19A900A87222 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A1C5C84209C19A900A87222 /* AppDelegate.m */; };
@@ -57,6 +59,7 @@
 		4A32483120A1CDE60030DA1A /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A32482B20A1CDE50030DA1A /* RootViewController.m */; };
 		4A32483220A1CDE60030DA1A /* MenuViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A32482E20A1CDE50030DA1A /* MenuViewCell.m */; };
 		4A32483320A1CDE60030DA1A /* MenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A32483020A1CDE50030DA1A /* MenuViewController.m */; };
+		4A353E2020D7F5820002B783 /* TVCellCounterTime.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A353E1F20D7F5820002B783 /* TVCellCounterTime.m */; };
 		4A36374220A6B75D00DF37D2 /* SharedManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A36374020A6B75C00DF37D2 /* SharedManager.m */; };
 		4A36374520A6B8CA00DF37D2 /* MBHTTPClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A36374320A6B8C900DF37D2 /* MBHTTPClient.m */; };
 		4A36374820A6BC6100DF37D2 /* MBAPIManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A36374720A6BC6100DF37D2 /* MBAPIManager.m */; };
@@ -117,6 +120,10 @@
 		4A07719C20C569A900A8F28F /* VCOrderHistory.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VCOrderHistory.m; sourceTree = "<group>"; };
 		4A07719E20C56B4900A8F28F /* TVCellOrderHistory.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TVCellOrderHistory.h; sourceTree = "<group>"; };
 		4A07719F20C56B4900A8F28F /* TVCellOrderHistory.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TVCellOrderHistory.m; sourceTree = "<group>"; };
+		4A134A0620D4E129009AC498 /* AuctionOrderProcessItem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AuctionOrderProcessItem.h; sourceTree = "<group>"; };
+		4A134A0720D4E129009AC498 /* AuctionOrderProcessItem.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AuctionOrderProcessItem.m; sourceTree = "<group>"; };
+		4A134A0920D4FA02009AC498 /* TVCellEnquiryRate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TVCellEnquiryRate.h; sourceTree = "<group>"; };
+		4A134A0A20D4FA02009AC498 /* TVCellEnquiryRate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TVCellEnquiryRate.m; sourceTree = "<group>"; };
 		4A15E99020A4510000192B46 /* VcEnquiryRequestScreen.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VcEnquiryRequestScreen.h; sourceTree = "<group>"; };
 		4A15E99120A4510000192B46 /* VcEnquiryRequestScreen.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VcEnquiryRequestScreen.m; sourceTree = "<group>"; };
 		4A19610F20B7EA08005E3B02 /* AuctionDetail.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AuctionDetail.h; sourceTree = "<group>"; };
@@ -203,6 +210,8 @@
 		4A32482E20A1CDE50030DA1A /* MenuViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MenuViewCell.m; sourceTree = "<group>"; };
 		4A32482F20A1CDE50030DA1A /* MenuViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuViewCell.h; sourceTree = "<group>"; };
 		4A32483020A1CDE50030DA1A /* MenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MenuViewController.m; sourceTree = "<group>"; };
+		4A353E1E20D7F5820002B783 /* TVCellCounterTime.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TVCellCounterTime.h; sourceTree = "<group>"; };
+		4A353E1F20D7F5820002B783 /* TVCellCounterTime.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TVCellCounterTime.m; sourceTree = "<group>"; };
 		4A36374020A6B75C00DF37D2 /* SharedManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SharedManager.m; sourceTree = "<group>"; };
 		4A36374120A6B75D00DF37D2 /* SharedManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SharedManager.h; sourceTree = "<group>"; };
 		4A36374320A6B8C900DF37D2 /* MBHTTPClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBHTTPClient.m; sourceTree = "<group>"; };
@@ -500,6 +509,8 @@
 				4A7B22F920D12B2000725A99 /* AuctionItemList.m */,
 				4A25CA6220D38CCB00B58A12 /* AuctionSupplierList.h */,
 				4A25CA6320D38CCB00B58A12 /* AuctionSupplierList.m */,
+				4A134A0620D4E129009AC498 /* AuctionOrderProcessItem.h */,
+				4A134A0720D4E129009AC498 /* AuctionOrderProcessItem.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -598,6 +609,10 @@
 				4A7B22F620D11BD100725A99 /* TVcellNotificationlist.m */,
 				4A25CA5F20D38A3500B58A12 /* TVCellAuctionSeller.h */,
 				4A25CA6020D38A3500B58A12 /* TVCellAuctionSeller.m */,
+				4A134A0920D4FA02009AC498 /* TVCellEnquiryRate.h */,
+				4A134A0A20D4FA02009AC498 /* TVCellEnquiryRate.m */,
+				4A353E1E20D7F5820002B783 /* TVCellCounterTime.h */,
+				4A353E1F20D7F5820002B783 /* TVCellCounterTime.m */,
 				4ADBDBD720C7B8460044E454 /* SBaseLabel.h */,
 				4ADBDBD820C7B8470044E454 /* SBaseLabel.m */,
 				4ADBDBD220C7ADCE0044E454 /* LandScapeView.h */,
@@ -934,6 +949,7 @@
 				4ADBDBD920C7B8470044E454 /* SBaseLabel.m in Sources */,
 				4A4A2C4820A3098A000B8EB4 /* EveryPage.m in Sources */,
 				4A1C5C85209C19A900A87222 /* AppDelegate.m in Sources */,
+				4A353E2020D7F5820002B783 /* TVCellCounterTime.m in Sources */,
 				4A15E99220A4510000192B46 /* VcEnquiryRequestScreen.m in Sources */,
 				4A7B22CA20D0ED7E00725A99 /* VCViewEnquiryScreen.m in Sources */,
 				4A32483120A1CDE60030DA1A /* RootViewController.m in Sources */,
@@ -974,11 +990,13 @@
 				4A1C5CCA209C306A00A87222 /* UIButton+Extra.m in Sources */,
 				4A3A9ED420A975A400356E77 /* VCTradePolicyScreen.m in Sources */,
 				4A19611120B7EA08005E3B02 /* AuctionDetail.m in Sources */,
+				4A134A0820D4E129009AC498 /* AuctionOrderProcessItem.m in Sources */,
 				4A25CA6120D38A3500B58A12 /* TVCellAuctionSeller.m in Sources */,
 				4A1C5CCD209C306A00A87222 /* UINavigationBar+Extra.m in Sources */,
 				4A245619209DD456000B3B64 /* FRHyperLabel.m in Sources */,
 				4A7B22F220D0FF4800725A99 /* ViewEnquiryState.m in Sources */,
 				4A1C5C96209C19A900A87222 /* main.m in Sources */,
+				4A134A0B20D4FA02009AC498 /* TVCellEnquiryRate.m in Sources */,
 				4A7B22D620D0EE2100725A99 /* VCAddNegotiation.m in Sources */,
 				4A36374B20A6BF7900DF37D2 /* MBErrorUtility.m in Sources */,
 				4A7B22EA20D0EEA500725A99 /* TVCompanyRegister.m in Sources */,

@@ -31,6 +31,7 @@ TvCellEnquiryDelegate,SFSafariViewControllerDelegate>
     NSInteger count;
     CGFloat height , lblHeight;
     UITextField *txtGPSCode, *txtSortBuy;
+    BOOL isFromViewRate;
 }
 
 @property (nonatomic, strong) UIView * contentView;
@@ -52,6 +53,7 @@ TvCellEnquiryDelegate,SFSafariViewControllerDelegate>
     [self.navigationItem SetRightButtonWithID:self withSelectorAction:@selector(btnRightItemTaped:)withImage:@"IconAddNegotiation"];
     
     lblHeight = 90;
+    isFromViewRate = NO;
     [self SetInitialSetup];
     // Do any additional setup after loading the view.
 }
@@ -181,6 +183,7 @@ TvCellEnquiryDelegate,SFSafariViewControllerDelegate>
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    isFromViewRate = NO;
     AuctionDetail *objAuctionDetail = [MBDataBaseHandler getAuctionDetail];
     NSMutableArray *arrValue = [[NSMutableArray alloc]init];
     [arrValue addObjectsFromArray:[objAuctionDetail.detail mutableCopy]];
@@ -218,9 +221,15 @@ TvCellEnquiryDelegate,SFSafariViewControllerDelegate>
                     AuctionDetailForEdit *data = [[AuctionDetailForEdit alloc]initWithDictionary:response error:&error];
                     [MBDataBaseHandler saveAuctionDetailForEditNegotiation:data];
                     
-                    [self getAuctionListAPIWithAuctionID:auctionID];
-                    [self getAuctionSellerListAPIWithAuctionID:auctionID];
-                    
+                    if (self->isFromViewRate)
+                    {
+                        
+                    }
+                    else
+                    {
+                        [self getAuctionListAPIWithAuctionID:auctionID];
+                        [self getAuctionSellerListAPIWithAuctionID:auctionID];
+                    }
                 }
             }
             else
@@ -266,7 +275,6 @@ TvCellEnquiryDelegate,SFSafariViewControllerDelegate>
                     
                     [[UIDevice currentDevice] setValue:[NSNumber numberWithInteger: UIInterfaceOrientationLandscapeRight] forKey:@"orientation"];
                     [self.navigationController pushViewController:objScreen animated:YES];
-                    
                 }
             }
             else
@@ -281,22 +289,17 @@ TvCellEnquiryDelegate,SFSafariViewControllerDelegate>
         [[CommonUtility new] show_ErrorAlertWithTitle:@"" withMessage:@"Internet Not Available Please Try Again..!"];
     }
 }
+
 /******************************************************************************************************************/
-#pragma mark ❉===❉=== GET AUCTION LIST ITEM API ===❉===❉
+#pragma mark ❉===❉=== GET AUCTION ORDER PROCESS DETAIL LIST FOR VIEWRATE API ===❉===❉
 /******************************************************************************************************************/
--(void)getAuctionListAPIWithAuctionCode:(NSString *)auctionCode
+-(void)getAuctionOrderProcessItemListWithPONo:(NSDictionary *)dicParams
 {
-    BuyerUserDetail *objBuyerdetail = [MBDataBaseHandler getBuyerUserDetail];
-    
-    NSMutableDictionary *dicParams = [[NSMutableDictionary alloc]init];
-    [dicParams setValue:objBuyerdetail.detail.APIVerificationCode forKey:@"Token"];
-    [dicParams setValue:auctionCode forKey:@"AuctionCode"];
-    
     if (SharedObject.isNetAvailable)
     {
         [CommonUtility showProgressWithMessage:@"Please Wait.."];
         
-        MBCall_GetAuctionOrderProcessDetailWithAuctionCode(dicParams, ^(id response, NSString *error, BOOL status)
+        MBCall_GetAuctionOrderProcessItemListWithAuctionCodeandPONO(dicParams, ^(id response, NSString *error, BOOL status)
         {
             [CommonUtility HideProgress];
             
@@ -304,6 +307,9 @@ TvCellEnquiryDelegate,SFSafariViewControllerDelegate>
             {
                 if (response != (NSDictionary *)[NSNull null])
                 {
+                    NSString *data = [[NSString alloc] initWithData:[NSJSONSerialization dataWithJSONObject:response options:0 error:nil] encoding:NSUTF8StringEncoding];
+
+                    [MBDataBaseHandler saveAuctionOrderProcessItemWithData:data];
                     VCViewRateScreen *objScreen =[self.storyboard instantiateViewControllerWithIdentifier:@"VCViewRateScreen"];
                     [[UIDevice currentDevice] setValue:[NSNumber numberWithInteger: UIInterfaceOrientationLandscapeRight] forKey:@"orientation"];
                     [self.navigationController pushViewController:objScreen animated:YES];
@@ -321,6 +327,7 @@ TvCellEnquiryDelegate,SFSafariViewControllerDelegate>
         [[CommonUtility new] show_ErrorAlertWithTitle:@"" withMessage:@"Internet Not Available Please Try Again..!"];
     }
 }
+
 /******************************************************************************************************************/
 #pragma mark ❉===❉=== GET AUCTION LIST ITEM API ===❉===❉
 /******************************************************************************************************************/
@@ -379,30 +386,48 @@ TvCellEnquiryDelegate,SFSafariViewControllerDelegate>
 -(void)setSelectItemViewWithData:(NSIndexPath *)selectedIndex withTittle:(NSString *)btnState
 {
     AuctionDetail *objAuctionDetail = [MBDataBaseHandler getAuctionDetail];
+    BuyerUserDetail *objBuyerdetail = [MBDataBaseHandler getBuyerUserDetail];
+
     NSMutableArray *arrValue = [[NSMutableArray alloc]init];
     [arrValue addObjectsFromArray:[objAuctionDetail.detail mutableCopy]];
-    NSString *strCode = [NSString stringWithFormat:@"%@",[[arrValue valueForKey:@"AuctionCode"]objectAtIndex:selectedIndex.row]];
     
+    NSString *strCode = [NSString stringWithFormat:@"%@",[[arrValue valueForKey:@"AuctionCode"]objectAtIndex:selectedIndex.row]];
+    NSString *strCustomerID = [NSString stringWithFormat:@"%@",[[arrValue valueForKey:@"CustomerID"]objectAtIndex:selectedIndex.row]];
+    NSString *strID = [NSString stringWithFormat:@"%@",[[arrValue valueForKey:@"AuctionID"]objectAtIndex:selectedIndex.row]];
+
     if ([btnState isEqualToString:@"View Rate"])
     {
-        [self getAuctionListAPIWithAuctionCode:strCode];
+        isFromViewRate = YES;
+        [self AuctionDetailForEditNegotiationWithAuctionID:strID];
+        
+        NSMutableDictionary *dicParams = [[NSMutableDictionary alloc]init];
+        [dicParams setValue:objBuyerdetail.detail.APIVerificationCode forKey:@"Token"];
+        [dicParams setValue:strCode forKey:@"AuctionCode"];
+        [dicParams setValue:strCustomerID forKey:@"CustomerID"];
+        [dicParams setValue:@"" forKey:@"PONo"];
+        [self getAuctionOrderProcessItemListWithPONo:dicParams];
     }
     else if ([btnState isEqualToString:@"View Enquiry"])
     {
         [[UIDevice currentDevice] setValue:[NSNumber numberWithInteger: UIInterfaceOrientationLandscapeRight] forKey:@"orientation"];
-        [[UIApplication sharedApplication] setStatusBarHidden:YES animated:YES];
+        [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:YES];
         [CommonUtility showProgressWithMessage:@"Please Wait"];
-
-        BuyerUserDetail *objBuyerdetail = [MBDataBaseHandler getBuyerUserDetail];
-
+        
         NSString *loadURL= [NSString stringWithFormat:@"http://tradologie.com/APIAuctionLive/%@/%@",objBuyerdetail.detail.APIVerificationCode,strCode];
         NSURL *url = [[NSURL alloc] initWithString:loadURL];
+        
         SFSafariViewController *sfcontroller = [[SFSafariViewController alloc] initWithURL:url];
         [sfcontroller setDelegate:self];
-        [sfcontroller setPreferredBarTintColor:DefaultThemeColor];
-
+        
+        if (@available(iOS 10.0, *))
+        {
+            [sfcontroller setPreferredBarTintColor:DefaultThemeColor];
+        } else {
+            // Fallback on earlier versions
+        }
+        
         [self.navigationController presentViewController:sfcontroller animated:YES completion:^{
-
+            
         }];
     }
 }
@@ -425,7 +450,7 @@ TvCellEnquiryDelegate,SFSafariViewControllerDelegate>
     return NO;
 }
 /******************************************************************************************************************/
-#pragma mark ❉===❉=== BUTTON ACTION EVENT CALLED HERE ===❉===❉
+#pragma mark ❉===❉=== SET TEXT FIELD UI ===❉===❉
 /*****************************************************************************************************************/
 -(void)SetdefaultTextfieldwithView:(UIView *)addView withTextfield:(UITextField *)txtfield withTag:(NSInteger)tag withPlaceHolder:(NSString *)placeholder
 {

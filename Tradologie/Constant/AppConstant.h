@@ -28,6 +28,8 @@
 #import "AuctionItemList.h"
 #import "AuctionSupplierList.h"
 #import "LiveAuctionData.h"
+#import "AuctionOrderProcessItem.h"
+
 
 /*********************************************************************************************************/
 #pragma Mark- CUSTOM CELL IMPORT
@@ -37,6 +39,8 @@
 #import "TVCellSupplierList.h"
 #import "TVcellNotificationlist.h"
 #import "TVCellAuctionSeller.h"
+#import "TVCellEnquiryRate.h"
+#import "TVCellCounterTime.h"
 
 
 #import "LandScapeView.h"
@@ -91,6 +95,7 @@ static NSString *AUCTION_DETAIL_FOR_EDIT_API = @"AuctionDetailForEdit";
 static NSString *AUCTION_ITEM_LIST_API =@"AuctionItemSubmittedList";
 static NSString *AUCTION_SUPPLIER_LIST_API =@"AutionSupplierList";
 static NSString *AUCTION_ORDER_PROCESS_API =@"AuctionOrderProcessDetail";
+static NSString *AUCTION_ORDER_PROCESS_ITEM_API =@"AuctionOrderProcessItemList";
 
 
 /*********************************************************************************************************/

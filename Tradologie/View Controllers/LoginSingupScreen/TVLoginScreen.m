@@ -29,7 +29,8 @@
 
 @implementation TVLoginScreen
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
     
     [self.navigationController.navigationBar setHidden:YES];
