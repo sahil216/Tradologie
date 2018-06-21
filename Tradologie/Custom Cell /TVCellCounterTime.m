@@ -9,6 +9,7 @@
 #import "TVCellCounterTime.h"
 #import "Constant.h"
 
+
 @implementation TVCellCounterTime
 {
     UILabel *headLabel;
@@ -19,6 +20,11 @@
     NSMutableArray *arrlabel;
     CGSize itemSize;
     NSArray * keyArray;
+    BOOL isCounterSelected;
+    NSString *strValue;
+    UIButton *btnCounter;
+    UIButton *btnProcessOrder;
+    NSString *strServerValue;
 }
 
 - (void)awakeFromNib {
@@ -43,6 +49,15 @@
         labelArray = [NSMutableArray new];
         bgArray = [NSMutableArray new];
         [self setupLabel];
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(receiveCounterNotification:)
+                                                     name:@"CounterTimer"
+                                                   object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(receiveServerTimeNotify:)
+                                                     name:@"ServerTimerTime"
+                                                   object:nil];
     }
     return self;
 }
@@ -52,6 +67,7 @@
     int xx = 0;
     
     int width = 80;
+    
     for(int i = 0 ; i < [keyArray count] ; i++)
     {
         
@@ -83,13 +99,16 @@
         {
             arrlabel = [[NSMutableArray alloc]init];
             
-            [self setlabelwithIndex:bgView withFrame:CGRectMake(0, 5, 150 , 30) withIndex:0];
-            [self setlabelwithIndex:bgView withFrame:CGRectMake(0, 50, 150, 30) withIndex:1];
+            [self setlabelwithIndex:bgView withFrame:CGRectMake(0, 5, bgView.frame.size.width - 30, 30) withIndex:0];
+            [self setButtonwithIndex:bgView withFrame:CGRectMake(0, 40,bgView.frame.size.width -20, 35) withIndex:1];
+            [self setButtonwithIndex:bgView withFrame:CGRectMake(0, 85,bgView.frame.size.width -20, 35) withIndex:2];
+            [self setButtonwithIndex:bgView withFrame:CGRectMake(60,150,bgView.frame.size.width- 120,45) withIndex:3];
+
+//            [self setlabelwithIndex:bgView withFrame:CGRectMake((bgView.frame.size.width/2), 100,(bgView.frame.size.width/2)- 30, 30) withIndex:3];
             [labelArray insertObject:arrlabel atIndex:labelArray.count];
         }
        
-        
-        [headLabel setFont:UI_DEFAULT_FONT(14)];
+        [headLabel setFont:UI_DEFAULT_FONT(15)];
         [headLabel setNumberOfLines:5];
         [headLabel setLineBreakMode:NSLineBreakByWordWrapping];
         [self addSubview:bgView];
@@ -110,10 +129,6 @@
         {
             width = 120;
         }
-        else if (i == keyArray.count - 1)
-        {
-            width = 100;
-        }
         else
         {
             width = itemSize.width;
@@ -123,8 +138,8 @@
 -(void)setlabelwithIndex:(UIView *)viewBG withFrame:(CGRect)frame withIndex:(NSInteger)Index
 {
     UILabel *lblTittle = [[UILabel alloc]initWithFrame:frame];
-    [lblTittle setBackgroundColor:[UIColor grayColor]];
-    [lblTittle setFont:UI_DEFAULT_FONT_BOLD(14)];
+    [lblTittle setBackgroundColor:[UIColor clearColor]];
+    [lblTittle setFont:UI_DEFAULT_FONT_BOLD(15)];
     [lblTittle setNumberOfLines:5];
     [lblTittle setTextAlignment:NSTextAlignmentCenter];
     [lblTittle setLineBreakMode:NSLineBreakByWordWrapping];
@@ -132,64 +147,223 @@
     [arrlabel insertObject:lblTittle atIndex:Index];
     
 }
--(void)setDataDict:(NSMutableDictionary *)dataDict WithIndex:(NSInteger)index
+-(void)setButtonwithIndex:(UIView *)viewBG withFrame:(CGRect)frame withIndex:(NSInteger)Index
 {
-//    NSMutableArray *arrRate = [[NSMutableArray alloc]init];
-//    for (NSMutableDictionary * dicRate in [dataDict valueForKey:@"RATE"])
-//    {
-//        [arrRate addObject:[dicRate valueForKey:@"Rate"]];
-//    }
-//    for (int i = 0; i < [labelArray count]; i++)
-//    {
-//        if (i == 0)
-//        {
-//            UILabel * tempLabel = [labelArray objectAtIndex:0];
-//            [tempLabel setText:@""];
-//            [tempLabel setTextAlignment:NSTextAlignmentLeft];
-//        }
-//        else if (i == 1)
-//        {
-//            UILabel * tempLabel = [labelArray objectAtIndex:1];
-//            [tempLabel setText:@""];
-//            [tempLabel setTextAlignment:NSTextAlignmentLeft];
-//        }
-//        else if (i == 2)
-//        {
-//            UILabel * tempLabel = [labelArray objectAtIndex:2];
-//            [tempLabel setText:@""];
-//            [tempLabel setTextAlignment:NSTextAlignmentCenter];
-//        }
-//        else
-//        {
-//            NSMutableArray *arrObject = [labelArray objectAtIndex:i];
-//
-//            for (int j = 0; j < arrObject.count; j++)
-//            {
-//                UILabel * tempLabel = [arrObject objectAtIndex:j];
-//                if (j == 0)
-//                {
-//                    [tempLabel setText:@"Rate"];
-//                    [tempLabel setTextAlignment:NSTextAlignmentLeft];
-//                }
-//                else if (j == 1)
-//                {
-//                    [tempLabel setText:[NSString stringWithFormat:@"%@",[arrRate objectAtIndex:i - 3]]];
-//                    [tempLabel setTextAlignment:NSTextAlignmentLeft];
-//                }
-//                else if (j == 2)
-//                {
-//                    [tempLabel setText:@"Counter Rate"];
-//                    [tempLabel setTextAlignment:NSTextAlignmentLeft];
-//                }
-//                else
-//                {
-//                    [tempLabel setText:@"Quantity"];
-//                    [tempLabel setTextAlignment:NSTextAlignmentLeft];
-//                }
-            //}
-//        }
-//    }
+    UIButton *btnOffer = [[UIButton alloc]initWithFrame:frame];
+    [btnOffer setBackgroundColor:[UIColor clearColor]];
+    [btnOffer.titleLabel setFont:UI_DEFAULT_FONT_BOLD(15)];
+    [btnOffer.titleLabel setTextAlignment:NSTextAlignmentLeft];
+    btnOffer.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
+    [viewBG addSubview:btnOffer];
+    [arrlabel insertObject:btnOffer atIndex:Index];
+    
+}
+-(void)setDataDict:(NSMutableDictionary *)dataDict WithIndex:(NSInteger)index WithCounterValue:(NSString *)strCounterValue
+    withServerTime:(NSString *)strServertime
+{
+    _dicdata = dataDict;
+    
+    NSMutableArray *arrRate = [[NSMutableArray alloc]init];
+    //NSMutableArray *arrCounterValue = [[NSMutableArray alloc] init];
+    
+    for (NSMutableDictionary * dicRate in [dataDict valueForKey:@"RATE"])
+    {
+        [arrRate addObject:[dicRate valueForKey:@"ParticipateQuantity"]];
+    }
+    
+    for (int i = 0; i < [labelArray count]; i++)
+    {
+        if (i == 0)
+        {
+            UILabel * tempLabel = [labelArray objectAtIndex:0];
+            [tempLabel setText:@""];
+            [tempLabel setTextAlignment:NSTextAlignmentLeft];
+        }
+        else if (i == 1)
+        {
+            UILabel * tempLabel = [labelArray objectAtIndex:1];
+            [tempLabel setText:@""];
+            [tempLabel setTextAlignment:NSTextAlignmentLeft];
+        }
+        else if (i == 2)
+        {
+            UILabel * tempLabel = [labelArray objectAtIndex:2];
+            [tempLabel setText:@""];
+            [tempLabel setTextAlignment:NSTextAlignmentLeft];
+        }
+        else
+        {
+    
+            NSMutableArray *arrObject = [labelArray objectAtIndex:i];
+            
+            for (int j = 0; j < arrObject.count; j++)
+            {
+                if (j == 0)
+                {
+                    UILabel * tempLabel = [arrObject objectAtIndex:0];
+                    [tempLabel setText:[NSString stringWithFormat:@"Participate Qty :- %@",[arrRate objectAtIndex:index]]];
+                    [tempLabel setTextAlignment:NSTextAlignmentLeft];
+                }
+                else
+                {
+                    if ([strCounterValue isEqualToString:@""] || strCounterValue == nil)
+                    {
+                        if ([strServertime isEqualToString:@""] || strServertime == nil)
+                        {
+                            if (j == 1)
+                            {
+                                UIButton * btnCounterOffer = [arrObject objectAtIndex:1];
+                                [btnCounterOffer setTitle:@"Counter Offer TimeOut " forState:UIControlStateNormal];
+                                [btnCounterOffer.titleLabel setTextAlignment:NSTextAlignmentRight];
+                                [btnCounterOffer setImage:nil forState:UIControlStateNormal];
+                                btnCounterOffer.contentHorizontalAlignment = UIControlContentHorizontalAlignmentRight;
+                                [btnCounterOffer setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
+                            }
+                            else if (j == 2)
+                            {
+                                UIButton * btnProceessOrder = [arrObject objectAtIndex:2];
+                                [btnProceessOrder setTitle:@"Order Closed " forState:UIControlStateNormal];
+                                [btnProceessOrder setImage:nil forState:UIControlStateNormal];
+                                [btnProceessOrder.titleLabel setTextAlignment:NSTextAlignmentRight];
+                                btnProceessOrder.contentHorizontalAlignment = UIControlContentHorizontalAlignmentRight;
+                                [btnProceessOrder setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
+                            }
+                        }
+                        else
+                        {
+                            if (j == 1)
+                            {
+                                UIButton * btnCounterOffer = [arrObject objectAtIndex:1];
+                                [btnCounterOffer setTitle:@"Counter Offer TimeOut " forState:UIControlStateNormal];
+                                [btnCounterOffer.titleLabel setTextAlignment:NSTextAlignmentRight];
+                                [btnCounterOffer setImage:nil forState:UIControlStateNormal];
+                                btnCounterOffer.contentHorizontalAlignment = UIControlContentHorizontalAlignmentRight;
+                                [btnCounterOffer setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
+                            }
+                            else if (j == 2)
+                            {
+                                UIButton * btnProceessOrder = [arrObject objectAtIndex:2];
+                                [btnProceessOrder setTitle:[NSString stringWithFormat:@"%@  ",strServertime] forState:UIControlStateNormal];
+                                [btnProceessOrder setImage:nil forState:UIControlStateNormal];
+                                [btnProceessOrder.titleLabel setTextAlignment:NSTextAlignmentRight];
+                                btnProceessOrder.contentHorizontalAlignment = UIControlContentHorizontalAlignmentRight;
+                                [btnProceessOrder setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
+                            }
+                            else if (j == 3)
+                            {
+                                UIButton *btnSubmitOrder = [arrObject objectAtIndex:3];
+                                [btnSubmitOrder setTitle:@"PROCESS ORDER" forState:UIControlStateNormal];
+                                [btnSubmitOrder.titleLabel setTextAlignment:NSTextAlignmentCenter];
+                                btnSubmitOrder.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
+                                [btnSubmitOrder addTarget:self action:@selector(btnSubmitOrderSelected:) forControlEvents:UIControlEventTouchUpInside];
+                                [btnSubmitOrder setDefaultButtonShadowStyle:DefaultThemeColor];
+                                [btnSubmitOrder.titleLabel setFont:UI_DEFAULT_FONT_BOLD(16)];
+                                
+                            }
+                        }
+                        
+                    }
+                
+                    else
+                    {
+                        if (j == 1)
+                        {
+                            UIButton * btnCounterOffer = [arrObject objectAtIndex:1];
+
+                            [btnCounterOffer setTitle:[NSString stringWithFormat:@"   Counter Offer                      %@",strCounterValue] forState:UIControlStateNormal];
+                            [btnCounterOffer.titleLabel setTextAlignment:NSTextAlignmentLeft];
+                           
+                            [btnCounterOffer setImage:IMAGE(@"IconRadioUncheck") forState:UIControlStateNormal];
+                            [btnCounterOffer addTarget:self action:@selector(btnCounterSelected:) forControlEvents:UIControlEventTouchUpInside];
+                            [btnCounterOffer setTag:1001];
+                             btnCounterOffer.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
+                            [btnCounterOffer setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
+                        }
+                        else if (j == 2)
+                        {
+                            UIButton * btnProceessOrder = [arrObject objectAtIndex:2];
+                            [btnProceessOrder setTitle:[NSString stringWithFormat:@"   Process Order                     %@",strServertime] forState:UIControlStateNormal];
+                            [btnProceessOrder setImage:IMAGE(@"IconRadioUncheck") forState:UIControlStateNormal];
+                            [btnProceessOrder.titleLabel setTextAlignment:NSTextAlignmentLeft];
+                            [btnProceessOrder addTarget:self action:@selector(btnProcessOrderSelected:) forControlEvents:UIControlEventTouchUpInside];
+                            [btnProceessOrder setTag:1002];
+                            btnProceessOrder.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
+                            [btnProceessOrder setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
+                        }
+                        else if (j == 3)
+                        {
+                            UIButton *btnSubmitOrder = [arrObject objectAtIndex:3];
+                            if(isCounterSelected == NO)
+                            {
+                                [btnSubmitOrder setTitle:@"SUBMIT" forState:UIControlStateNormal];
+                            }
+                            else
+                            {
+                                [btnSubmitOrder setTitle:@"PROCESS ORDER" forState:UIControlStateNormal];
+                            }
+                            [btnSubmitOrder.titleLabel setTextAlignment:NSTextAlignmentCenter];
+                            btnSubmitOrder.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
+                            [btnSubmitOrder addTarget:self action:@selector(btnSubmitOrderSelected:) forControlEvents:UIControlEventTouchUpInside];
+                            [btnSubmitOrder setDefaultButtonShadowStyle:DefaultThemeColor];
+                            [btnSubmitOrder.titleLabel setFont:UI_DEFAULT_FONT_BOLD(16)];
+                            
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+- (void) receiveCounterNotification:(NSNotification *) notification
+{
+    strValue = [NSString stringWithFormat:@"%@",notification.object];
+    [self setDataDict:_dicdata WithIndex:0 WithCounterValue:strValue withServerTime:strServerValue];
+}
+- (void) receiveServerTimeNotify:(NSNotification *) notification
+{
+   strServerValue = [NSString stringWithFormat:@"%@",notification.object];
+    [self setDataDict:_dicdata WithIndex:0 WithCounterValue:strValue withServerTime:strServerValue];
+}
+-(IBAction)btnCounterSelected:(id)sender
+{
+    btnCounter = (UIButton *)sender;
+    [btnCounter setSelected:YES];
+    if ([btnCounter.titleLabel.text containsString:@"Counter"])
+    {
+        [btnCounter setImage:IMAGE(@"IconRadioCheck") forState:UIControlStateSelected];
+        isCounterSelected = NO;
+        [btnProcessOrder setSelected:NO];
+
+        NSMutableDictionary *dicValue = [[NSMutableDictionary alloc]init];
+        [dicValue setObject:@0 forKey:@"Quanitity"];
+        [dicValue setObject:@1 forKey:@"CounterOffer"];
+        [[NSNotificationCenter defaultCenter]postNotificationName:@"IsTextFieldEnable" object:dicValue];
+    }
+}
+
+-(IBAction)btnProcessOrderSelected:(id)sender
+{
+    btnProcessOrder = (UIButton *)sender;
+    [btnProcessOrder setSelected:YES];
+
+    if ([btnProcessOrder.titleLabel.text containsString:@"Process"])
+    {
+        [btnProcessOrder setImage:IMAGE(@"IconRadioCheck") forState:UIControlStateSelected];
+        isCounterSelected = YES;
+        [btnCounter setSelected:NO];
+
+        NSMutableDictionary *dicValue = [[NSMutableDictionary alloc]init];
+        [dicValue setObject:@1 forKey:@"Quanitity"];
+        [dicValue setObject:@0 forKey:@"CounterOffer"];
+        [[NSNotificationCenter defaultCenter]postNotificationName:@"IsTextFieldEnable" object:dicValue];
+       
+    }
+}
+
+-(IBAction)btnSubmitOrderSelected:(UIButton *)sender
+{
     
 }
 
+    
 @end

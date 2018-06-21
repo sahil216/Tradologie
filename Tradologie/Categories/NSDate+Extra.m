@@ -26,7 +26,8 @@
     return ([self compare:date] == NSOrderedDescending);
     
 }
--(BOOL) isEarlierThan:(NSDate*)date {
+-(BOOL) isEarlierThan:(NSDate*)date
+{
     return ([self compare:date] == NSOrderedAscending);
 }
 

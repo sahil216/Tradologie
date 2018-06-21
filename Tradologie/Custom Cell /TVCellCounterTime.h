@@ -8,12 +8,16 @@
 
 #import <UIKit/UIKit.h>
 
+
 @interface TVCellCounterTime : UITableViewCell
 {
     NSIndexPath *selectedIndex;
 }
-//@property (nonatomic,strong) NSMutableDictionary * dataDict;
--(void)setDataDict:(NSMutableDictionary *)dataDict WithIndex:(NSInteger)index;
+@property (nonatomic,strong) NSMutableDictionary * dicdata;
+
+//-(void)setDataDict:(NSMutableDictionary *)dataDict WithIndex:(NSInteger)index;
+-(void)setDataDict:(NSMutableDictionary *)dataDict WithIndex:(NSInteger)index WithCounterValue:(NSString *)strCounterValue
+    withServerTime:(NSString *)strServertime;
 
 -(id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier itemSize:(CGSize)size headerArray:(NSArray*)headerArray;
 

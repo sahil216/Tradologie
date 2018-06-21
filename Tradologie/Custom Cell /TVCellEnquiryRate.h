@@ -12,7 +12,7 @@
 {
     NSIndexPath *selectedIndex;
 }
-//@property (nonatomic,strong) NSMutableDictionary * dataDict;
+@property (nonatomic,strong) NSMutableDictionary * dataDict;
 -(void)setDataDict:(NSMutableDictionary *)dataDict WithIndex:(NSInteger)index;
 
 -(id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier itemSize:(CGSize)size headerArray:(NSArray*)headerArray;

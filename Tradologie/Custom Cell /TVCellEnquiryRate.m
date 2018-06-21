@@ -19,6 +19,7 @@
     NSMutableArray *arrlabel;
     CGSize itemSize;
     NSArray * keyArray;
+    BOOL IsEnableTextField ,IsCounterRate;
 }
 
 - (void)awakeFromNib {
@@ -43,6 +44,11 @@
         labelArray = [NSMutableArray new];
         bgArray = [NSMutableArray new];
         [self setupLabel];
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(receiveIsTextFieldEnable:)
+                                                     name:@"IsTextFieldEnable"
+                                                   object:nil];
     }
     return self;
 }
@@ -83,8 +89,8 @@
         {
             arrlabel = [[NSMutableArray alloc]init];
             
-            [self setlabelwithIndex:bgView withFrame:CGRectMake(0, 5, 150 , 30) withIndex:0];
-            [self setlabelwithIndex:bgView withFrame:CGRectMake(0, 50, 150, 30) withIndex:1];
+            [self setlabelwithIndex:bgView withFrame:CGRectMake(0, 5, 100 , 30) withIndex:0];
+            [self setlabelwithIndex:bgView withFrame:CGRectMake(0, 50, 100, 30) withIndex:1];
             
             [labelArray insertObject:arrlabel atIndex:labelArray.count];
 
@@ -102,11 +108,13 @@
            UITextField *txtCounterRate = [[UITextField alloc]initWithFrame:CGRectMake(90, 50, 110 , 30)];
            [txtCounterRate.layer setBorderWidth:.50f];
            [txtCounterRate setBackgroundColor:[UIColor lightGrayColor]];
+           [txtCounterRate setUserInteractionEnabled:NO];
            [bgView addSubview:txtCounterRate];
            [arrlabel insertObject:txtCounterRate atIndex:4];
            
            UITextField *txtQuantity = [[UITextField alloc]initWithFrame:CGRectMake(txtCounterRate.frame.size.width + txtCounterRate.frame.origin.x + 20, txtCounterRate.frame.origin.y, 110 , 30)];
            [txtQuantity.layer setBorderWidth:.50f];
+           [txtQuantity setUserInteractionEnabled:NO];
            [txtQuantity setBackgroundColor:[UIColor lightGrayColor]];
            [bgView addSubview:txtQuantity];
           
@@ -162,6 +170,8 @@
 }
 -(void)setDataDict:(NSMutableDictionary *)dataDict WithIndex:(NSInteger)index
 {
+    _dataDict = dataDict;
+    
     NSMutableArray *arrRate = [[NSMutableArray alloc]init];
     for (NSMutableDictionary * dicRate in [dataDict valueForKey:@"RATE"])
     {
@@ -179,13 +189,13 @@
         else if (i == 1)
         {
             UILabel * tempLabel = [labelArray objectAtIndex:1];
-            [tempLabel setText:[dataDict objectForKey:[keyArray objectAtIndex:i]]];
+            [tempLabel setText:[dataDict objectForKey:[keyArray objectAtIndex:1]]];
             [tempLabel setTextAlignment:NSTextAlignmentLeft];
         }
         else if (i == 2)
         {
             UILabel * tempLabel = [labelArray objectAtIndex:2];
-            [tempLabel setText:[dataDict objectForKey:[keyArray objectAtIndex:i]]];
+            [tempLabel setText:[dataDict objectForKey:[keyArray objectAtIndex:2]]];
             [tempLabel setTextAlignment:NSTextAlignmentCenter];
         }
         else if (i == labelArray.count - 1)
@@ -199,7 +209,7 @@
                 if (j == 0)
                 {
                     [tempLabel setText:@"Total"];
-                    [tempLabel setTextAlignment:NSTextAlignmentLeft];
+                    [tempLabel setTextAlignment:NSTextAlignmentCenter];
                     [tempLabel setFont:UI_DEFAULT_FONT_BOLD(14)];
                 }
                 else if (j == 1)
@@ -219,12 +229,28 @@
             {
                 if (j == 4)
                 {
-                    UITextField * txtCounterRate = [arrObject objectAtIndex:2];
+                    UITextField * txtCounterRate = [arrObject objectAtIndex:4];
+                    if (IsCounterRate == YES)
+                    {
+                        [txtCounterRate setUserInteractionEnabled:YES];
+                    }
+                    else
+                    {
+                        [txtCounterRate setUserInteractionEnabled:NO];
+                    }
                     [txtCounterRate setTextAlignment:NSTextAlignmentLeft];
                 }
                 else if (j == 5)
                 {
-                    UITextField * txtQuantity = [arrObject objectAtIndex:3];
+                    UITextField * txtQuantity = [arrObject objectAtIndex:5];
+                    if (IsEnableTextField == YES)
+                    {
+                        [txtQuantity setUserInteractionEnabled:YES];
+                    }
+                    else
+                    {
+                        [txtQuantity setUserInteractionEnabled:NO];
+                    }
                     [txtQuantity setTextAlignment:NSTextAlignmentLeft];
                 }
                 else
@@ -255,6 +281,15 @@
         }
     }
 }
-
+- (void)receiveIsTextFieldEnable:(NSNotification *) notification
+{
+    NSMutableDictionary *dicValue = [[NSMutableDictionary alloc]init];
+    dicValue = notification.object;
+    
+    IsCounterRate = [[dicValue valueForKey:@"CounterOffer"] boolValue];
+    IsEnableTextField  = [[dicValue valueForKey:@"Quanitity"] boolValue];
+    
+    [self setDataDict:_dataDict WithIndex:0];
+}
 
 @end

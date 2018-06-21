@@ -224,7 +224,11 @@
     {
         return _viewLandscape.frame.size.height - 200;
     }
-    return 90;
+    if (arrAuctionSellerList.count > 0 || arrData.count > 0)
+    {
+        return 90;
+    }
+    return 0;
 }
 
 -(void)getLableAccordingtoView:(UIView *)viewBG withTittle:(NSString *)strTittle

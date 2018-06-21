@@ -32,6 +32,8 @@ TvCellEnquiryDelegate,SFSafariViewControllerDelegate>
     CGFloat height , lblHeight;
     UITextField *txtGPSCode, *txtSortBuy;
     BOOL isFromViewRate;
+    UIRefreshControl *refreshController;
+
 }
 
 @property (nonatomic, strong) UIView * contentView;
@@ -55,6 +57,12 @@ TvCellEnquiryDelegate,SFSafariViewControllerDelegate>
     lblHeight = 90;
     isFromViewRate = NO;
     [self SetInitialSetup];
+    
+    refreshController = [[UIRefreshControl alloc] init];
+    [refreshController addTarget:self action:@selector(handlePulltoRefresh:)
+                forControlEvents:UIControlEventValueChanged];
+    [self.myTableView addSubview:refreshController];
+    
     // Do any additional setup after loading the view.
 }
 
@@ -66,14 +74,23 @@ TvCellEnquiryDelegate,SFSafariViewControllerDelegate>
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 1.0 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
-        if([self respondsToSelector:@selector(edgesForExtendedLayout)])
-            [self setEdgesForExtendedLayout:UIRectEdgeNone];
-        self.automaticallyAdjustsScrollViewInsets = NO;
-        self.myTableView.contentInset = UIEdgeInsetsMake(0, 0, 0, 0);
-    });
+//    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 1.0 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+//        if([self respondsToSelector:@selector(edgesForExtendedLayout)])
+//            [self setEdgesForExtendedLayout:UIRectEdgeNone];
+//        self.automaticallyAdjustsScrollViewInsets = NO;
+//        self.myTableView.contentInset = UIEdgeInsetsMake(0, 0, 0, 0);
+//    });
     [[UIApplication sharedApplication] setStatusBarOrientation:UIInterfaceOrientationLandscapeRight animated:YES];
     [[UIApplication sharedApplication] setStatusBarHidden:NO animated:YES];
+}
+/**************************************************************************/
+#pragma mark ---- UIREFRESH CONTROL CALLED ----
+/**************************************************************************/
+-(void)handlePulltoRefresh:(UIRefreshControl *)Control
+{
+    [refreshController endRefreshing];
+
+    [self GetNegotiationListUsingAuction];
 }
 /******************************************************************************************************************/
 #pragma mark ❉===❉=== SET INITIAL SETUP ===❉===❉
@@ -91,7 +108,7 @@ TvCellEnquiryDelegate,SFSafariViewControllerDelegate>
     UITableView *tableView=[[UITableView alloc]initWithFrame:CGRectMake(0, 0, headerTotalWidth, height) style:UITableViewStylePlain];
     tableView.delegate=self;
     tableView.dataSource=self;
-    tableView.bounces=NO;
+   // tableView.bounces=NO;
     tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.myTableView = tableView;
     
@@ -211,8 +228,6 @@ TvCellEnquiryDelegate,SFSafariViewControllerDelegate>
         
         MBCall_AuctionDetailForEditNegotiation(dicParams, ^(id response, NSString *error, BOOL status)
         {
-            [CommonUtility HideProgress];
-            
             if (status && [[response valueForKey:@"success"]isEqual:@1])
             {
                 if (response != (NSDictionary *)[NSNull null])
@@ -227,6 +242,7 @@ TvCellEnquiryDelegate,SFSafariViewControllerDelegate>
                     }
                     else
                     {
+                        [CommonUtility HideProgress];
                         [self getAuctionListAPIWithAuctionID:auctionID];
                         [self getAuctionSellerListAPIWithAuctionID:auctionID];
                     }
@@ -308,8 +324,9 @@ TvCellEnquiryDelegate,SFSafariViewControllerDelegate>
                 if (response != (NSDictionary *)[NSNull null])
                 {
                     NSString *data = [[NSString alloc] initWithData:[NSJSONSerialization dataWithJSONObject:response options:0 error:nil] encoding:NSUTF8StringEncoding];
-
+                    
                     [MBDataBaseHandler saveAuctionOrderProcessItemWithData:data];
+                    
                     VCViewRateScreen *objScreen =[self.storyboard instantiateViewControllerWithIdentifier:@"VCViewRateScreen"];
                     [[UIDevice currentDevice] setValue:[NSNumber numberWithInteger: UIInterfaceOrientationLandscapeRight] forKey:@"orientation"];
                     [self.navigationController pushViewController:objScreen animated:YES];
@@ -375,7 +392,7 @@ TvCellEnquiryDelegate,SFSafariViewControllerDelegate>
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
     CGFloat offsetY= self.myTableView.contentOffset.y;
-    if(offsetY==0)
+    if(offsetY == 0)
     {
         self.myTableView.contentOffset=CGPointZero;
     }
@@ -387,25 +404,46 @@ TvCellEnquiryDelegate,SFSafariViewControllerDelegate>
 {
     AuctionDetail *objAuctionDetail = [MBDataBaseHandler getAuctionDetail];
     BuyerUserDetail *objBuyerdetail = [MBDataBaseHandler getBuyerUserDetail];
-
-    NSMutableArray *arrValue = [[NSMutableArray alloc]init];
-    [arrValue addObjectsFromArray:[objAuctionDetail.detail mutableCopy]];
+    AuctionData *dataAuction = [objAuctionDetail.detail objectAtIndex:selectedIndex.row];
     
-    NSString *strCode = [NSString stringWithFormat:@"%@",[[arrValue valueForKey:@"AuctionCode"]objectAtIndex:selectedIndex.row]];
-    NSString *strCustomerID = [NSString stringWithFormat:@"%@",[[arrValue valueForKey:@"CustomerID"]objectAtIndex:selectedIndex.row]];
-    NSString *strID = [NSString stringWithFormat:@"%@",[[arrValue valueForKey:@"AuctionID"]objectAtIndex:selectedIndex.row]];
-
     if ([btnState isEqualToString:@"View Rate"])
     {
-        isFromViewRate = YES;
-        [self AuctionDetailForEditNegotiationWithAuctionID:strID];
-        
-        NSMutableDictionary *dicParams = [[NSMutableDictionary alloc]init];
-        [dicParams setValue:objBuyerdetail.detail.APIVerificationCode forKey:@"Token"];
-        [dicParams setValue:strCode forKey:@"AuctionCode"];
-        [dicParams setValue:strCustomerID forKey:@"CustomerID"];
-        [dicParams setValue:@"" forKey:@"PONo"];
-        [self getAuctionOrderProcessItemListWithPONo:dicParams];
+        if (dataAuction.Isclosed == 0 & dataAuction.IsStarted == 1)
+        {
+            [[UIDevice currentDevice] setValue:[NSNumber numberWithInteger: UIInterfaceOrientationLandscapeRight] forKey:@"orientation"];
+            [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:YES];
+            [CommonUtility showProgressWithMessage:@"Please Wait"];
+            
+            NSString *loadURL= [NSString stringWithFormat:@"http://tradologie.com/APIAuctionLive/%@/%@",objBuyerdetail.detail.APIVerificationCode,dataAuction.AuctionCode];
+            NSURL *url = [[NSURL alloc] initWithString:loadURL];
+            
+            SFSafariViewController *sfcontroller = [[SFSafariViewController alloc] initWithURL:url];
+            [sfcontroller setDelegate:self];
+            
+            if (@available(iOS 10.0, *))
+            {
+                [sfcontroller setPreferredBarTintColor:DefaultThemeColor];
+            } else {
+                // Fallback on earlier versions
+            }
+            
+            [self.navigationController presentViewController:sfcontroller animated:YES completion:^{
+                
+            }];
+        }
+        else
+        {
+            isFromViewRate = YES;
+            [self AuctionDetailForEditNegotiationWithAuctionID:[NSString stringWithFormat:@"%@",dataAuction.AuctionID]];
+            
+            NSMutableDictionary *dicParams = [[NSMutableDictionary alloc]init];
+            [dicParams setValue:objBuyerdetail.detail.APIVerificationCode forKey:@"Token"];
+            [dicParams setValue:dataAuction.AuctionCode forKey:@"AuctionCode"];
+            [dicParams setValue:dataAuction.CustomerID forKey:@"CustomerID"];
+            [dicParams setValue:@"" forKey:@"PONo"];
+            
+            [self getAuctionOrderProcessItemListWithPONo:dicParams];
+        }
     }
     else if ([btnState isEqualToString:@"View Enquiry"])
     {
@@ -413,7 +451,7 @@ TvCellEnquiryDelegate,SFSafariViewControllerDelegate>
         [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:YES];
         [CommonUtility showProgressWithMessage:@"Please Wait"];
         
-        NSString *loadURL= [NSString stringWithFormat:@"http://tradologie.com/APIAuctionLive/%@/%@",objBuyerdetail.detail.APIVerificationCode,strCode];
+        NSString *loadURL= [NSString stringWithFormat:@"http://tradologie.com/APIAuctionLive/%@/%@",objBuyerdetail.detail.APIVerificationCode,dataAuction.AuctionCode];
         NSURL *url = [[NSURL alloc] initWithString:loadURL];
         
         SFSafariViewController *sfcontroller = [[SFSafariViewController alloc] initWithURL:url];
@@ -508,6 +546,47 @@ TvCellEnquiryDelegate,SFSafariViewControllerDelegate>
     }];
 }
 /******************************************************************************************************************/
+#pragma mark ❉===❉===  GET AUCTION NEGOTIATION LIST API CALLED HERE ===❉===❉
+/******************************************************************************************************************/
+-(void)GetNegotiationListUsingAuction
+{
+    BuyerUserDetail *objBuyerdetail = [MBDataBaseHandler getBuyerUserDetail];
+    NSMutableDictionary *dicParams =[[NSMutableDictionary alloc]init];
+    [dicParams setObject:objBuyerdetail.detail.APIVerificationCode forKey:@"Token"];
+    [dicParams setObject:objBuyerdetail.detail.CustomerID forKey:@"CustomerID"];
+    [dicParams setObject:@"" forKey:@"FilterAuction"];
+    
+    [CommonUtility showProgressWithMessage:@"Please Wait..."];
+
+    if (SharedObject.isNetAvailable)
+    {
+        MBCall_GetAuctionListUsingDashboardApi(dicParams, ^(id response, NSString *error, BOOL status)
+        {
+            if (status && [[response valueForKey:@"success"]isEqual:@1])
+            {
+                [CommonUtility HideProgress];
+
+                if (response != (NSDictionary *)[NSNull null])
+                {
+                    NSError* Error;
+                    AuctionDetail *detail = [[AuctionDetail alloc]initWithDictionary:response error:&Error];
+                    [MBDataBaseHandler saveAuctionDetailData:detail];
+                    self.myTableView.contentInset = UIEdgeInsetsMake(0, 0, 0, 0);
+
+                }
+            }
+            else
+            {
+                
+            }
+        });
+    }
+    else
+    {
+        [[CommonUtility new] show_ErrorAlertWithTitle:@"" withMessage:@"Internet Not Available Please Try Again..!"];
+    }
+}
+/******************************************************************************************************************/
 #pragma mark ❉===❉=== GET DATA FROM DATABASE HERE ===❉===❉
 /******************************************************************************************************************/
 -(void)getAuctionDataListfromDataBase
@@ -543,7 +622,20 @@ TvCellEnquiryDelegate,SFSafariViewControllerDelegate>
         
         [dataDict setObject:data.AuctionCode forKey:[arrTittle objectAtIndex:2]];
         [dataDict setObject:data.AuctionName forKey:[arrTittle objectAtIndex:3]];
-        [dataDict setObject:data.Status forKey:[arrTittle objectAtIndex:4]];
+        
+        if (data.Isclosed == 1)
+        {
+            [dataDict setObject:@"Closed" forKey:[arrTittle objectAtIndex:4]];
+        }
+        else if (data.IsStarted == 1)
+        {
+            [dataDict setObject:@"Opened" forKey:[arrTittle objectAtIndex:4]];
+        }
+        else if (data.IsStarted == 0 && data.Isclosed == 0)
+        {
+            [dataDict setObject:@"Not Started" forKey:[arrTittle objectAtIndex:4]];
+            
+        }
         NSString *startDate = [CommonUtility getDateFromSting:data.StartDate fromFromate:@"dd/mm/yyyy hh:mm:ss a" withRequiredDateFormate:@"dd-MMM-yyyy hh:mm"];
         NSString *EndDate = [CommonUtility getDateFromSting:data.EndDate fromFromate:@"dd/mm/yyyy hh:mm:ss a" withRequiredDateFormate:@"dd-MMM-yyyy hh:mm"];
         
