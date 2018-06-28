@@ -1,9 +1,9 @@
 //
 //  MBErrorUtility.h
-//  Florists
+//  Tradologie
 //
-//  Created by Anil Khanna on 14/02/15.
-//  Copyright (c) 2015 Anil Khanna. All rights reserved.
+//  Created by Chandresh on 8/9/16.
+//  Copyright © 2016 Chandresh. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>

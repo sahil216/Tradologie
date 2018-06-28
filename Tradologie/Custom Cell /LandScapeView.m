@@ -47,13 +47,17 @@
     
     [lblTotalQty setText:dataDict.detail.TotalQuantity];
     [lblMinOrder setText:dataDict.detail.MinQuantity];
-    [lblBankName setText:dataDict.detail.AuctionCode];
+    [lblBankName setText:(dataDict.detail.BankerName)?dataDict.detail.BankerName:@"N.A"];
     [lblDeliveryLocation setText:dataDict.detail.DeliveryAddress];
     [lblInspectionAgency setText:dataDict.detail.AgencyCompanyName];
     NSString * newReplacedString = [dataDict.detail.Remarks stringByReplacingOccurrencesOfString:@"\r\n" withString:@". "];
 
     [lblRemarks setText:newReplacedString];
     
+    [btnAddNegotiation setBackgroundColor:DefaultThemeColor];
+    [btnAddNegotiation addTarget:self action:@selector(btnAddProductNegotiation:) forControlEvents:UIControlEventTouchUpInside];
+    [btnEditNegotiation setBackgroundColor:DefaultThemeColor];
+
 }
 
 -(void)btnAddProductNegotiation:(UIButton *)sender

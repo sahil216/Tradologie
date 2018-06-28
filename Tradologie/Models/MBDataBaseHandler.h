@@ -26,6 +26,8 @@ typedef enum
     auctionItem,
     auctionSupplier,
     auctionOrderProcessItem,
+    categoryItemDetail,
+    auctionSupplierList,
     
 } OFFLINEMODE;
 
@@ -49,7 +51,11 @@ typedef enum
 +(AuctionDetailForEdit *)getAuctionDetailForEditNegotiation;
 +(AuctionItemList *)getAuctionItemListWithData;
 +(AuctionSupplierList *)getAuctionSupplierListWithData;
++(CategoryDetail *)getCategoryDetailItemListWithData;
+
 +(NSString *)getAuctionOrderProcessItemWithData;
+
++(NSMutableDictionary *)getAuctionSupplierListData;
 
 
 #pragma Mark - SETTERS
@@ -65,6 +71,7 @@ typedef enum
 +(void)saveAuctionItemListData:(AuctionItemList *)auctionItemList;
 +(void)saveAuctionSupplierListWithData:(AuctionSupplierList *)auctionSupplierList;
 +(void)saveAuctionOrderProcessItemWithData:(NSString *)AuctionOrderProcess;
-
++(void)saveCategoryDetailItemListWithData:(CategoryDetail *)CategoryDetailItemData;
++(void)savegetAuctionSupplierListData:(NSString *)AuctionSupplierList WithID:(NSNumber *)AuctionID;
 
 @end

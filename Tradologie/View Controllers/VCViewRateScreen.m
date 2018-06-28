@@ -16,7 +16,7 @@
 #define K_CUSTOM_WIDTH 200
 
 
-@interface VCViewRateScreen ()<UITableViewDataSource,UITableViewDelegate>
+@interface VCViewRateScreen ()<UITableViewDataSource,UITableViewDelegate,TVCellEnquiryRateDelegate,TVCellCounterTimeDelegate>
 {
     NSMutableArray *arrTittle;
     NSMutableArray *arrData;
@@ -24,9 +24,9 @@
     NSInteger count,SupplierCount;
     CGFloat height , lblHeight;
     NSMutableArray *arrProductRate;
-    NSString *strTimer , *strServerTime;
+    NSMutableArray *arrTotalQuantity;
+    NSString *strTimer, *strServerTime;
     BOOL isFromSecond;
-    
     NSTimer *timer;
     NSTimer *ServerTimer;
 
@@ -56,13 +56,10 @@
     [self.navigationItem setHidesBackButton:YES];
     
     lblHeight = 100;
-    
     [self GetHeaderTittleValue];
     [self SetInitialSetup];
     [self.navigationItem SetBackButtonWithID:self withSelectorAction:@selector(btnBackItem:)];
-    
-    [self countdownTimer];
-    [self setServerCountDownfroProcessOrder];
+    arrTotalQuantity = [[NSMutableArray alloc]init];
 }
 
 - (void)didReceiveMemoryWarning
@@ -143,9 +140,9 @@
     }
     else  if (section == 1)
     {
-        return  arrData.count;
+        return  (arrData.count > 0)?arrData.count:0;
     }
-    return  1;
+   return  (arrData.count > 0)?1:0;
 }
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -160,7 +157,7 @@
             cell.selectionStyle=UITableViewCellSelectionStyleNone;
         }
         [cell setDataDict:[arrData objectAtIndex:indexPath.row] WithIndex:indexPath.row];
-        
+        [cell setDelegate:self];
         return cell;
     }
     else if (indexPath.section == 2)
@@ -172,8 +169,8 @@
             cell = [[TVCellCounterTime alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"Cell_ID" itemSize:CGSizeMake(K_CUSTOM_WIDTH + 150, K_CUSTOM_WIDTH + 50) headerArray:arrTittle];
             cell.selectionStyle=UITableViewCellSelectionStyleNone;
         }
-        [cell setDataDict:[arrData objectAtIndex:indexPath.row] WithIndex:indexPath.row WithCounterValue:strTimer withServerTime:strServerTime];
-        
+        [cell setDataDict:[arrData objectAtIndex:indexPath.row] WithIndex:indexPath.row WithCounterValue:strTimer withServerTime:strServerTime withTotalQuantity:@""];
+        [cell setDelegate:self];
         return cell;
     }
     return nil;
@@ -258,22 +255,30 @@
     }
     return CGFLOAT_MIN;
 }
+/******************************************************************************************************************/
+#pragma mark ❉===❉=== CELL DELEGATE CALLED HERE ===❉===❉
+/*****************************************************************************************************************/
+- (void)setSelectItemViewWithValue:(NSString *)strTextValue
+{
+    [arrTotalQuantity addObject:strTextValue];
 
+    double sum = 0;
+
+    for (NSNumber * n in arrTotalQuantity)
+    {
+        sum += [n doubleValue];
+    }
+    [[NSNotificationCenter defaultCenter]postNotificationName:@"TotalQuantity" object:[NSNumber numberWithDouble:sum]];
+}
+- (void)setSelectItemViewWithData:(NSIndexPath *)selectedIndex
+{
+    [self getContactDialNumber];
+}
 /******************************************************************************************************************/
 #pragma mark ❉===❉=== BUTTON ACTION EVENT CALLED HERE ===❉===❉
 /*****************************************************************************************************************/
 -(IBAction)btnBackItem:(UIButton *)sender
 {
-    //    [[UIDevice currentDevice] setValue:
-    //     [NSNumber numberWithInteger: UIInterfaceOrientationPortrait] forKey:@"orientation"];
-    //    [self.navigationItem setNavigationTittleWithLogo:@"tradologie.com"];
-    //
-    //    dispatch_async(dispatch_get_main_queue(), ^{
-    //        RootViewController * rootVC = [self.storyboard instantiateViewControllerWithIdentifier:@"RootViewController"];
-    //        AppDelegate *delegateClass = (AppDelegate *)[[UIApplication sharedApplication]delegate];
-    //        [delegateClass setRootViewController:rootVC];
-    //    });
-    
     [timer invalidate];
     timer = nil;
     [ServerTimer invalidate];
@@ -288,6 +293,8 @@
 /******************************************************************************************************************/
 -(void)getAuctionOrderProcessItemListDataFromDB
 {
+    AuctionDetailForEdit *data = [MBDataBaseHandler getAuctionDetailForEditNegotiation];
+
     NSString *objData = [MBDataBaseHandler getAuctionOrderProcessItemWithData];
     NSMutableDictionary *dataDict = [NSJSONSerialization JSONObjectWithData:[objData dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingMutableContainers error:nil];
     
@@ -304,9 +311,13 @@
         [dataDict setObject:[[dicData valueForKey:@"AuctionCategoryName"] stringByAppendingString:[@"\n " stringByAppendingString:[[dicData valueForKey:@"AuctionAttributeValue1"] stringByAppendingString:[@"\n " stringByAppendingString:[dicData valueForKey:@"AuctionAttributeValue2"]]]]] forKey:[arrTittle objectAtIndex:1]];
         [dataDict setObject:[dicData valueForKey:@"Quantity"] forKey:[arrTittle objectAtIndex:2]];
         [dataDict setObject:[dicData valueForKey:@"Rate"] forKey:@"RATE"];
+        [dataDict setObject:data.detail.MinQuantity forKey:@"MinimumQTY"];
         [arrProductRate addObjectsFromArray:[dicData valueForKey:@"Rate"]];
         [arrData addObject:dataDict];
     }
+    [self countdownTimer];
+    [self setServerCountDownfroProcessOrder];
+    
     [self.myTableView reloadData];
 }
 -(void)GetHeaderTittleValue
@@ -346,7 +357,7 @@
         hours = secondsLeft / 3600;
         minutes = (secondsLeft % 3600) / 60;
         seconds = (secondsLeft % 3600) % 60;
-        strTimer = [NSString stringWithFormat:@"%02d:%02d:%02d", hours, minutes, seconds];
+        strTimer = [NSString stringWithFormat:@"%02d : %02d : %02d", hours, minutes, seconds];
         
         [[NSNotificationCenter defaultCenter]postNotificationName:@"CounterTimer" object:strTimer];
         NSLog(@"%@",strTimer);
@@ -456,7 +467,7 @@ NSInteger getServerTimeForProcessOrder()
     }
   
     NSMutableDictionary *dataValue = [NSMutableDictionary new];
-    dataValue = [arrServerTime objectAtIndex:0];
+    dataValue = (arrServerTime.count > 0)?[arrServerTime objectAtIndex:0]:nil;
 
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateFormat:@"MM/dd/yyyy hh:mm:ss"];
@@ -469,22 +480,23 @@ NSInteger getServerTimeForProcessOrder()
 
 
     NSString *strDate = [CommonUtility getDateFromSting:str fromFromate:@"yyyy-MM-dd HH:mm:ss " withRequiredDateFormate:@"MM/dd/yyyy hh:mm:ss"];
+  //  NSString *strCurrentTime = [dateFormatter stringFromDate:[NSDate date]];
 
     NSString *serverTime = [CommonUtility getDateFromSting:strServerTime fromFromate:@"yyyy-MM-dd HH:mm:s.SSS" withRequiredDateFormate:@"MM/dd/yyyy hh:mm:ss"];
     
     NSDate* date1 = Serverdate(serverTime);
     NSDate* date2 = Serverdate(strDate);
 
-    NSComparisonResult result = [date2 compare:date1];
+    NSComparisonResult result = [date1 compare:date2];
     
-    if(result==NSOrderedAscending)
+    if(result == NSOrderedAscending)
     {
-        NSTimeInterval distanceBetweenDates = [date1 timeIntervalSinceDate:date2];
+        NSTimeInterval distanceBetweenDates = [date2 timeIntervalSinceDate:date1];
         return distanceBetweenDates;
     }
     else if(result==NSOrderedDescending)
     {
-//        NSTimeInterval distanceBetweenDates = [date2 timeIntervalSinceDate:date1];
+//        NSTimeInterval distanceBetweenDates = [date1 timeIntervalSinceDate:date2];
 //        return distanceBetweenDates;
     }
     else
@@ -501,7 +513,7 @@ NSInteger getServerTimeForProcessOrder()
         Serverhours = ServerSecondsLeft / 3600;
         ServerMinutes = (ServerSecondsLeft % 3600) / 60;
         ServerSeconds = (ServerSecondsLeft % 3600) % 60;
-        strServerTime = [NSString stringWithFormat:@"%02d:%02d:%02d", Serverhours, ServerMinutes, ServerSeconds];
+        strServerTime = [NSString stringWithFormat:@"%02d : %02d : %02d", Serverhours, ServerMinutes, ServerSeconds];
     
         [[NSNotificationCenter defaultCenter]postNotificationName:@"ServerTimerTime" object:strServerTime];
         NSLog(@"%@",strServerTime);

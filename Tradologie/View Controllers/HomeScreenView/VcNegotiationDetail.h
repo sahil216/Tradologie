@@ -10,4 +10,7 @@
 
 @interface VcNegotiationDetail : UIViewController
 
+@property (assign)  BOOL isfromViewEnquiry;
+@property (nonatomic,strong)NSString *AuctionID;
+//@property (nonatomic,strong)NSMutableArray *arrSelectedSupplier;
 @end

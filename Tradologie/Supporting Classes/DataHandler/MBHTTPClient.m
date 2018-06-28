@@ -1,10 +1,11 @@
 
 //  MBHTTPClient.m
-//  CoFETH
+//  Tradologie
 //
-//  Created by Anil Khanna on 14/02/15.
-//  Copyright (c) 2015 Anil Khanna. All rights reserved.
+//  Created by Chandresh on 8/9/16.
+//  Copyright © 2016 Chandresh. All rights reserved.
 //
+
 
 #import "MBHTTPClient.h"
 #import "AfNetworking.h"
@@ -101,7 +102,6 @@ sharedObject;\
     }
           failure:^(NSURLSessionDataTask *task, NSError *error)
      {
-        //NSDictionary *dict   = [NSDictionary dictionaryWithDictionary:[task.currentRequest allHTTPHeaderFields]];
         completion(task, error, nil);
         
     } retryCount:RETRYCOUNTER retryInterval:RETRYINTERVAL progressive:false fatalStatusCodes:FATALSTATUSCODE];
@@ -152,32 +152,54 @@ sharedObject;\
 //    return jsonSerializer;
 //}
 
+-(void)requestPOSTMultipartServiceOnURL:(NSString *) urlString withData:(NSData *)photoData withParametes:(id)requestDictionary  withCompletion:(void (^)(NSURLSessionDataTask *task, NSError *error, id response))completion
+{
+    /*
+     // 1. Create `AFHTTPRequestSerializer` which will create your request.
+     AFJSONRequestSerializer *serializer = [self addAuthorizationKey];
+     
+     // 2. Create an `NSMutableURLRequest`.
+     NSMutableURLRequest *request = [serializer multipartFormRequestWithMethod:@"POST" URLString:urlString parameters:requestDictionary constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
+     
+     if (photoData) {
+     [formData appendPartWithFileData:photoData
+     name:@"image_path"
+     fileName:@"profilePic.jpg"
+     mimeType:@"image/jpeg"];
+     }
+     } error:nil];
+     */
+    
+    
+    AFHTTPSessionManager *manager = [self requestOperationManager];
+    
+    [manager POST:urlString parameters:requestDictionary constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData)
+    {
+        if (photoData)
+        {
+            [formData appendPartWithFileData:photoData
+                                        name:@"Image"
+                                    fileName:@"Tradology.png"
+                                    mimeType:@"image/jpeg"];
+        }
+    } progress:nil
+          success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject)
+    {
+              NSLog(@"%@ ", responseObject);
+              completion(task,nil,responseObject);
+              
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error)
+    {
+              completion(task, error, nil);
+              
+              
+              NSLog(@"Error: %@", error);
+              
+    } retryCount:RETRYCOUNTER retryInterval:RETRYINTERVAL progressive:false fatalStatusCodes:FATALSTATUSCODE];
+}
 
-//-(void)requestDELETEServiceOnURL:(NSString *)urlString WithDictionary:(id)requestDictionary withCompletion:(void (^)(NSURLSessionDataTask *task, NSError *error, id response))completion
-//{
-//    NSLog(@"=============================================================================");
-//
-//    NSLog(@"URL : %@",urlString);
-//
-//    if (requestDictionary) {
-//        NSLog(@"REQUEST : %@",[[NSString alloc] initWithData:[NSJSONSerialization dataWithJSONObject:requestDictionary options:0 error:nil] encoding:NSUTF8StringEncoding]);
-//    }
-//
-//    NSLog(@"=============================================================================");
-//
-//    AFHTTPSessionManager *manager = [self requestOperationManager];
-//
-//
-//    [manager DELETE:urlString parameters:requestDictionary success:^(NSURLSessionDataTask *task, id responseObject) {
-//        NSLog(@"Success = %@",responseObject);
-//        completion(task,nil,responseObject);
-//    } failure:^(NSURLSessionDataTask *task, NSError *error) {
-//
-//        completion(task, error, nil);
-//
-//    } retryCount:RETRYCOUNTER retryInterval:RETRYINTERVAL progressive:false fatalStatusCodes:FATALSTATUSCODE];
-//}
-//
+
+
 //-(void)requestPUTServiceOnURL:(NSString *)urlString WithDictionary:(id)requestDictionary withCompletion:(void (^)(NSURLSessionDataTask *task, NSError *error, id response))completion{
 //
 //    NSLog(@"=============================================================================");

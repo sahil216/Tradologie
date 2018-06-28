@@ -13,6 +13,7 @@
 #import <UIKit/UIKit.h>
 #import <MagicalRecord/MagicalRecord.h>
 #import <SafariServices/SFSafariViewController.h>
+#import "INSSearchBar.h"
 
 /*********************************************************************************************************/
 #pragma Mark- MODEL IMPORT
@@ -29,6 +30,7 @@
 #import "AuctionSupplierList.h"
 #import "LiveAuctionData.h"
 #import "AuctionOrderProcessItem.h"
+#import "CategoryDetail.h"
 
 
 /*********************************************************************************************************/
@@ -93,10 +95,17 @@ static NSString *SUPPLIER_SHORTLIST_API = @"SupplierList_ByBuyer";
 static NSString *AUCTION_DETAIL_FOR_EDIT_API = @"AuctionDetailForEdit";
 
 static NSString *AUCTION_ITEM_LIST_API =@"AuctionItemSubmittedList";
+static NSString *AUCTION_ITEM_LIST_EDIT_API = @"AuctionItemList";
+
 static NSString *AUCTION_SUPPLIER_LIST_API =@"AutionSupplierList";
 static NSString *AUCTION_ORDER_PROCESS_API =@"AuctionOrderProcessDetail";
 static NSString *AUCTION_ORDER_PROCESS_ITEM_API =@"AuctionOrderProcessItemList";
 
+static NSString *AUCTION_ITEM_DETAIL_CATEGORYID = @"AuctionItemddl";
+static NSString *ADD_AUCTION_PRODUCT_ITEM = @"AddAuctionItem";
+static NSString *ADD_AUCTION_PACKING_IMAGE = @"PackingImageUpload";
+static NSString *ADD_AUCTION_SUPPLIER = @"AddAuctionSupplierList";
+static NSString *DELETE_AUCTION_ITEM = @"DeleteAuctionItem";
 
 /*********************************************************************************************************/
 #pragma CONTROLLER IDENTIFIRES

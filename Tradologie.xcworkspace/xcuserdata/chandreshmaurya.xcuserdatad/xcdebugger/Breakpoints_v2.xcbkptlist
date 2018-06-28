@@ -19,13 +19,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Tradologie/View Controllers/VCViewRateScreen.m"
-            timestampString = "551278897.920585"
+            filePath = "Tradologie/View Controllers/HomeScreenView/TVPaymentScreen.m"
+            timestampString = "551882154.554943"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "152"
-            endingLineNumber = "152"
-            landmarkName = "-tableView:cellForRowAtIndexPath:"
+            startingLineNumber = "180"
+            endingLineNumber = "180"
+            landmarkName = "-touchedSection:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -35,45 +35,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Tradologie/View Controllers/VCViewRateScreen.m"
-            timestampString = "551278897.921618"
+            filePath = "Tradologie/View Controllers/HomeScreenView/TVPaymentScreen.m"
+            timestampString = "551882154.555732"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "166"
-            endingLineNumber = "166"
-            landmarkName = "-tableView:cellForRowAtIndexPath:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Tradologie/View Controllers/VCViewRateScreen.m"
-            timestampString = "551278897.92214"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "162"
-            endingLineNumber = "162"
-            landmarkName = "-tableView:cellForRowAtIndexPath:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Tradologie/Custom Cell /TVCellEnquiryRate.m"
-            timestampString = "551278897.922503"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "171"
-            endingLineNumber = "171"
-            landmarkName = "-setDataDict:WithIndex:"
+            startingLineNumber = "167"
+            endingLineNumber = "167"
+            landmarkName = "-touchedSection:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

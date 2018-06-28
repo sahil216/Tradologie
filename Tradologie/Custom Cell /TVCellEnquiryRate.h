@@ -8,13 +8,24 @@
 
 #import <UIKit/UIKit.h>
 
-@interface TVCellEnquiryRate : UITableViewCell
+
+@protocol TVCellEnquiryRateDelegate <NSObject>
+
+- (void)setSelectItemViewWithValue:(NSString *)strTextValue;
+
+@end
+
+@interface TVCellEnquiryRate : UITableViewCell<UITextFieldDelegate>
 {
     NSIndexPath *selectedIndex;
 }
 @property (nonatomic,strong) NSMutableDictionary * dataDict;
+@property (nonatomic,strong) id <TVCellEnquiryRateDelegate> delegate;
+
 -(void)setDataDict:(NSMutableDictionary *)dataDict WithIndex:(NSInteger)index;
 
 -(id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier itemSize:(CGSize)size headerArray:(NSArray*)headerArray;
+
+
 
 @end

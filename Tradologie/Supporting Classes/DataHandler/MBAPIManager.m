@@ -1,9 +1,9 @@
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                //
-//  EDServices.m
-//  Florists
 //
-//  Created by Anil Khanna on 14/02/15.
-//  Copyright (c) 2015 Anil Khanna. All rights reserved.
+//  EDServices.m
+//  Tradologie
+//
+//  Created by Chandresh on 8/9/16.
+//  Copyright © 2016 Chandresh. All rights reserved.
 //
 
 #import "MBAPIManager.h"
@@ -36,7 +36,7 @@ NSString* checkIfResponseHasErrorMessage(id response){
         return response[@"message"];
     }
     
-  
+    
     return nil;
 }
 
@@ -62,11 +62,11 @@ NSString *filterErrorMessageUsingResponseRequestOperation(NSURLSessionDataTask *
         
         if([jsonResponse[@"message"] isEqualToString:@"You have been logged out, please log in again."]){
             
-//            [MBDataBaseHandler clearAllDataBase];
-//
-//            [MBAppInitializer moveToLoginViewController];
-//
-//            [APP_DELEGATE show_ErrorAlertWithTitle:@"" withMessage:jsonResponse[@"message"]];
+            //            [MBDataBaseHandler clearAllDataBase];
+            //
+            //            [MBAppInitializer moveToLoginViewController];
+            //
+            //            [APP_DELEGATE show_ErrorAlertWithTitle:@"" withMessage:jsonResponse[@"message"]];
         }
         
         return jsonResponse[@"message"];
@@ -83,12 +83,12 @@ NSString *filterErrorMessageUsingResponseRequestOperation(NSURLSessionDataTask *
     
     if (jsonResponse) {
         
-//                if (errorCode==401) {
-//                    [FlowManager presentLoginScreenAnimatedly:YES];
-//                    return @"Your account has been accessed from different device!";
-//        
-//                }
-//        
+        //                if (errorCode==401) {
+        //                    [FlowManager presentLoginScreenAnimatedly:YES];
+        //                    return @"Your account has been accessed from different device!";
+        //
+        //                }
+        //
         
         if (![jsonResponse[@"message"] isEqualToString:@""]&&jsonResponse[@"message"]!=nil) {
             return jsonResponse[@"message"];
@@ -101,48 +101,48 @@ NSString *filterErrorMessageUsingResponseRequestOperation(NSURLSessionDataTask *
     return [MBErrorUtility handlePredefinedErrorCode:errorCode andMessage:@"Issue with server response. Please contact admin."];
 }
 
-void MBCall_LoginUserUsing(NSDictionary* params,RMApiManagerCompletion completion){
+void MBCall_LoginUserUsing(NSDictionary* params,TRApiManagerCompletion completion){
     
     [[MBHTTPClient sharedInstance] requestPOSTServiceOnURL:getUrlForMethod(LOGIN_API_NAME) WithDictionary:params withCompletion:^(NSURLSessionDataTask *task, NSError *error, id response)
-    {
-        
-        if (error)
-        {
-            completion(nil,filterErrorMessageUsingResponseRequestOperation(task, error),NO);
-            return ;
-        }
-        else if(response)
-        {
-          //  NSHTTPURLResponse *responseTask = (NSHTTPURLResponse*)task.response;
-            
-          //  SAVE_USER_DEFAULTS([[responseTask allHeaderFields] valueForKey:K_ACCESSTOKEN], K_ACCESSTOKEN);
-            
-            completion(response,checkIfResponseHasErrorMessage(response),YES);
-            
-        }
-    }];
-
+     {
+         
+         if (error)
+         {
+             completion(nil,filterErrorMessageUsingResponseRequestOperation(task, error),NO);
+             return ;
+         }
+         else if(response)
+         {
+             //  NSHTTPURLResponse *responseTask = (NSHTTPURLResponse*)task.response;
+             
+             //  SAVE_USER_DEFAULTS([[responseTask allHeaderFields] valueForKey:K_ACCESSTOKEN], K_ACCESSTOKEN);
+             
+             completion(response,checkIfResponseHasErrorMessage(response),YES);
+             
+         }
+     }];
+    
 }
 
-void MBCall_RegisterUserWithPostData(NSDictionary *params ,NSData *image_data,RMApiManagerCompletion completion)
+void MBCall_RegisterUserWithPostData(NSDictionary *params ,NSData *image_data,TRApiManagerCompletion completion)
 {
-
+    
     [[MBHTTPClient sharedInstance] requestPOSTServiceOnURL:getUrlForMethod(REGISTER_API_NAME) WithDictionary:params withCompletion:^(NSURLSessionDataTask *task, NSError *error, id response)
      {
-        if(!error && response){
-            completion(response,checkIfResponseHasErrorMessage(response),YES);
-           // NSHTTPURLResponse *responseTask = (NSHTTPURLResponse*)task.response;
-           // SAVE_USER_DEFAULTS([[responseTask allHeaderFields] valueForKey:K_ACCESSTOKEN], K_ACCESSTOKEN);
-        }
-        
-        else {
-            completion(nil,filterErrorMessageUsingResponseRequestOperation(task, error),NO);
-            return ;
-        }
-  
-    }];
+         if(!error && response){
+             completion(response,checkIfResponseHasErrorMessage(response),YES);
+             // NSHTTPURLResponse *responseTask = (NSHTTPURLResponse*)task.response;
+             // SAVE_USER_DEFAULTS([[responseTask allHeaderFields] valueForKey:K_ACCESSTOKEN], K_ACCESSTOKEN);
+         }
+         
+         else {
+             completion(nil,filterErrorMessageUsingResponseRequestOperation(task, error),NO);
+             return ;
+         }
+         
+     }];
 }
-void MBCall_RegisterUserWithSocailMedia(NSDictionary *params,NSData *image_data,RMApiManagerCompletion completion)
+void MBCall_RegisterUserWithSocailMedia(NSDictionary *params,NSData *image_data,TRApiManagerCompletion completion)
 {
     
     [[MBHTTPClient sharedInstance] requestPOSTServiceOnURL:getUrlForMethod(REGISTER_WITH_SOCAIL_MEDIA) WithDictionary:params withCompletion:^(NSURLSessionDataTask *task, NSError *error, id response)
@@ -161,21 +161,21 @@ void MBCall_RegisterUserWithSocailMedia(NSDictionary *params,NSData *image_data,
      }];
 }
 
-void MBCall_GetAllCategories(RMApiManagerCompletion completion)
+void MBCall_GetAllCategories(TRApiManagerCompletion completion)
 {
     [[MBHTTPClient sharedInstance] requestGETServiceOnURL:getUrlForMethod(CATEGORY_API_NAME) WithDictionary:nil withCompletion:^(NSURLSessionDataTask *task, NSError *error, id response) {
-         if(error)
-         {
-             completion(nil,filterErrorMessageUsingResponseRequestOperation(task, error),NO);
-         }
+        if(error)
+        {
+            completion(nil,filterErrorMessageUsingResponseRequestOperation(task, error),NO);
+        }
         else
         {
             completion(response,checkIfResponseHasErrorMessage(response),YES);
-
+            
         }
-         }];
+    }];
 }
-void MBCall_GetTimeZoneWithCountryandBuyerInterested(NSDictionary* params,RMApiManagerCompletion completion)
+void MBCall_GetTimeZoneWithCountryandBuyerInterested(NSDictionary* params,TRApiManagerCompletion completion)
 {
     [[MBHTTPClient sharedInstance] requestPOSTServiceOnURL:getUrlForMethod(COMMON_API) WithDictionary:params withCompletion:^(NSURLSessionDataTask *task, NSError *error, id response)
      {
@@ -190,10 +190,10 @@ void MBCall_GetTimeZoneWithCountryandBuyerInterested(NSDictionary* params,RMApiM
              
          }
      }];
-
+    
 }
 
-void MBCall_GetStateListWithCountryName(NSDictionary* params,RMApiManagerCompletion completion)
+void MBCall_GetStateListWithCountryName(NSDictionary* params,TRApiManagerCompletion completion)
 {
     [[MBHTTPClient sharedInstance] requestPOSTServiceOnURL:getUrlForMethod(STATE_LIST_API) WithDictionary:params withCompletion:^(NSURLSessionDataTask *task, NSError *error, id response)
      {
@@ -210,7 +210,7 @@ void MBCall_GetStateListWithCountryName(NSDictionary* params,RMApiManagerComplet
      }];
     //
 }
-void MBCall_GetCityListWithStateName(NSDictionary* params,RMApiManagerCompletion completion)
+void MBCall_GetCityListWithStateName(NSDictionary* params,TRApiManagerCompletion completion)
 {
     [[MBHTTPClient sharedInstance] requestPOSTServiceOnURL:getUrlForMethod(City_LIST_API) WithDictionary:params withCompletion:^(NSURLSessionDataTask *task, NSError *error, id response)
      {
@@ -227,7 +227,7 @@ void MBCall_GetCityListWithStateName(NSDictionary* params,RMApiManagerCompletion
      }];
     //
 }
-void MBCall_GetUpdateCompulsoryDetails(NSDictionary* params,RMApiManagerCompletion completion)
+void MBCall_GetUpdateCompulsoryDetails(NSDictionary* params,TRApiManagerCompletion completion)
 {
     [[MBHTTPClient sharedInstance] requestPOSTServiceOnURL:getUrlForMethod(UPDATE_COMPULSORY_DETAIL_API) WithDictionary:params withCompletion:^(NSURLSessionDataTask *task, NSError *error, id response)
      {
@@ -244,7 +244,7 @@ void MBCall_GetUpdateCompulsoryDetails(NSDictionary* params,RMApiManagerCompleti
      }];
     //
 }
-void MBCall_GetDashBoardNotificationDetails(NSDictionary* params,RMApiManagerCompletion completion)
+void MBCall_GetDashBoardNotificationDetails(NSDictionary* params,TRApiManagerCompletion completion)
 {
     [[MBHTTPClient sharedInstance] requestPOSTServiceOnURL:getUrlForMethod(DASHBOARD_NOTIFICATION_API) WithDictionary:params withCompletion:^(NSURLSessionDataTask *task, NSError *error, id response)
      {
@@ -259,7 +259,7 @@ void MBCall_GetDashBoardNotificationDetails(NSDictionary* params,RMApiManagerCom
          }
      }];
 }
-void MBCall_GetAuctionListUsingDashboardApi(NSDictionary* params,RMApiManagerCompletion completion)
+void MBCall_GetAuctionListUsingDashboardApi(NSDictionary* params,TRApiManagerCompletion completion)
 {
     [[MBHTTPClient sharedInstance] requestPOSTServiceOnURL:getUrlForMethod(AUCTION_LIST_API) WithDictionary:params withCompletion:^(NSURLSessionDataTask *task, NSError *error, id response)
      {
@@ -276,7 +276,7 @@ void MBCall_GetAuctionListUsingDashboardApi(NSDictionary* params,RMApiManagerCom
      }];
 }
 
-void MBCall_GetCategoryListForNegotiation(RMApiManagerCompletion completion)
+void MBCall_GetCategoryListForNegotiation(TRApiManagerCompletion completion)
 {
     [[MBHTTPClient sharedInstance] requestGETServiceOnURL:getUrlForMethod(CATEGORY_NEGOTIATION_API) WithDictionary:nil withCompletion:^(NSURLSessionDataTask *task, NSError *error, id response) {
         if(error)
@@ -290,7 +290,7 @@ void MBCall_GetCategoryListForNegotiation(RMApiManagerCompletion completion)
         }
     }];
 }
-void MBCall_GetSuplierlistWithCategoryID(NSDictionary* params,RMApiManagerCompletion completion)
+void MBCall_GetSuplierlistWithCategoryID(NSDictionary* params,TRApiManagerCompletion completion)
 {
     NSString *strvalue = [NSString stringWithFormat:@"%@",[params valueForKey:@"categoryID"]];
     NSString *strCategoryID = [NSString stringWithFormat:@"%@",[params valueForKey:@"CustomerID"]];
@@ -311,7 +311,7 @@ void MBCall_GetSuplierlistWithCategoryID(NSDictionary* params,RMApiManagerComple
     }];
 }
 
-void MBCall_AddSupplierShortlist(NSDictionary* params,RMApiManagerCompletion completion)
+void MBCall_AddSupplierShortlist(NSDictionary* params,TRApiManagerCompletion completion)
 {
     [[MBHTTPClient sharedInstance] requestPOSTServiceOnURL:getUrlForMethod(ADD_SUPPLIER_SHORTLIST_API) WithDictionary:params withCompletion:^(NSURLSessionDataTask *task, NSError *error, id response)
      {
@@ -327,7 +327,7 @@ void MBCall_AddSupplierShortlist(NSDictionary* params,RMApiManagerCompletion com
          }
      }];
 }
-void MBCall_RemoveSupplierShortlist(NSDictionary* params,RMApiManagerCompletion completion)
+void MBCall_RemoveSupplierShortlist(NSDictionary* params,TRApiManagerCompletion completion)
 {
     [[MBHTTPClient sharedInstance] requestPOSTServiceOnURL:getUrlForMethod(REMOVE_SUPPLIER_SHORTLIST_API) WithDictionary:params withCompletion:^(NSURLSessionDataTask *task, NSError *error, id response)
      {
@@ -344,7 +344,7 @@ void MBCall_RemoveSupplierShortlist(NSDictionary* params,RMApiManagerCompletion 
      }];
 }
 //http://api.tradologie.com/Buyer/createauction
-void MBCall_CreateNegotiationWithAuction(NSDictionary* params,RMApiManagerCompletion completion)
+void MBCall_CreateNegotiationWithAuction(NSDictionary* params,TRApiManagerCompletion completion)
 {
     [[MBHTTPClient sharedInstance] requestPOSTServiceOnURL:getUrlForMethod(CREATE_NEGOTIATION_API) WithDictionary:params withCompletion:^(NSURLSessionDataTask *task, NSError *error, id response)
      {
@@ -360,7 +360,7 @@ void MBCall_CreateNegotiationWithAuction(NSDictionary* params,RMApiManagerComple
          }
      }];
 }
-void MBCall_AddUpdateAuctionforNegotiation(NSDictionary* params,RMApiManagerCompletion completion)
+void MBCall_AddUpdateAuctionforNegotiation(NSDictionary* params,TRApiManagerCompletion completion)
 {
     [[MBHTTPClient sharedInstance] requestPOSTServiceOnURL:getUrlForMethod(ADD_UPDATE_NEGOTIATION_API) WithDictionary:params withCompletion:^(NSURLSessionDataTask *task, NSError *error, id response)
      {
@@ -377,7 +377,7 @@ void MBCall_AddUpdateAuctionforNegotiation(NSDictionary* params,RMApiManagerComp
      }];
 }
 
-void MBCall_GetAuctionOrderHistoryWithID(NSDictionary* params,RMApiManagerCompletion completion)
+void MBCall_GetAuctionOrderHistoryWithID(NSDictionary* params,TRApiManagerCompletion completion)
 {
     [[MBHTTPClient sharedInstance] requestPOSTServiceOnURL:getUrlForMethod(AUCTION_ORDER_HISTORY_API) WithDictionary:params withCompletion:^(NSURLSessionDataTask *task, NSError *error, id response)
      {
@@ -394,7 +394,7 @@ void MBCall_GetAuctionOrderHistoryWithID(NSDictionary* params,RMApiManagerComple
      }];
 }
 
-void MBCall_GetSupplierShortListedWithGroupID(NSDictionary* params,RMApiManagerCompletion completion)
+void MBCall_GetSupplierShortListedWithGroupID(NSDictionary* params,TRApiManagerCompletion completion)
 {
     NSString *strvalue = [NSString stringWithFormat:@"%@",[params valueForKey:@"GroupID"]];
     NSString *strCategoryID = [NSString stringWithFormat:@"%@",[params valueForKey:@"CustomerID"]];
@@ -415,7 +415,7 @@ void MBCall_GetSupplierShortListedWithGroupID(NSDictionary* params,RMApiManagerC
     }];
 }
 
-void MBCall_AuctionDetailForEditNegotiation(NSDictionary* params,RMApiManagerCompletion completion)
+void MBCall_AuctionDetailForEditNegotiation(NSDictionary* params,TRApiManagerCompletion completion)
 {
     [[MBHTTPClient sharedInstance] requestPOSTServiceOnURL:getUrlForMethod(AUCTION_DETAIL_FOR_EDIT_API) WithDictionary:params withCompletion:^(NSURLSessionDataTask *task, NSError *error, id response)
      {
@@ -431,9 +431,18 @@ void MBCall_AuctionDetailForEditNegotiation(NSDictionary* params,RMApiManagerCom
          }
      }];
 }
-void MBCall_AuctionItemListWithProductList(NSDictionary* params,RMApiManagerCompletion completion)
+void MBCall_AuctionItemListWithProductList(NSDictionary* params,BOOL btnValue,TRApiManagerCompletion completion)
 {
-    [[MBHTTPClient sharedInstance] requestPOSTServiceOnURL:getUrlForMethod(AUCTION_ITEM_LIST_API) WithDictionary:params withCompletion:^(NSURLSessionDataTask *task, NSError *error, id response)
+    NSString *strURL;
+    
+    if(btnValue == YES)
+    {
+        strURL = AUCTION_ITEM_LIST_EDIT_API;
+    }
+    else{
+        strURL = AUCTION_ITEM_LIST_API;
+    }
+    [[MBHTTPClient sharedInstance] requestPOSTServiceOnURL:getUrlForMethod(strURL) WithDictionary:params withCompletion:^(NSURLSessionDataTask *task, NSError *error, id response)
      {
          if (error)
          {
@@ -448,7 +457,7 @@ void MBCall_AuctionItemListWithProductList(NSDictionary* params,RMApiManagerComp
      }];
 }
 
-void MBCall_AuctionSupplierWithAuctionID(NSDictionary* params,RMApiManagerCompletion completion)
+void MBCall_AuctionSupplierWithAuctionID(NSDictionary* params,TRApiManagerCompletion completion)
 {
     [[MBHTTPClient sharedInstance] requestPOSTServiceOnURL:getUrlForMethod(AUCTION_SUPPLIER_LIST_API) WithDictionary:params withCompletion:^(NSURLSessionDataTask *task, NSError *error, id response)
      {
@@ -464,7 +473,7 @@ void MBCall_AuctionSupplierWithAuctionID(NSDictionary* params,RMApiManagerComple
          }
      }];
 }
-void MBCall_GetAuctionOrderProcessDetailWithAuctionCode(NSDictionary* params,RMApiManagerCompletion completion)
+void MBCall_GetAuctionOrderProcessDetailWithAuctionCode(NSDictionary* params,TRApiManagerCompletion completion)
 {
     [[MBHTTPClient sharedInstance] requestPOSTServiceOnURL:getUrlForMethod(AUCTION_ORDER_PROCESS_API) WithDictionary:params withCompletion:^(NSURLSessionDataTask *task, NSError *error, id response)
      {
@@ -481,7 +490,7 @@ void MBCall_GetAuctionOrderProcessDetailWithAuctionCode(NSDictionary* params,RMA
      }];
 }
 
-void MBCall_GetAuctionOrderProcessItemListWithAuctionCodeandPONO(NSDictionary* params,RMApiManagerCompletion completion)
+void MBCall_GetAuctionOrderProcessItemListWithAuctionCodeandPONO(NSDictionary* params,TRApiManagerCompletion completion)
 {
     [[MBHTTPClient sharedInstance] requestPOSTServiceOnURL:getUrlForMethod(AUCTION_ORDER_PROCESS_ITEM_API) WithDictionary:params withCompletion:^(NSURLSessionDataTask *task, NSError *error, id response)
      {
@@ -497,6 +506,89 @@ void MBCall_GetAuctionOrderProcessItemListWithAuctionCodeandPONO(NSDictionary* p
          }
      }];
 }
+//http://api.tradologie.com/Buyer/AuctionItemddl
+void MBCall_GetAuctionItemDetailAccordingtoCategoryID(NSDictionary* params,TRApiManagerCompletion completion)
+{
+    [[MBHTTPClient sharedInstance] requestPOSTServiceOnURL:getUrlForMethod(AUCTION_ITEM_DETAIL_CATEGORYID) WithDictionary:params withCompletion:^(NSURLSessionDataTask *task, NSError *error, id response)
+     {
+         if (error)
+         {
+             completion(nil,filterErrorMessageUsingResponseRequestOperation(task, error),NO);
+             return;
+         }
+         else if(response)
+         {
+             completion(response,checkIfResponseHasErrorMessage(response),YES);
+             
+         }
+     }];
+}
+void MBCall_AddAuctionItemProductAPI(NSDictionary* params,TRApiManagerCompletion completion)
+{
+    [[MBHTTPClient sharedInstance] requestPOSTServiceOnURL:getUrlForMethod(ADD_AUCTION_PRODUCT_ITEM) WithDictionary:params withCompletion:^(NSURLSessionDataTask *task, NSError *error, id response)
+     {
+         if (error)
+         {
+             completion(nil,filterErrorMessageUsingResponseRequestOperation(task, error),NO);
+             return;
+         }
+         else if(response)
+         {
+             completion(response,checkIfResponseHasErrorMessage(response),YES);
+             
+         }
+     }];
+}
 
+
+void MBCall_AddPackingImageUploadAPI(NSDictionary *params , NSData *image_data ,TRApiManagerCompletion completion)
+{
+    [[MBHTTPClient sharedInstance] requestPOSTMultipartServiceOnURL:getUrlForMethod(ADD_AUCTION_PACKING_IMAGE) withData:image_data withParametes:params withCompletion:^(NSURLSessionDataTask *task, NSError *error, id response)
+     {
+         if (error)
+         {
+             completion(nil,filterErrorMessageUsingResponseRequestOperation(task, error),NO);
+             return;
+         }
+         else if(response)
+         {
+             completion(response,checkIfResponseHasErrorMessage(response),YES);
+         }
+     }];
+}
+
+void MBCall_GETAddAuctionSupplierAPI(NSString *strGroupID ,TRApiManagerCompletion completion)
+{
+    NSString *strParameters = [[ADD_AUCTION_SUPPLIER stringByAppendingString:@"/"] stringByAppendingString:strGroupID];
+    
+    [[MBHTTPClient sharedInstance] requestGETServiceOnURL:getUrlForMethod(strParameters) WithDictionary:nil withCompletion:^(NSURLSessionDataTask *task, NSError *error, id response) {
+        if(error)
+        {
+            completion(nil,filterErrorMessageUsingResponseRequestOperation(task, error),NO);
+        }
+        else
+        {
+            completion(response,checkIfResponseHasErrorMessage(response),YES);
+            
+        }
+    }];
+    
+}
+void MBCall_DeleteAuctionItemWithData(NSDictionary* params,TRApiManagerCompletion completion)
+{
+    [[MBHTTPClient sharedInstance] requestPOSTServiceOnURL:getUrlForMethod(DELETE_AUCTION_ITEM) WithDictionary:params withCompletion:^(NSURLSessionDataTask *task, NSError *error, id response)
+     {
+         if (error)
+         {
+             completion(nil,filterErrorMessageUsingResponseRequestOperation(task, error),NO);
+             return;
+         }
+         else if(response)
+         {
+             completion(response,checkIfResponseHasErrorMessage(response),YES);
+             
+         }
+     }];
+}
 
 @end

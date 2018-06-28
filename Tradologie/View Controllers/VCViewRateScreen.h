@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "EveryPage.h"
 
-@interface VCViewRateScreen : UIViewController
+@interface VCViewRateScreen : EveryPage
 
 @end

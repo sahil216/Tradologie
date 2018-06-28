@@ -12,6 +12,7 @@
 @protocol TvCellEnquiryDelegate <NSObject>
 
 - (void)setSelectItemViewWithData:(NSIndexPath *)selectedIndex withTittle:(NSString *)btnState;
+- (void)setSelectItemViewCodeWithData:(NSIndexPath *)selectedIndex;
 
 @end
 

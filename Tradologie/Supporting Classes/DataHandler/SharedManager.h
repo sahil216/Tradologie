@@ -1,10 +1,11 @@
 //
 //  SharedManager.h
-//  OrderApp
+//  Tradologie
 //
-//  Created by MMI IOS on 21/02/17.
-//  Copyright © 2017 MMI IOS. All rights reserved.
+//  Created by Chandresh on 8/9/16.
+//  Copyright © 2016 Chandresh. All rights reserved.
 //
+
 
 #import <Foundation/Foundation.h>
 #import "Reachability.h"

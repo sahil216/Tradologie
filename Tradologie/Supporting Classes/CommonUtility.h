@@ -39,4 +39,7 @@ typedef void (^FTPopOverMenuDismissBlock)(void);
 +(void)showPopUpWithData:(UIView *)viewtoShow withArray:(NSMutableArray *)arrData withCompletion:(showPopupWithCompletionHandler)completion withDismissBlock:(FTPopOverMenuDismissBlock)dismiss;
 +(UIActivityViewController *)getActivityViewController;
 +(NSString *)getDateFromSting:(NSString *)strDate fromFromate:(NSString *)StrGivenFormate withRequiredDateFormate:(NSString *)strRequiredDateFormate;
++(NSString*) saveImageTODocumentAndGetPath: (UIImage *) image;
++(BOOL)fileExistsInProject:(NSString *)fileName;
+
 @end

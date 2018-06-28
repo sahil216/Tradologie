@@ -20,9 +20,12 @@
     NSMutableArray * bgArray;
     CGSize itemSize;
     NSArray * keyArray;
+    NSMutableArray *arrlabel;
+    NSInteger IsNegotiation;
 }
 
-- (void)awakeFromNib {
+- (void)awakeFromNib
+{
     [super awakeFromNib];
     // Initialization code
 }
@@ -32,7 +35,7 @@
 }
 
 
-- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier itemSize:(CGSize)size headerArray:(NSArray*)headerArray
+- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier itemSize:(CGSize)size headerArray:(NSArray*)headerArray isWithBoolValue:(NSInteger)IsfromNegotiation
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self)
@@ -41,6 +44,7 @@
         keyArray = headerArray;
         labelArray = [NSMutableArray new];
         bgArray = [NSMutableArray new];
+        IsNegotiation = IsfromNegotiation;
         [self setupLabel];
     }
     return self;
@@ -50,29 +54,63 @@
 {
     int xx = 0;
     
-    int width = 80;
+    int width = 120;
     for(int i = 0 ; i < [keyArray count] ; i++)
     {
         bgView = [[UIView alloc] initWithFrame:CGRectMake(xx, 0, width, itemSize.height)];
         [bgView setBackgroundColor:[UIColor whiteColor]];
         
-        if (i == 5)
+        if (IsNegotiation == 1)
         {
-            imgPacking = [[UIImageView alloc]initWithFrame:CGRectMake(25, 10, 100 , itemSize.height - 20)];
-            [imgPacking setBackgroundColor:[UIColor redColor]];
-            [bgView addSubview:imgPacking];
-            [labelArray addObject:imgPacking];
+            if (i == 5)
+            {
+                imgPacking = [[UIImageView alloc]initWithFrame:CGRectMake(25, 10, 100 , itemSize.height - 20)];
+                [imgPacking setBackgroundColor:[UIColor redColor]];
+                [bgView addSubview:imgPacking];
+                [labelArray addObject:imgPacking];
+            }
+            else if (i == 0)
+            {
+                arrlabel = [[NSMutableArray alloc]init];
+                [self setlabelwithIndex:bgView withFrame:CGRectMake(10, 5, 50 , 30) withIndex:0];
+                UIButton *btnDelete = [[UIButton alloc]initWithFrame:CGRectMake(65, 0, 45 , 45)];
+                [btnDelete setBackgroundColor:[UIColor clearColor]];
+                [bgView addSubview:btnDelete];
+                [arrlabel insertObject:btnDelete atIndex:1];
+                [labelArray addObject:arrlabel];
+            }
+            else
+            {
+                headLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, bgView.frame.size.width , bgView.frame.size.height)];
+                [headLabel setBackgroundColor:[UIColor clearColor]];
+                [headLabel setFont:UI_DEFAULT_FONT(16)];
+                [headLabel setNumberOfLines:5];
+                [headLabel setLineBreakMode:NSLineBreakByWordWrapping];
+                [bgView addSubview:headLabel];
+                [labelArray addObject:headLabel];
+                
+            }
         }
         else
         {
-            headLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, bgView.frame.size.width , bgView.frame.size.height)];
-            [headLabel setBackgroundColor:[UIColor clearColor]];
-            [headLabel setFont:UI_DEFAULT_FONT(16)];
-            [headLabel setNumberOfLines:5];
-            [headLabel setLineBreakMode:NSLineBreakByWordWrapping];
-            [bgView addSubview:headLabel];
-            [labelArray addObject:headLabel];
-            
+            if (i == 5)
+            {
+                imgPacking = [[UIImageView alloc]initWithFrame:CGRectMake(25, 10, 100 , itemSize.height - 20)];
+                [imgPacking setBackgroundColor:[UIColor redColor]];
+                [bgView addSubview:imgPacking];
+                [labelArray addObject:imgPacking];
+            }
+            else
+            {
+                headLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, bgView.frame.size.width , bgView.frame.size.height)];
+                [headLabel setBackgroundColor:[UIColor clearColor]];
+                [headLabel setFont:UI_DEFAULT_FONT(16)];
+                [headLabel setNumberOfLines:5];
+                [headLabel setLineBreakMode:NSLineBreakByWordWrapping];
+                [bgView addSubview:headLabel];
+                [labelArray addObject:headLabel];
+                
+            }
         }
         [self addSubview:bgView];
         
@@ -85,7 +123,18 @@
         width = itemSize.width;
     }
 }
-
+-(void)setlabelwithIndex:(UIView *)viewBG withFrame:(CGRect)frame withIndex:(NSInteger)Index
+{
+    UILabel *lblTittle = [[UILabel alloc]initWithFrame:frame];
+    [lblTittle setBackgroundColor:[UIColor clearColor]];
+    [lblTittle setFont:UI_DEFAULT_FONT(16)];
+    [lblTittle setNumberOfLines:5];
+    [lblTittle setTextAlignment:NSTextAlignmentCenter];
+    [lblTittle setLineBreakMode:NSLineBreakByWordWrapping];
+    [viewBG addSubview:lblTittle];
+    [arrlabel insertObject:lblTittle atIndex:Index];
+    
+}
 -(void)setDataDict:(NSMutableDictionary *)dataDict
 {
     _dataDict = dataDict;
@@ -96,8 +145,29 @@
         switch (i)
         {
             case 0:
-                [tempLabel setText:[dataDict objectForKey:[keyArray objectAtIndex:i]]];
-                [tempLabel setTextAlignment:NSTextAlignmentCenter];
+            {
+                if (IsNegotiation == 1)
+                {
+                    NSMutableArray *arrlbl = [labelArray objectAtIndex:0];
+                    
+                    UILabel * lblCount = [arrlbl objectAtIndex:0];
+                    [lblCount setText:[dataDict objectForKey:[keyArray objectAtIndex:i]]];
+                    [lblCount setTextAlignment:NSTextAlignmentCenter];
+                    
+                    UIButton *btnDelete = [arrlbl objectAtIndex:1];
+                    [btnDelete setTintColor:[UIColor whiteColor]];
+                    [btnDelete setDefaultButtonShadowStyle:[UIColor whiteColor]];
+                    [btnDelete setImage:[UIImage imageNamed:@"IconDeleteNegotiation"] forState:UIControlStateNormal];
+                    [btnDelete addTarget:self action:@selector(btnDeleteTapped:) forControlEvents:UIControlEventTouchUpInside];
+                    [btnDelete.titleLabel setTextAlignment:NSTextAlignmentRight];
+                }
+                else
+                {
+                    [tempLabel setText:[@"    "stringByAppendingString:[dataDict objectForKey:[keyArray objectAtIndex:i]]]];
+                    [tempLabel setTextAlignment:NSTextAlignmentLeft];
+                }
+            }
+                
                 break;
                 
             case 1:
@@ -166,6 +236,14 @@
             default:
                 break;
         }
+    }
+}
+-(IBAction)btnDeleteTapped:(UIButton *)sender
+{
+    if([_delegate respondsToSelector:@selector(setSelectItemViewCodeWithData:)])
+    {
+        NSIndexPath *indexPath = [CommonUtility MB_IndexPathForCellContainingView:sender];
+        [_delegate setSelectItemViewCodeWithData:indexPath];
     }
 }
 @end

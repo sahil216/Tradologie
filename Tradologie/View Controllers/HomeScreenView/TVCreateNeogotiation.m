@@ -382,6 +382,7 @@
                     
                     VcNegotiationDetail *objScreen =[self.storyboard instantiateViewControllerWithIdentifier:@"VcNegotiationDetail"];
                     [[UIDevice currentDevice] setValue:[NSNumber numberWithInteger: UIInterfaceOrientationLandscapeRight] forKey:@"orientation"];
+                    objScreen.isfromViewEnquiry =  NO;
                     [self.navigationController pushViewController:objScreen animated:YES];
                     
                 }
@@ -397,7 +398,6 @@
     {
         [[CommonUtility new] show_ErrorAlertWithTitle:@"" withMessage:@"Internet Not Available Please Try Again..!"];
     }
-    
 }
 
 
@@ -559,7 +559,7 @@
 /*****************************************************************************************************************/
 -(void)textFieldDidBeginEditing:(UITextField *)textField
 {
-    if (textField== txtLastDate && [txtLastDate isEditing])
+    if (textField == txtLastDate && [txtLastDate isEditing])
     {
         dateLastPicker = [[UIDatePicker alloc]init];
         [dateLastPicker setDatePickerMode:UIDatePickerModeDateAndTime];

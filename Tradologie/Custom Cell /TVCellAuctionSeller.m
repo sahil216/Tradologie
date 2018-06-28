@@ -70,7 +70,7 @@
         [self addSubview:bgView];
         
         UILabel *lblline = [[UILabel alloc]init];
-        [lblline setFrame:CGRectMake(0, bgView.frame.size.height + 5, width, 1)];
+        [lblline setFrame:CGRectMake(0, bgView.frame.size.height + 5, width * 3, 1)];
         [lblline setBackgroundColor:[UIColor lightGrayColor]];
         [bgView addSubview:lblline];
         [bgArray addObject:bgView];
@@ -83,35 +83,66 @@
 {
     _dataDict = dataDict;
     
-    for (int i = 0; i < [labelArray count]; i++)
+    if (labelArray.count == 2)
     {
-        UILabel * tempLabel = [labelArray objectAtIndex:i];
-        switch (i)
+        for (int i = 0; i < [labelArray count]; i++)
         {
-            case 0:
+            UILabel * tempLabel = [labelArray objectAtIndex:i];
+            switch (i)
             {
-                [tempLabel setText:[@"  " stringByAppendingString:[dataDict objectForKey:[keyArray objectAtIndex:i]]]];
-                [tempLabel setTextAlignment:NSTextAlignmentLeft];
+                case 0:
+                {
+                    [tempLabel setText:[@"      "stringByAppendingString:[dataDict objectForKey:[keyArray objectAtIndex:i]]]];
+                    [tempLabel setTextAlignment:NSTextAlignmentLeft];
+                }
+                    break;
+                    
+                case 1:
+                {
+                    [tempLabel setText:[[dataDict objectForKey:[keyArray objectAtIndex:i]]capitalizedString]];
+                    [tempLabel setTextAlignment:NSTextAlignmentLeft];
+                }
+                    break;
+                    
+                default:
+                    break;
             }
-                break;
-                
-            case 1:
-            {
-                [tempLabel setText:[[dataDict objectForKey:[keyArray objectAtIndex:i]]capitalizedString]];
-                [tempLabel setTextAlignment:NSTextAlignmentLeft];
-            }
-                break;
-                
-            case 2:
-            {
-                [tempLabel setText:[[dataDict objectForKey:[keyArray objectAtIndex:i]]capitalizedString]];
-                [tempLabel setTextAlignment:NSTextAlignmentLeft];
-            }
-                break;
-                
-            default:
-                break;
         }
     }
+    else
+    {
+        for (int i = 0; i < [labelArray count]; i++)
+        {
+            UILabel * tempLabel = [labelArray objectAtIndex:i];
+            switch (i)
+            {
+                case 0:
+                {
+                    [tempLabel setText:[@"  " stringByAppendingString:[dataDict objectForKey:[keyArray objectAtIndex:i]]]];
+                    [tempLabel setTextAlignment:NSTextAlignmentLeft];
+                }
+                    break;
+                    
+                case 1:
+                {
+                    [tempLabel setText:[[dataDict objectForKey:[keyArray objectAtIndex:i]]capitalizedString]];
+                    [tempLabel setTextAlignment:NSTextAlignmentLeft];
+                }
+                    break;
+                    
+                case 2:
+                {
+                    [tempLabel setText:[[dataDict objectForKey:[keyArray objectAtIndex:i]]capitalizedString]];
+                    [tempLabel setTextAlignment:NSTextAlignmentLeft];
+                }
+                    break;
+                    
+                default:
+                    break;
+            }
+        }
+    }
+    
+    
 }
 @end

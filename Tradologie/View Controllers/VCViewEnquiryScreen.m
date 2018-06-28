@@ -132,7 +132,7 @@
         TVcellNotificationlist *cell = (TVcellNotificationlist *)[tableView dequeueReusableCellWithIdentifier:cellIdentifier];
         if(cell==nil)
         {
-            cell=[[TVcellNotificationlist alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier itemSize:CGSizeMake(K_CUSTOM_WIDTH +50, lblHeight) headerArray:arrTittle];
+            cell=[[TVcellNotificationlist alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier itemSize:CGSizeMake(K_CUSTOM_WIDTH +50, lblHeight) headerArray:arrTittle isWithBoolValue:0];
             cell.selectionStyle=UITableViewCellSelectionStyleNone;
         }
         cell.dataDict = [arrData objectAtIndex:indexPath.row];
@@ -191,6 +191,7 @@
     UIView *tableViewHeadView=[[UIView alloc]initWithFrame:CGRectMake(0, 0, [arrTittle count] * K_CUSTOM_WIDTH, 90)];
     [tableViewHeadView setBackgroundColor:DefaultThemeColor];
     [self getLableAccordingtoView:tableViewHeadView withTittle:@"Auction Seller List"];
+    
     int xx = 0;
     int width = 150;
     

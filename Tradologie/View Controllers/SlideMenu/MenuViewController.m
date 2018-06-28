@@ -290,10 +290,11 @@ static NSString *const  kCellIdentifire = @"MenuViewCell";
             
             
         }
+            break;
+
         case 13:
         {
             [CommonUtility OpenURLAccordingToUse:@"http://tradologie.com/lp/terms-of-use.html"];
-            
         }
             break;
         case 14:

@@ -8,12 +8,19 @@
 
 #import <UIKit/UIKit.h>
 
+@protocol TVcellNotificationDelegate <NSObject>
+
+- (void)setSelectItemViewCodeWithData:(NSIndexPath *)selectedIndex;
+
+@end
+
 @interface TVcellNotificationlist : UITableViewCell
 {
     NSIndexPath *selectedIndex;
 }
 @property (nonatomic,strong) NSMutableDictionary * dataDict;
+@property (nonatomic,assign) id<TVcellNotificationDelegate> delegate;
 
 
-- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier itemSize:(CGSize)size headerArray:(NSArray*)headerArray;
+- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier itemSize:(CGSize)size headerArray:(NSArray*)headerArray isWithBoolValue:(NSInteger)IsfromNegotiation;
 @end

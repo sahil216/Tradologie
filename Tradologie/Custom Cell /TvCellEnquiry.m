@@ -61,13 +61,10 @@
 
         if (i == 2)
         {
-            headLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 20, bgView.frame.size.width , bgView.frame.size.height - 40)];
-            [headLabel setBackgroundColor:[UIColor clearColor]];
-            [headLabel setFont:UI_DEFAULT_FONT(16)];
-            [headLabel setNumberOfLines:5];
-            [headLabel setLineBreakMode:NSLineBreakByWordWrapping];
-            [bgView addSubview:headLabel];
-            [labelArray addObject:headLabel];
+           UIButton *btnViewCode = [[UIButton alloc]initWithFrame:CGRectMake(0, 20, bgView.frame.size.width , bgView.frame.size.height - 40)];
+            [btnViewCode setBackgroundColor:[UIColor clearColor]];
+            [bgView addSubview:btnViewCode];
+            [labelArray addObject:btnViewCode];
         }
         else if (i ==  1)
         {
@@ -109,58 +106,80 @@
         switch (i)
         {
             case 0:
+            {
                 [tempLabel setText:[dataDict objectForKey:[keyArray objectAtIndex:i]]];
                 [tempLabel setTextAlignment:NSTextAlignmentCenter];
+            }
+                
                 break;
                 
             case 1:
             {
                 UIButton *btnRate = [labelArray objectAtIndex:i];
                 [btnRate.titleLabel setFont:UI_DEFAULT_FONT_MEDIUM(17)];
-                [btnViewRate setTintColor:[UIColor clearColor]];
-                [btnViewRate setTitleColor:[UIColor orangeColor] forState:UIControlStateNormal];
+                [btnRate setTintColor:[UIColor clearColor]];
+                [btnRate setTitleColor:[UIColor orangeColor] forState:UIControlStateNormal];
                 [btnRate setTitle:[dataDict objectForKey:[keyArray objectAtIndex:i]] forState:UIControlStateNormal];
                 [btnRate addTarget:self action:@selector(btnViewRateTapped:) forControlEvents:UIControlEventTouchUpInside];
-                [btnViewRate.titleLabel setTextAlignment:NSTextAlignmentCenter];
+                [btnRate.titleLabel setTextAlignment:NSTextAlignmentCenter];
             }
                 break;
                 
             case 2:
-                [tempLabel setText:[dataDict objectForKey:[keyArray objectAtIndex:i]]];
-                [tempLabel setBackgroundColor:DefaultThemeColor];
-                [tempLabel setFont:UI_DEFAULT_FONT_MEDIUM(16)];
-                [tempLabel setTextColor:[UIColor whiteColor]];
-                [tempLabel setTextAlignment:NSTextAlignmentCenter];
+            {
+                UIButton *btnViewCode = [labelArray objectAtIndex:i];
+                [btnViewCode.titleLabel setFont:UI_DEFAULT_FONT_MEDIUM(17)];
+                [btnViewCode setTintColor:[UIColor clearColor]];
+                [btnViewCode setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+                [btnViewCode setTitle:[dataDict objectForKey:[keyArray objectAtIndex:i]] forState:UIControlStateNormal];
+                [btnViewCode addTarget:self action:@selector(btnViewCodeTapped:) forControlEvents:UIControlEventTouchUpInside];
+                [btnViewCode.titleLabel setTextAlignment:NSTextAlignmentCenter];
+                [btnViewCode setBackgroundColor:DefaultThemeColor];
+            }
                 break;
                 
             case 3:
+            {
                 [tempLabel setText:[dataDict objectForKey:[keyArray objectAtIndex:i]]];
                 [tempLabel setTextAlignment:NSTextAlignmentCenter];
+            }
                 break;
                 
             case 4:
+            {
                 [tempLabel setText:[dataDict objectForKey:[keyArray objectAtIndex:i]]];
                 [tempLabel setTextAlignment:NSTextAlignmentCenter];
+            }
                 break;
             case 5:
+            {
                 [tempLabel setText:[dataDict objectForKey:[keyArray objectAtIndex:i]]];
                 [tempLabel setTextAlignment:NSTextAlignmentCenter];
+            }
                 break;
             case 6:
+            {
                 [tempLabel setText:[dataDict objectForKey:[keyArray objectAtIndex:i]]];
                 [tempLabel setTextAlignment:NSTextAlignmentCenter];
+            }
                 break;
             case 7:
+            {
                 [tempLabel setText:[dataDict objectForKey:[keyArray objectAtIndex:i]]];
                 [tempLabel setTextAlignment:NSTextAlignmentCenter];
+            }
                 break;
             case 8:
+            {
                 [tempLabel setText:[dataDict objectForKey:[keyArray objectAtIndex:i]]];
                 [tempLabel setTextAlignment:NSTextAlignmentLeft];
+            }
                 break;
             case 9:
+            {
                 [tempLabel setText:[dataDict objectForKey:[keyArray objectAtIndex:i]]];
                 [tempLabel setTextAlignment:NSTextAlignmentCenter];
+            }
                 break;
                 
             default:
@@ -175,5 +194,13 @@
         [_delegate setSelectItemViewWithData:indexPath withTittle:sender.titleLabel.text];
     }
 }
+-(IBAction)btnViewCodeTapped:(UIButton *)sender{
+    if([_delegate respondsToSelector:@selector(setSelectItemViewCodeWithData:)])
+    {
+        NSIndexPath *indexPath = [CommonUtility MB_IndexPathForCellContainingView:sender];
+        [_delegate setSelectItemViewCodeWithData:indexPath];
+    }
+}
+
 
 @end

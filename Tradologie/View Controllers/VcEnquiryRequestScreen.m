@@ -19,6 +19,7 @@
 #import "CommonUtility.h"
 #import "MBAPIManager.h"
 #import "VCViewRateScreen.h"
+#import "VcNegotiationDetail.h"
 
 #define K_CUSTOM_WIDTH 170
 
@@ -31,9 +32,9 @@ TvCellEnquiryDelegate,SFSafariViewControllerDelegate>
     NSInteger count;
     CGFloat height , lblHeight;
     UITextField *txtGPSCode, *txtSortBuy;
-    BOOL isFromViewRate;
+    BOOL isFromViewRate ,isFromEdit;
     UIRefreshControl *refreshController;
-
+    
 }
 
 @property (nonatomic, strong) UIView * contentView;
@@ -74,12 +75,12 @@ TvCellEnquiryDelegate,SFSafariViewControllerDelegate>
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-//    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 1.0 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
-//        if([self respondsToSelector:@selector(edgesForExtendedLayout)])
-//            [self setEdgesForExtendedLayout:UIRectEdgeNone];
-//        self.automaticallyAdjustsScrollViewInsets = NO;
-//        self.myTableView.contentInset = UIEdgeInsetsMake(0, 0, 0, 0);
-//    });
+    //    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 1.0 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+    //        if([self respondsToSelector:@selector(edgesForExtendedLayout)])
+    //            [self setEdgesForExtendedLayout:UIRectEdgeNone];
+    //        self.automaticallyAdjustsScrollViewInsets = NO;
+    //        self.myTableView.contentInset = UIEdgeInsetsMake(0, 0, 0, 0);
+    //    });
     [[UIApplication sharedApplication] setStatusBarOrientation:UIInterfaceOrientationLandscapeRight animated:YES];
     [[UIApplication sharedApplication] setStatusBarHidden:NO animated:YES];
 }
@@ -89,7 +90,7 @@ TvCellEnquiryDelegate,SFSafariViewControllerDelegate>
 -(void)handlePulltoRefresh:(UIRefreshControl *)Control
 {
     [refreshController endRefreshing];
-
+    
     [self GetNegotiationListUsingAuction];
 }
 /******************************************************************************************************************/
@@ -108,7 +109,7 @@ TvCellEnquiryDelegate,SFSafariViewControllerDelegate>
     UITableView *tableView=[[UITableView alloc]initWithFrame:CGRectMake(0, 0, headerTotalWidth, height) style:UITableViewStylePlain];
     tableView.delegate=self;
     tableView.dataSource=self;
-   // tableView.bounces=NO;
+    // tableView.bounces=NO;
     tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.myTableView = tableView;
     
@@ -200,13 +201,7 @@ TvCellEnquiryDelegate,SFSafariViewControllerDelegate>
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    isFromViewRate = NO;
-    AuctionDetail *objAuctionDetail = [MBDataBaseHandler getAuctionDetail];
-    NSMutableArray *arrValue = [[NSMutableArray alloc]init];
-    [arrValue addObjectsFromArray:[objAuctionDetail.detail mutableCopy]];
-    NSString *strID = [NSString stringWithFormat:@"%@",[[arrValue valueForKey:@"AuctionID"]objectAtIndex:indexPath.row]];
-    
-    [self AuctionDetailForEditNegotiationWithAuctionID:strID];
+   
 }
 
 /******************************************************************************************************************/
@@ -240,11 +235,17 @@ TvCellEnquiryDelegate,SFSafariViewControllerDelegate>
                     {
                         
                     }
+                    else if (self->isFromEdit)
+                    {
+                        [CommonUtility HideProgress];
+                        
+                        [self getAuctionListAPIWithAuctionID:[NSString stringWithFormat:@"%@",data.detail.AuctionID]withMode:YES];
+                    }
                     else
                     {
                         [CommonUtility HideProgress];
-                        [self getAuctionListAPIWithAuctionID:auctionID];
-                        [self getAuctionSellerListAPIWithAuctionID:auctionID];
+                        [self getAuctionSellerListAPIWithAuctionID:[NSString stringWithFormat:@"%@",data.detail.AuctionID]];
+                        [self getAuctionListAPIWithAuctionID:[NSString stringWithFormat:@"%@",data.detail.AuctionID] withMode:NO];
                     }
                 }
             }
@@ -263,7 +264,7 @@ TvCellEnquiryDelegate,SFSafariViewControllerDelegate>
 /******************************************************************************************************************/
 #pragma mark ❉===❉=== GET AUCTION LIST ITEM API ===❉===❉
 /******************************************************************************************************************/
--(void)getAuctionListAPIWithAuctionID:(NSString *)auctionID
+-(void)getAuctionListAPIWithAuctionID:(NSString *)auctionID withMode:(BOOL)boolvalue
 {
     BuyerUserDetail *objBuyerdetail = [MBDataBaseHandler getBuyerUserDetail];
     
@@ -275,7 +276,7 @@ TvCellEnquiryDelegate,SFSafariViewControllerDelegate>
     {
         [CommonUtility showProgressWithMessage:@"Please Wait.."];
         
-        MBCall_AuctionItemListWithProductList(dicParams, ^(id response, NSString *error, BOOL status)
+        MBCall_AuctionItemListWithProductList(dicParams,boolvalue, ^(id response, NSString *error, BOOL status)
         {
             [CommonUtility HideProgress];
             
@@ -287,16 +288,35 @@ TvCellEnquiryDelegate,SFSafariViewControllerDelegate>
                     AuctionItemList *objData = [[AuctionItemList alloc]initWithDictionary:response error:&error];
                     [MBDataBaseHandler saveAuctionItemListData:objData];
                     
-                    VCViewEnquiryScreen *objScreen =[self.storyboard instantiateViewControllerWithIdentifier:@"VCViewEnquiryScreen"];
+                    if (self->isFromEdit)
+                    {
+                        VcNegotiationDetail *objScreen = [self.storyboard instantiateViewControllerWithIdentifier:@"VcNegotiationDetail"];
+                        [[UIDevice currentDevice] setValue:[NSNumber numberWithInteger: UIInterfaceOrientationLandscapeRight] forKey:@"orientation"];
+                        objScreen.isfromViewEnquiry =  YES;
+                        objScreen.AuctionID = auctionID;
+                        [self.navigationController pushViewController:objScreen animated:YES];
+                    }
+                    else
+                    {
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            VCViewEnquiryScreen *objScreen =[self.storyboard instantiateViewControllerWithIdentifier:@"VCViewEnquiryScreen"];
+                            
+                            [[UIDevice currentDevice] setValue:[NSNumber numberWithInteger: UIInterfaceOrientationLandscapeRight] forKey:@"orientation"];
+                            [self.navigationController pushViewController:objScreen animated:YES];
+                        });
+                    }
                     
-                    [[UIDevice currentDevice] setValue:[NSNumber numberWithInteger: UIInterfaceOrientationLandscapeRight] forKey:@"orientation"];
-                    [self.navigationController pushViewController:objScreen animated:YES];
                 }
             }
             else
             {
                 [CommonUtility HideProgress];
-                [[CommonUtility new] show_ErrorAlertWithTitle:@"" withMessage:error];
+                //[[CommonUtility new] show_ErrorAlertWithTitle:@"" withMessage:error];
+                VcNegotiationDetail *objScreen = [self.storyboard instantiateViewControllerWithIdentifier:@"VcNegotiationDetail"];
+                [[UIDevice currentDevice] setValue:[NSNumber numberWithInteger: UIInterfaceOrientationLandscapeRight] forKey:@"orientation"];
+                objScreen.isfromViewEnquiry =  YES;
+                objScreen.AuctionID = auctionID ;
+                [self.navigationController pushViewController:objScreen animated:YES];
             }
         });
     }
@@ -335,7 +355,14 @@ TvCellEnquiryDelegate,SFSafariViewControllerDelegate>
             else
             {
                 [CommonUtility HideProgress];
-                [[CommonUtility new] show_ErrorAlertWithTitle:@"" withMessage:error];
+              //  [[CommonUtility new] show_ErrorAlertWithTitle:@"" withMessage:error];
+                NSString *data = [[NSString alloc] initWithData:[NSJSONSerialization dataWithJSONObject:response options:0 error:nil] encoding:NSUTF8StringEncoding];
+                
+                [MBDataBaseHandler saveAuctionOrderProcessItemWithData:data];
+                
+                VCViewRateScreen *objScreen =[self.storyboard instantiateViewControllerWithIdentifier:@"VCViewRateScreen"];
+                [[UIDevice currentDevice] setValue:[NSNumber numberWithInteger: UIInterfaceOrientationLandscapeRight] forKey:@"orientation"];
+                [self.navigationController pushViewController:objScreen animated:YES];
             }
         });
     }
@@ -386,6 +413,7 @@ TvCellEnquiryDelegate,SFSafariViewControllerDelegate>
     }
     
 }
+
 /******************************************************************************************************************/
 #pragma mark ❉===❉=== SCROLL VIEW DELEGATE CALLED HERE ===❉===❉
 /*****************************************************************************************************************/
@@ -408,6 +436,9 @@ TvCellEnquiryDelegate,SFSafariViewControllerDelegate>
     
     if ([btnState isEqualToString:@"View Rate"])
     {
+        isFromViewRate = YES;
+        isFromEdit = NO;
+
         if (dataAuction.Isclosed == 0 & dataAuction.IsStarted == 1)
         {
             [[UIDevice currentDevice] setValue:[NSNumber numberWithInteger: UIInterfaceOrientationLandscapeRight] forKey:@"orientation"];
@@ -433,7 +464,7 @@ TvCellEnquiryDelegate,SFSafariViewControllerDelegate>
         }
         else
         {
-            isFromViewRate = YES;
+            isFromEdit = NO;
             [self AuctionDetailForEditNegotiationWithAuctionID:[NSString stringWithFormat:@"%@",dataAuction.AuctionID]];
             
             NSMutableDictionary *dicParams = [[NSMutableDictionary alloc]init];
@@ -468,7 +499,22 @@ TvCellEnquiryDelegate,SFSafariViewControllerDelegate>
             
         }];
     }
+    else if ([btnState isEqualToString:@"Edit"])
+    {
+        isFromEdit = YES;
+        [self AuctionDetailForEditNegotiationWithAuctionID:[NSString stringWithFormat:@"%@",dataAuction.AuctionID]];
+    }
 }
+-(void)setSelectItemViewCodeWithData:(NSIndexPath *)selectedIndex
+{
+    isFromEdit = NO;
+    
+    AuctionDetail *objAuctionDetail = [MBDataBaseHandler getAuctionDetail];
+    AuctionData *dataAuction = [objAuctionDetail.detail objectAtIndex:selectedIndex.row];
+    NSString *strID = [NSString stringWithFormat:@"%@",dataAuction.AuctionID];
+    [self AuctionDetailForEditNegotiationWithAuctionID:strID];
+}
+
 
 - (void)safariViewController:(SFSafariViewController *)controller didCompleteInitialLoad:(BOOL)didLoadSuccessfully
 {
@@ -506,7 +552,7 @@ TvCellEnquiryDelegate,SFSafariViewControllerDelegate>
 #pragma mark ❉===❉=== BUTTON ACTION EVENT CALLED HERE ===❉===❉
 /*****************************************************************************************************************/
 -(IBAction)btnBackItemTaped:(UIButton *)sender
-{    
+{
     [[UIDevice currentDevice] setValue:
      [NSNumber numberWithInteger: UIInterfaceOrientationPortrait] forKey:@"orientation"];
     [self.navigationItem setNavigationTittleWithLogo:@"tradologie.com"];
@@ -557,7 +603,7 @@ TvCellEnquiryDelegate,SFSafariViewControllerDelegate>
     [dicParams setObject:@"" forKey:@"FilterAuction"];
     
     [CommonUtility showProgressWithMessage:@"Please Wait..."];
-
+    
     if (SharedObject.isNetAvailable)
     {
         MBCall_GetAuctionListUsingDashboardApi(dicParams, ^(id response, NSString *error, BOOL status)
@@ -565,19 +611,18 @@ TvCellEnquiryDelegate,SFSafariViewControllerDelegate>
             if (status && [[response valueForKey:@"success"]isEqual:@1])
             {
                 [CommonUtility HideProgress];
-
+                
                 if (response != (NSDictionary *)[NSNull null])
                 {
                     NSError* Error;
                     AuctionDetail *detail = [[AuctionDetail alloc]initWithDictionary:response error:&Error];
                     [MBDataBaseHandler saveAuctionDetailData:detail];
+                    
                     self.myTableView.contentInset = UIEdgeInsetsMake(0, 0, 0, 0);
-
                 }
             }
             else
             {
-                
             }
         });
     }

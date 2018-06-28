@@ -164,6 +164,21 @@
     
     return nil;
 }
++(CategoryDetail *)getCategoryDetailItemListWithData
+{
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(objType == %@)",[NSNumber numberWithInt:categoryItemDetail]];
+    
+    NSArray *array = [OfflineObject MR_findAllWithPredicate:predicate];
+    
+    if (array.count>0)
+    {
+        OfflineObject *object = array[0];
+        CategoryDetail *objCategoryDetail = [[CategoryDetail alloc] initWithString:object.objData error:nil];
+        return objCategoryDetail;
+    }
+    
+    return nil;
+}
 +(NSString *)getAuctionOrderProcessItemWithData
 {
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(objType == %@)",[NSNumber numberWithInt:auctionOrderProcessItem]];
@@ -178,7 +193,24 @@
     }
     
     return nil;
-}//auctionOrderProcessItem
+}
++(NSMutableDictionary *)getAuctionSupplierListData
+{
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(objType == %@)",[NSNumber numberWithInt:auctionSupplierList]];
+    
+    NSArray *array = [OfflineObject MR_findAllWithPredicate:predicate];
+    
+    if (array.count>0)
+    {
+        OfflineObject *object = array[0];
+        NSMutableDictionary *listData  = [[NSMutableDictionary alloc]init];
+        [listData setValue:object.objData forKey:@"Data"];
+        [listData setValue:object.objId forKey:@"AuctionID"];
+        return listData;
+    }
+    
+    return nil;
+}
 /*********************************************************************************************/
 #pragma mark ❉===❉=== SETTER METHOD TO SET VALUE IN DATABASE ❉===❉===
 /*********************************************************************************************/
@@ -356,6 +388,23 @@
      }];
     
 }
++(void)saveCategoryDetailItemListWithData:(CategoryDetail *)CategoryDetailItemData
+{
+    [self deleteAllRecordsForType:categoryItemDetail];
+    
+    if (!CategoryDetailItemData) {
+        return;
+    }
+    
+    [MagicalRecord saveWithBlockAndWait:^(NSManagedObjectContext *localContext)
+     {
+         OfflineObject *newUser = [OfflineObject MR_createEntityInContext:localContext];
+         newUser.objData = CategoryDetailItemData.toJSONString;
+         newUser.objType = [NSNumber numberWithInt:categoryItemDetail];
+         newUser.objClass = NSStringFromClass([CategoryDetailItemData class]);
+         
+     }];
+}
 +(void)saveAuctionOrderProcessItemWithData:(NSString *)AuctionOrderProcess
 {
     [self deleteAllRecordsForType:auctionOrderProcessItem];
@@ -370,6 +419,25 @@
          newUser.objData = AuctionOrderProcess;
          newUser.objType = [NSNumber numberWithInt:auctionOrderProcessItem];
          newUser.objClass = NSStringFromClass([AuctionOrderProcess class]);
+         
+     }];
+}
++(void)savegetAuctionSupplierListData:(NSString *)AuctionSupplierList WithID:(NSNumber *)AuctionID
+{
+   [self deleteAllRecordsForType:auctionSupplierList];
+    
+    if (!AuctionSupplierList)
+    {
+        return;
+    }
+    
+    [MagicalRecord saveWithBlockAndWait:^(NSManagedObjectContext *localContext)
+     {
+         OfflineObject *newUser = [OfflineObject MR_createEntityInContext:localContext];
+         newUser.objData = AuctionSupplierList;
+         newUser.objId = AuctionID;
+         newUser.objType = [NSNumber numberWithInt:auctionSupplierList];
+         newUser.objClass = NSStringFromClass([AuctionSupplierList class]);
          
      }];
 }

@@ -8,16 +8,22 @@
 
 #import <UIKit/UIKit.h>
 
+@protocol TVCellCounterTimeDelegate <NSObject>
+
+- (void)setSelectItemViewWithData:(NSIndexPath *)selectedIndex;
+
+@end
 
 @interface TVCellCounterTime : UITableViewCell
 {
     NSIndexPath *selectedIndex;
 }
 @property (nonatomic,strong) NSMutableDictionary * dicdata;
+@property (nonatomic,assign) id<TVCellCounterTimeDelegate> delegate;
 
 //-(void)setDataDict:(NSMutableDictionary *)dataDict WithIndex:(NSInteger)index;
 -(void)setDataDict:(NSMutableDictionary *)dataDict WithIndex:(NSInteger)index WithCounterValue:(NSString *)strCounterValue
-    withServerTime:(NSString *)strServertime;
+    withServerTime:(NSString *)strServertime withTotalQuantity:(NSString *)Quantity;
 
 -(id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier itemSize:(CGSize)size headerArray:(NSArray*)headerArray;
 

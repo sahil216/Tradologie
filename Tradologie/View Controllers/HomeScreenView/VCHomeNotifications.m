@@ -226,7 +226,6 @@
                     NSError *Error;
                     LiveAuctionData *objlivedata = [[LiveAuctionData alloc]initWithDictionary:response error:&Error];
                     [MBDataBaseHandler saveDashBoradLiveAuctionDataDetail:objlivedata];
-                    [CommonUtility HideProgress];
                     
                     [self->lblMessage setHidden:YES];
                     [self.tbtNotify setSeparatorStyle:UITableViewCellSeparatorStyleSingleLine];
@@ -236,26 +235,26 @@
                         NSString *strValue = [NSString stringWithFormat:@"%@,%@",detail.AuctionDraftCount,detail.AuctionNotStartCount];
                         
                         [self->arrNotificationList addObjectsFromArray:[strValue componentsSeparatedByString:@","]];
+                        
+//                        for (LiveAuctionDatalist *auctionlistData in detail.AuctionDetail)
+//                        {
+//                            NSLog(@"%@",auctionlistData);
+//                            if (auctionlistData.IsStarted == 1)
+//                            {
+//                                
+//                            }
+//                            else if (auctionlistData.IsComplete == 1)
+//                            {
+//                                NSString *strValue = [NSString stringWithFormat:@"Enquiry Completed in %@",auctionlistData.AuctionCode];
+//                                
+//                                [self->arrAuctionDetail addObject:strValue];
+//                                [self->arrEndDate addObject:auctionlistData.EndDate];
+//                            }
+//                        }
                     }
-                    
-                    for (NSMutableDictionary *dicdata in [self->dicData valueForKey:@"AuctionDetail"])
-                    {
-                        NSLog(@"%@",dicdata);
-                        if ([[dicdata valueForKey:@"IsStarted"]isEqual:@1])
-                        {
-
-                        }
-                        else
-                        {
-                            NSString *strValue = [NSString stringWithFormat:@"Enquiry Completed in %@",[dicdata valueForKey:@"AuctionCode"]];
-
-                            [self->arrAuctionDetail addObject:strValue];
-                        }
-                    }
-                    
-                    
                     [self.tbtNotify reloadData];
-                    
+                    [CommonUtility HideProgress];
+
                 }
             }
             else

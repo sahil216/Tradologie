@@ -8,6 +8,7 @@
 
 #import "TVCellEnquiryRate.h"
 #import "Constant.h"
+#import "CommonUtility.h"
 
 @implementation TVCellEnquiryRate
 {
@@ -17,9 +18,11 @@
     NSMutableArray * labelArray;
     NSMutableArray * bgArray;
     NSMutableArray *arrlabel;
+
     CGSize itemSize;
     NSArray * keyArray;
     BOOL IsEnableTextField ,IsCounterRate;
+
 }
 
 - (void)awakeFromNib {
@@ -101,28 +104,13 @@
            
            [self setlabelwithIndex:bgView withFrame:CGRectMake(0, 5, 80 , 30) withIndex:0];
            [self setlabelwithIndex:bgView withFrame:CGRectMake(0, 50, 80, 30) withIndex:1];
-           
            [self setlabelwithIndex:bgView withFrame:CGRectMake(90, 5, 110 , 30) withIndex:2];
            [self setlabelwithIndex:bgView withFrame:CGRectMake(90 + 110 + 20, 5, 110 , 30) withIndex:3];
-
-           UITextField *txtCounterRate = [[UITextField alloc]initWithFrame:CGRectMake(90, 50, 110 , 30)];
-           [txtCounterRate.layer setBorderWidth:.50f];
-           [txtCounterRate setBackgroundColor:[UIColor lightGrayColor]];
-           [txtCounterRate setUserInteractionEnabled:NO];
-           [bgView addSubview:txtCounterRate];
-           [arrlabel insertObject:txtCounterRate atIndex:4];
-           
-           UITextField *txtQuantity = [[UITextField alloc]initWithFrame:CGRectMake(txtCounterRate.frame.size.width + txtCounterRate.frame.origin.x + 20, txtCounterRate.frame.origin.y, 110 , 30)];
-           [txtQuantity.layer setBorderWidth:.50f];
-           [txtQuantity setUserInteractionEnabled:NO];
-           [txtQuantity setBackgroundColor:[UIColor lightGrayColor]];
-           [bgView addSubview:txtQuantity];
-          
-           [arrlabel insertObject:txtQuantity atIndex:5];
-           
-          
+    
+           [self setTextfieldOnView:bgView withFrame:CGRectMake(90, 50, 110 , 30) withIndex:4];
+           [self setTextfieldOnView:bgView withFrame:CGRectMake(220, 50, 110 , 30) withIndex:5];
+        
            [labelArray insertObject:arrlabel atIndex:labelArray.count];
-
 
        }
         [headLabel setFont:UI_DEFAULT_FONT(14)];
@@ -167,6 +155,26 @@
     [viewBG addSubview:lblTittle];
     [arrlabel insertObject:lblTittle atIndex:Index];
    
+}
+-(void)setTextfieldOnView:(UIView *)viewBG withFrame:(CGRect)frame withIndex:(NSInteger)Index
+{
+    UITextField *txtField = [[UITextField alloc]initWithFrame:frame];
+    [txtField.layer setBorderWidth:.50f];
+    [txtField setBackgroundColor:[UIColor lightGrayColor]];
+    [txtField setUserInteractionEnabled:NO];
+    [txtField setKeyboardType:UIKeyboardTypePhonePad];
+    [txtField setKeyboardAppearance:UIKeyboardAppearanceDark];
+    [txtField setDelegate:self];
+    
+    UITapGestureRecognizer *recoganize = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(btnToolBarTapped:)];
+    [recoganize setNumberOfTapsRequired:1];
+    [self addGestureRecognizer:recoganize];
+    
+    [viewBG addSubview:txtField];
+    [arrlabel insertObject:txtField atIndex:Index];
+    
+    
+    
 }
 -(void)setDataDict:(NSMutableDictionary *)dataDict WithIndex:(NSInteger)index
 {
@@ -290,6 +298,42 @@
     IsEnableTextField  = [[dicValue valueForKey:@"Quanitity"] boolValue];
     
     [self setDataDict:_dataDict WithIndex:0];
+}
+-(void)btnToolBarTapped:(UITapGestureRecognizer *)recoganize
+{
+    [self.superview endEditing:YES];
+}
+
+-(void)textFieldDidEndEditing:(UITextField *)textField
+{
+    if (textField.text >= [_dataDict valueForKey:@"MinimumQTY"])
+    {
+        if([_delegate respondsToSelector:@selector(setSelectItemViewWithValue:)])
+        {
+            [_delegate setSelectItemViewWithValue:textField.text];
+        }
+    }
+    else
+    {
+        [textField resignFirstResponder];
+        [[CommonUtility new]show_ErrorAlertWithTitle:@"" withMessage:@"Your Order Quanity Should be Greaterthan OR Equalto Minimum Order Quantity"];
+    }
+}
+-(BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
+{
+    NSInteger enquiryQty = [[NSString stringWithFormat:@"%@",[_dataDict valueForKey:@"Enquiry QTY"]] integerValue];
+    NSString *strValue = [textField.text stringByAppendingString:string];
+    NSInteger textvalue = [strValue integerValue];
+
+    if (textvalue <= enquiryQty)
+    {
+         return YES;
+    }
+    else
+    {
+         [[CommonUtility new]show_ErrorAlertWithTitle:@"" withMessage:@"Your Order Quanity Should be Greaterthan OR Equalto Minimum Order Quantity"];
+    }
+    return NO;
 }
 
 @end

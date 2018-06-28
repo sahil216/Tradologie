@@ -166,9 +166,9 @@
         [CommonUtility showPopUpWithData:viewtoShow withArray:arrCategoryList withCompletion:^(NSInteger response)
          {
              [self.navigationController.navigationBar setNaviagtionStyleWithStatusbar:[UIColor whiteColor]];
-             [txtCategory setText:[arrCategoryList objectAtIndex:response]];
-             selectedCategoryID = [NSString stringWithFormat:@"%@",[arrCategoryID objectAtIndex:response]];
-             [self getSupplierListAccordingtoCategoryID:[arrCategoryID objectAtIndex:response]];
+             [self->txtCategory setText:[self->arrCategoryList objectAtIndex:response]];
+             self->selectedCategoryID = [NSString stringWithFormat:@"%@",[self->arrCategoryID objectAtIndex:response]];
+             [self getSupplierListAccordingtoCategoryID:[self->arrCategoryID objectAtIndex:response]];
              [self createNegotiationAPI];
          } withDismissBlock:^{
              [self.navigationController.navigationBar setNaviagtionStyleWithStatusbar:[UIColor whiteColor]];
@@ -195,12 +195,12 @@
         
         MBCall_GetSuplierlistWithCategoryID(dicParams, ^(id response, NSString *error, BOOL status)
         {
-            arrSupplierList = [[NSMutableArray alloc]init];
-            arr_Is_shortlisted = [[NSMutableArray alloc]init];
+            self->arrSupplierList = [[NSMutableArray alloc]init];
+            self->arr_Is_shortlisted = [[NSMutableArray alloc]init];
             
             if (status && [[response valueForKey:@"success"]isEqual:@1])
             {
-                [lblMessage setHidden:YES];
+                [self->lblMessage setHidden:YES];
                 if (response != (NSDictionary *)[NSNull null])
                 {
                     NSError* Error;
@@ -209,8 +209,8 @@
                     
                     for (SupplierDetailData *data in objSupplierDetail.detail)
                     {
-                        [arrSupplierList addObject:data];
-                        [arr_Is_shortlisted addObject:@0];
+                        [self->arrSupplierList addObject:data];
+                        [self->arr_Is_shortlisted addObject:@0];
                     }
                     [self reloadTableViewAndScrollToTop:YES];
                     
@@ -222,8 +222,8 @@
             else
             {
                 [CommonUtility HideProgress];
-                [lblMessage setHidden:NO];
-                [btnFilter setHidden:YES];
+                [self->lblMessage setHidden:NO];
+                [self->btnFilter setHidden:YES];
 
                 [self.tbtNegotiation reloadData];
             }
@@ -301,7 +301,7 @@
             else
             {
                 [CommonUtility HideProgress];
-                [lblMessage setHidden:NO];
+                [self->lblMessage setHidden:NO];
                 [self.tbtNegotiation reloadData];
             }
             
@@ -334,7 +334,7 @@
             }
             else
             {
-                [lblMessage setHidden:NO];
+                [self->lblMessage setHidden:NO];
                 [self.tbtNegotiation reloadData];
             }
             
@@ -406,7 +406,7 @@
 {
       dispatch_async(dispatch_get_main_queue(), ^{
         
-          [btnFilter setHidden:NO];
+          [self->btnFilter setHidden:NO];
           [self.tbtNegotiation reloadData];
          
           if (scrollToTop)

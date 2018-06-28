@@ -163,8 +163,8 @@
 //    [txtUserID setText:@"mahendra.chaudhary2004@gmail.com"];
 //    [txtPassword setText:@"reset"];
     
- ///   [txtUserID setText:@"sahil216@gmail.com"];
-  //  [txtPassword setText:@"supere249"];
+    [txtUserID setText:@"sahil216@gmail.com"];
+    [txtPassword setText:@"supere249"];
 
 
     if ([Validation validateTextField:txtUserID])
@@ -206,7 +206,6 @@
                 
                 if (status && [[response valueForKey:@"success"]isEqual: @1])
                 {
-                    [CommonUtility HideProgress];
                     NSMutableDictionary *dicUserDetail = [[NSMutableDictionary alloc]init];
                     dicUserDetail = [[response valueForKey:@"detail"] mutableCopy];
                     BuyerUserDetail *detail =[[BuyerUserDetail alloc]initWithDictionary:response error:&Error];
