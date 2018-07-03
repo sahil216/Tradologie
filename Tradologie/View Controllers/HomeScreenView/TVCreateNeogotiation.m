@@ -438,8 +438,8 @@
         [CommonUtility showPopUpWithData:viewtoShow withArray:arrLocationDelivery withCompletion:^(NSInteger response)
          {
              [self.navigationController.navigationBar setNaviagtionStyleWithStatusbar:[UIColor whiteColor]];
-             [txtLocationDelivery setText:[NSString stringWithFormat:@"%@",[arrLocationDelivery objectAtIndex:response]]];
-             strAddressValue = [NSString stringWithFormat:@"%@",[arrAddressValue objectAtIndex:response]];
+             [self->txtLocationDelivery setText:[NSString stringWithFormat:@"%@",[self->arrLocationDelivery objectAtIndex:response]]];
+             self->strAddressValue = [NSString stringWithFormat:@"%@",[self->arrAddressValue objectAtIndex:response]];
              [self.tableView reloadData];
          } withDismissBlock:^{
              [self.navigationController.navigationBar setNaviagtionStyleWithStatusbar:[UIColor whiteColor]];
@@ -450,7 +450,7 @@
         NSMutableArray *arrPayment = [[NSMutableArray alloc]initWithObjects:@"LC",@"ESCROW", nil];
         [CommonUtility showPopUpWithData:viewtoShow withArray:arrPayment withCompletion:^(NSInteger response)
          {
-             [txtPaymentTerm setText:[NSString stringWithFormat:@"%@",[arrPayment objectAtIndex:response]]];
+             [self->txtPaymentTerm setText:[NSString stringWithFormat:@"%@",[arrPayment objectAtIndex:response]]];
              [self.navigationController.navigationBar setNaviagtionStyleWithStatusbar:[UIColor whiteColor]];
              
              [self.tableView reloadData];
@@ -463,9 +463,9 @@
     {
         [CommonUtility showPopUpWithData:viewtoShow withArray:arrCurrency withCompletion:^(NSInteger response)
          {
-             [txtCurrency setText:[NSString stringWithFormat:@"%@",[arrCurrency objectAtIndex:response]]];
+             [self->txtCurrency setText:[NSString stringWithFormat:@"%@",[self->arrCurrency objectAtIndex:response]]];
              [self.navigationController.navigationBar setNaviagtionStyleWithStatusbar:[UIColor whiteColor]];
-             strCurrencyId = [NSString stringWithFormat:@"%@",[arrCurrencyID objectAtIndex:response]];
+             self->strCurrencyId = [NSString stringWithFormat:@"%@",[self->arrCurrencyID objectAtIndex:response]];
              
              [self.tableView reloadData];
              
@@ -479,7 +479,7 @@
         
         [CommonUtility showPopUpWithData:viewtoShow withArray:arrPartial withCompletion:^(NSInteger response)
          {
-             [txtPartialDelivery setText:[NSString stringWithFormat:@"%@",[arrPartial objectAtIndex:response]]];
+             [self->txtPartialDelivery setText:[NSString stringWithFormat:@"%@",[arrPartial objectAtIndex:response]]];
              [self.navigationController.navigationBar setNaviagtionStyleWithStatusbar:[UIColor whiteColor]];
              
          } withDismissBlock:^{

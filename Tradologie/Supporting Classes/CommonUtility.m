@@ -256,7 +256,6 @@
                        doneBlock:^(NSInteger selectedIndex)
      {
          completion(selectedIndex);
-         
      } dismissBlock:^{
          dismiss();
      }];

@@ -69,7 +69,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return  self->arrSupplierName.count;
+    return  (arrSupplierName.count > 0) ?arrSupplierName.count:0;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -84,7 +84,9 @@
                                       reuseIdentifier:Cell_ID];
     }
     
-    cell.textLabel.text = [[self->arrSupplierName objectAtIndex:indexPath.row] capitalizedString];
+    NSMutableDictionary *dicvalue = [[arrSupplierName objectAtIndex:indexPath.row] mutableCopy];
+    
+    cell.textLabel.text = [[dicvalue valueForKey:@"VendorName"] capitalizedString];
     
     if (arrSelectType.count > 0)
     {
@@ -319,7 +321,8 @@
                {
                    for (NSMutableDictionary *dicValue in [response valueForKey:@"detail"])
                    {
-                       [self->arrSupplierName addObject:[dicValue valueForKey:@"VendorName"]];
+                       [self->arrSupplierName addObject:dicValue];
+//                       [self->arrSupplierName addObject:[dicValue valueForKey:@"VendorName"]];
                        [self->arrSelectType addObject:@"T"];
                    }
                    [self.tableView reloadData];

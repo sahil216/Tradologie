@@ -44,4 +44,8 @@ void MBCall_AddAuctionItemProductAPI(NSDictionary* params,TRApiManagerCompletion
 void MBCall_AddPackingImageUploadAPI(NSDictionary *params , NSData *image_data ,TRApiManagerCompletion completion);
 void MBCall_GETAddAuctionSupplierAPI(NSString *strGroupID ,TRApiManagerCompletion completion);
 void MBCall_DeleteAuctionItemWithData(NSDictionary* params,TRApiManagerCompletion completion);
+void MBCall_AddAuctionSupplierWithNegotiationCustomerIdAPI(NSDictionary* params,TRApiManagerCompletion completion);
+void MBCall_AuctionChargesDetailAPI(NSDictionary* params,TRApiManagerCompletion completion);
+void MBCall_AuctionOffLinePaymentWithCustomerIdAPI(NSDictionary* params,TRApiManagerCompletion completion);
+
 @end

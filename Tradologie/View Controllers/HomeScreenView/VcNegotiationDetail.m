@@ -18,6 +18,7 @@
 #import "TVAddSupplierList.h"
 #import "VCSupplierShortlist.h"
 #import "TVPaymentScreen.h"
+#import "VcEnquiryRequestScreen.h"
 
 
 
@@ -27,6 +28,8 @@
 {
     NSMutableArray *arrTittle,*arrAuctionSellerList;
     NSMutableArray *arrData,*arrSupplierData;
+    NSMutableArray *arrSelectedSupplierID;
+
     float headerTotalWidth;
     NSInteger count , sellerCount;
     CGFloat height , lblHeight;
@@ -52,7 +55,7 @@
     
     arrTittle = [[NSMutableArray alloc]initWithObjects:@"Sr.No",@"Grade",@"Quantity",@"Packing Type",@"Packing Size",@"Packing Image",nil];
     arrAuctionSellerList = [[NSMutableArray alloc]initWithObjects:@"    Sr.No",@"Seller Name",nil];
-    
+    arrSelectedSupplierID = [[NSMutableArray alloc]init];
     lblHeight = 120;
    
     [self SetInitialSetup];
@@ -393,6 +396,12 @@ withSelectorAction:(SEL)sector
 //    VCSupplierShortlist *objShortlist =[self.storyboard instantiateViewControllerWithIdentifier:@"VCSupplierShortlist"];
 //    [self.navigationController pushViewController:objShortlist animated:YES];
 }
+-(IBAction)btnBacktoList:(UIButton *)sender
+{
+    VcEnquiryRequestScreen *requestSc=[self.storyboard instantiateViewControllerWithIdentifier:@"VcEnquiryRequestScreen"];
+    [[UIDevice currentDevice] setValue:[NSNumber numberWithInteger: UIInterfaceOrientationLandscapeRight] forKey:@"orientation"];
+    [self.navigationController pushViewController:requestSc animated:YES];
+}
 -(IBAction)btnSubmitNegotiation:(UIButton *)sender
 {
     AuctionDetailForEdit *objData = [MBDataBaseHandler getAuctionDetailForEditNegotiation];
@@ -403,11 +412,16 @@ withSelectorAction:(SEL)sector
     {
         sum += [n doubleValue];
     }
-    if (sum >= [objData.detail.MinQuantity doubleValue] && arrSupplierData.count > 0)
+    if (sum >= [objData.detail.MinQuantity doubleValue] && sum <= [objData.detail.TotalQuantity doubleValue])
     {
-        [[UIDevice currentDevice] setValue:[NSNumber numberWithInteger: UIInterfaceOrientationPortrait] forKey:@"orientation"];
-        TVPaymentScreen *objTVPaymentScreen =[self.storyboard instantiateViewControllerWithIdentifier:@"TVPaymentScreen"];
-        [self.navigationController pushViewController:objTVPaymentScreen animated:YES];
+        if (arrSupplierData.count > 0)
+        {
+            [self AddAuctionSupplierWithNegotiationCustomerIdAPI:_AuctionID];
+        }
+        else
+        {
+            [[CommonUtility new]show_ErrorAlertWithTitle:@"" withMessage:@"Please Add Supplier..!"];
+        }
     }
     else
     {
@@ -439,9 +453,62 @@ withSelectorAction:(SEL)sector
     AuctionItemList *objData = [MBDataBaseHandler getAuctionItemListWithData];
     AuctionItemListData *data  = [objData.detail objectAtIndex:selectedIndex.row];
     [self getAuctionSupplierListWithDataWithAuctionTranID:data.AuctionTranID withIndex:selectedIndex.row];
-    
 }
-
+/******************************************************************************************************************/
+#pragma mark ❉===❉=== GET AUCTION CHARGES DETAIL API CALLED HERE ===❉===❉
+/*****************************************************************************************************************/
+-(void)AddAuctionSupplierWithNegotiationCustomerIdAPI:(NSString *)strAuctionID
+{
+//    [[UIDevice currentDevice] setValue:[NSNumber numberWithInteger: UIInterfaceOrientationPortrait] forKey:@"orientation"];
+//    TVPaymentScreen *objTVPaymentScreen =[self.storyboard instantiateViewControllerWithIdentifier:@"TVPaymentScreen"];
+//    objTVPaymentScreen.strAuctionID = self->_AuctionID;
+//    [self.navigationController pushViewController:objTVPaymentScreen animated:YES];
+//
+    BuyerUserDetail *objBuyerdetail = [MBDataBaseHandler getBuyerUserDetail];
+    NSMutableArray *arrSuppID = [[NSMutableArray alloc]init];
+    
+    for (NSNumber *supID in arrSelectedSupplierID)
+    {
+        [arrSuppID addObject:[[strAuctionID stringByAppendingString:@"::"]stringByAppendingString:[supID stringValue]]];
+    }
+    NSString *strSupplierID = [arrSuppID componentsJoinedByString:@","];
+    
+    NSMutableDictionary *dicParams = [[NSMutableDictionary alloc]init];
+    [dicParams setValue:objBuyerdetail.detail.APIVerificationCode forKey:@"Token"];
+    [dicParams setValue:objBuyerdetail.detail.CustomerID forKey:@"CustomerID"];
+    [dicParams setValue:strAuctionID forKey:@"AuctionID"];
+    [dicParams setValue:strSupplierID forKey:@"Supplier"];
+    
+    if (SharedObject.isNetAvailable)
+    {
+        [CommonUtility showProgressWithMessage:@"Please Wait.."];
+        
+        MBCall_AddAuctionSupplierWithNegotiationCustomerIdAPI(dicParams, ^(id response, NSString *error, BOOL status)
+         {
+             [CommonUtility HideProgress];
+             
+             if (status && [[response valueForKey:@"success"]isEqual:@1])
+             {
+                 if (response != (NSDictionary *)[NSNull null])
+                 {
+                     [[UIDevice currentDevice] setValue:[NSNumber numberWithInteger: UIInterfaceOrientationPortrait] forKey:@"orientation"];
+                     TVPaymentScreen *objTVPaymentScreen =[self.storyboard instantiateViewControllerWithIdentifier:@"TVPaymentScreen"];
+                     objTVPaymentScreen.strAuctionID = self->_AuctionID;
+                     [self.navigationController pushViewController:objTVPaymentScreen animated:YES];
+                 }
+             }
+             else
+             {
+                 [CommonUtility HideProgress];
+                 [[CommonUtility new] show_ErrorAlertWithTitle:@"" withMessage:error];
+             }
+         });
+    }
+    else
+    {
+        [[CommonUtility new] show_ErrorAlertWithTitle:@"" withMessage:@"Internet Not Available Please Try Again..!"];
+    }
+}
 /******************************************************************************************************************/
 #pragma mark ❉===❉=== GET AUCTION LIST ITEM API ===❉===❉
 /******************************************************************************************************************/
@@ -554,9 +621,9 @@ withSelectorAction:(SEL)sector
     TvAddProductScreen *objAddScreen = [self.storyboard instantiateViewControllerWithIdentifier:@"TvAddProductScreen"];
     [self.navigationController pushViewController:objAddScreen animated:YES];
 }
-
-
-
+/******************************************************************************************************************/
+#pragma mark ❉===❉=== GET SUPPLIER LIST CALLED HERE ===❉===❉
+/*****************************************************************************************************************/
 -(void)GetSupplierSelectedList
 {
     NSMutableDictionary *objData = [MBDataBaseHandler getAuctionSupplierListData];
@@ -568,19 +635,18 @@ withSelectorAction:(SEL)sector
         {
             NSString * strValue = [objData valueForKey:[[objData allKeys]objectAtIndex:1]];
             
-            NSMutableDictionary *dataDict = [NSJSONSerialization JSONObjectWithData:[strValue dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingMutableContainers error:nil];
+            NSMutableArray *arrSupplier = [NSJSONSerialization JSONObjectWithData:[strValue dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingMutableContainers error:nil];
             sellerCount = 0;
             arrSupplierData = [[NSMutableArray alloc]init];
             
-            for (NSString *strValue in dataDict)
+            for (NSMutableDictionary *dicSeller in arrSupplier)
             {
-                
                 NSMutableDictionary *dataDict = [NSMutableDictionary new];
                 self->sellerCount ++;
                 
                 [dataDict setObject:[NSString stringWithFormat:@"%lu",self->sellerCount] forKey:[self->arrAuctionSellerList objectAtIndex:0]];
-                [dataDict setObject:strValue forKey:[self->arrAuctionSellerList objectAtIndex:1]];
-                
+                [dataDict setObject:[dicSeller valueForKey:@"VendorName"] forKey:[self->arrAuctionSellerList objectAtIndex:1]];
+                [arrSelectedSupplierID addObject:[dicSeller valueForKey:@"VendorID"]];
                 [self->arrSupplierData addObject:dataDict];
             }
             [self.myTableView reloadData];

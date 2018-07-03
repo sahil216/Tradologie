@@ -20,6 +20,7 @@
 #import "MBAPIManager.h"
 #import "VCViewRateScreen.h"
 #import "VcNegotiationDetail.h"
+#import "TVPaymentScreen.h"
 
 #define K_CUSTOM_WIDTH 170
 
@@ -75,12 +76,9 @@ TvCellEnquiryDelegate,SFSafariViewControllerDelegate>
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    //    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 1.0 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
-    //        if([self respondsToSelector:@selector(edgesForExtendedLayout)])
-    //            [self setEdgesForExtendedLayout:UIRectEdgeNone];
-    //        self.automaticallyAdjustsScrollViewInsets = NO;
-    //        self.myTableView.contentInset = UIEdgeInsetsMake(0, 0, 0, 0);
-    //    });
+    
+    [self GetNegotiationListUsingAuction];
+    
     [[UIApplication sharedApplication] setStatusBarOrientation:UIInterfaceOrientationLandscapeRight animated:YES];
     [[UIApplication sharedApplication] setStatusBarHidden:NO animated:YES];
 }
@@ -90,7 +88,6 @@ TvCellEnquiryDelegate,SFSafariViewControllerDelegate>
 -(void)handlePulltoRefresh:(UIRefreshControl *)Control
 {
     [refreshController endRefreshing];
-    
     [self GetNegotiationListUsingAuction];
 }
 /******************************************************************************************************************/
@@ -503,6 +500,13 @@ TvCellEnquiryDelegate,SFSafariViewControllerDelegate>
     {
         isFromEdit = YES;
         [self AuctionDetailForEditNegotiationWithAuctionID:[NSString stringWithFormat:@"%@",dataAuction.AuctionID]];
+    }
+    else if ([btnState isEqualToString:@"Payment Pending"])
+    {
+        [[UIDevice currentDevice] setValue:[NSNumber numberWithInteger: UIInterfaceOrientationPortrait] forKey:@"orientation"];
+        TVPaymentScreen *objTVPaymentScreen =[self.storyboard instantiateViewControllerWithIdentifier:@"TVPaymentScreen"];
+        objTVPaymentScreen.strAuctionID = [dataAuction.AuctionID stringValue];
+        [self.navigationController pushViewController:objTVPaymentScreen animated:YES];
     }
 }
 -(void)setSelectItemViewCodeWithData:(NSIndexPath *)selectedIndex
