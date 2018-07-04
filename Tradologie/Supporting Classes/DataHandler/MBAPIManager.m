@@ -506,7 +506,6 @@ void MBCall_GetAuctionOrderProcessItemListWithAuctionCodeandPONO(NSDictionary* p
          }
      }];
 }
-//http://api.tradologie.com/Buyer/AuctionItemddl
 void MBCall_GetAuctionItemDetailAccordingtoCategoryID(NSDictionary* params,TRApiManagerCompletion completion)
 {
     [[MBHTTPClient sharedInstance] requestPOSTServiceOnURL:getUrlForMethod(AUCTION_ITEM_DETAIL_CATEGORYID) WithDictionary:params withCompletion:^(NSURLSessionDataTask *task, NSError *error, id response)
@@ -590,5 +589,54 @@ void MBCall_DeleteAuctionItemWithData(NSDictionary* params,TRApiManagerCompletio
          }
      }];
 }
+void MBCall_AuctionChargesDetailAPI(NSDictionary* params,TRApiManagerCompletion completion)
+{
+    [[MBHTTPClient sharedInstance] requestPOSTServiceOnURL:getUrlForMethod(AUCTION_CHARGE_DETAIL_API) WithDictionary:params withCompletion:^(NSURLSessionDataTask *task, NSError *error, id response)
+     {
+         if (error)
+         {
+             completion(nil,filterErrorMessageUsingResponseRequestOperation(task, error),NO);
+             return;
+         }
+         else if(response)
+         {
+             completion(response,checkIfResponseHasErrorMessage(response),YES);
+             
+         }
+     }];
+}
+//
+void MBCall_AddAuctionSupplierWithNegotiationCustomerIdAPI(NSDictionary* params,TRApiManagerCompletion completion)
+{
+    [[MBHTTPClient sharedInstance] requestPOSTServiceOnURL:getUrlForMethod(ADD_AUCTION_SUPPLIERID_API) WithDictionary:params withCompletion:^(NSURLSessionDataTask *task, NSError *error, id response)
+     {
+         if (error)
+         {
+             completion(nil,filterErrorMessageUsingResponseRequestOperation(task, error),NO);
+             return;
+         }
+         else if(response)
+         {
+             completion(response,checkIfResponseHasErrorMessage(response),YES);
+             
+         }
+     }];
+}
 
+void MBCall_AuctionOffLinePaymentWithCustomerIdAPI(NSDictionary* params,TRApiManagerCompletion completion)
+{
+    [[MBHTTPClient sharedInstance] requestPOSTServiceOnURL:getUrlForMethod(ADD_AUCTION_OFFLINE_PAYMENT_API) WithDictionary:params withCompletion:^(NSURLSessionDataTask *task, NSError *error, id response)
+     {
+         if (error)
+         {
+             completion(nil,filterErrorMessageUsingResponseRequestOperation(task, error),NO);
+             return;
+         }
+         else if(response)
+         {
+             completion(response,checkIfResponseHasErrorMessage(response),YES);
+             
+         }
+     }];
+}
 @end

@@ -506,18 +506,18 @@
                 {
                     NSMutableArray *arrValue = [[NSMutableArray alloc]init];
                     arrValue = [[response valueForKey:@"detail"] mutableCopy];
-                    arrStateList = [[NSMutableArray alloc]init];
+                    self->arrStateList = [[NSMutableArray alloc]init];
                     if (arrValue.count > 0 )
                     {
                         for (NSDictionary *dicStateValue in [response valueForKey:@"detail"])
                         {
-                            [arrStateList addObject:[dicStateValue valueForKey:@"StateName"]];
-                            [pickerViewType reloadAllComponents];
-                            [pickerViewType reloadComponent:0];
+                            [self->arrStateList addObject:[dicStateValue valueForKey:@"StateName"]];
+                            [self->pickerViewType reloadAllComponents];
+                            [self->pickerViewType reloadComponent:0];
                         }
                     }
                     else{
-                        [arrStateList addObject:@"No Record Found"];
+                        [self->arrStateList addObject:@"No Record Found"];
                     }
                     
                 }
@@ -551,7 +551,7 @@
             {
                 if (response != (NSDictionary *)[NSNull null])
                 {
-                    arrCityList = [[NSMutableArray alloc]init];
+                    self->arrCityList = [[NSMutableArray alloc]init];
                     NSMutableArray *arrValue = [[NSMutableArray alloc]init];
                      arrValue = [[response valueForKey:@"detail"] mutableCopy];
                     
@@ -559,13 +559,13 @@
                     {
                         for (NSDictionary *dicStateValue in [response valueForKey:@"detail"])
                         {
-                            [arrCityList addObject:[dicStateValue valueForKey:@"CityName"]];
-                            [pickerViewType reloadAllComponents];
-                            [pickerViewType reloadComponent:0];
+                            [self->arrCityList addObject:[dicStateValue valueForKey:@"CityName"]];
+                            [self->pickerViewType reloadAllComponents];
+                            [self->pickerViewType reloadComponent:0];
                         }
                     }
                     else{
-                        [arrCityList addObject:@"No Record Found"];
+                        [self->arrCityList addObject:@"No Record Found"];
                     }
                     
                 }

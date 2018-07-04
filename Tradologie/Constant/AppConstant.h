@@ -64,8 +64,8 @@ static NSString *UNCHECK_IMAGE = @"IconUnCheckBox";
 #pragma Mark- TABLE CELL IDENTIFIERS
 /*********************************************************************************************************/
 
-static NSString *COLLECTION_CELL_ID = @"CVcell_Identifier";
-static NSString *COMMON_CELL_ID = @"Cell_Identifier";
+static NSString *COLLECTION_CELL_ID   = @"CVcell_Identifier";
+static NSString *COMMON_CELL_ID       = @"Cell_Identifier";
 static NSString *ENQUIRY_LIVE_CELL_ID = @"CellLiveEnquiryIdentifier";
 
 /*********************************************************************************************************/
@@ -83,29 +83,28 @@ static NSString *REMOVE_SUPPLIER_SHORTLIST_API = @"RemoveSupplierShortlist";
 static NSString *COMMON_API = @"Commonddl";
 static NSString *STATE_LIST_API = @"StateList";
 static NSString *City_LIST_API = @"CityList";
-static NSString *UPDATE_COMPULSORY_DETAIL_API =@"UpdateCompulsoryDetails";
-static NSString *DASHBOARD_NOTIFICATION_API =@"DashboardNotification";
-static NSString *AUCTION_LIST_API = @"AuctionList";
-static NSString *LOGIN_API_NAME = @"login";
-
-static NSString *CREATE_NEGOTIATION_API = @"createauction";
-static NSString *ADD_UPDATE_NEGOTIATION_API = @"AddUpdateAuction";
-static NSString *AUCTION_ORDER_HISTORY_API = @"AuctionOrderHistory";
-static NSString *SUPPLIER_SHORTLIST_API = @"SupplierList_ByBuyer";
+static NSString *UPDATE_COMPULSORY_DETAIL_API  =@"UpdateCompulsoryDetails";
+static NSString *DASHBOARD_NOTIFICATION_API    =@"DashboardNotification";
+static NSString *AUCTION_LIST_API              = @"AuctionList";
+static NSString *LOGIN_API_NAME                = @"login";
+static NSString *CREATE_NEGOTIATION_API        = @"createauction";
+static NSString *ADD_UPDATE_NEGOTIATION_API  = @"AddUpdateAuction";
+static NSString *AUCTION_ORDER_HISTORY_API   = @"AuctionOrderHistory";
+static NSString *SUPPLIER_SHORTLIST_API      = @"SupplierList_ByBuyer";
 static NSString *AUCTION_DETAIL_FOR_EDIT_API = @"AuctionDetailForEdit";
-
-static NSString *AUCTION_ITEM_LIST_API =@"AuctionItemSubmittedList";
-static NSString *AUCTION_ITEM_LIST_EDIT_API = @"AuctionItemList";
-
-static NSString *AUCTION_SUPPLIER_LIST_API =@"AutionSupplierList";
-static NSString *AUCTION_ORDER_PROCESS_API =@"AuctionOrderProcessDetail";
+static NSString *AUCTION_ITEM_LIST_API       =@"AuctionItemSubmittedList";
+static NSString *AUCTION_ITEM_LIST_EDIT_API  = @"AuctionItemList";
+static NSString *AUCTION_SUPPLIER_LIST_API   =@"AutionSupplierList";
+static NSString *AUCTION_ORDER_PROCESS_API   =@"AuctionOrderProcessDetail";
 static NSString *AUCTION_ORDER_PROCESS_ITEM_API =@"AuctionOrderProcessItemList";
-
 static NSString *AUCTION_ITEM_DETAIL_CATEGORYID = @"AuctionItemddl";
-static NSString *ADD_AUCTION_PRODUCT_ITEM = @"AddAuctionItem";
-static NSString *ADD_AUCTION_PACKING_IMAGE = @"PackingImageUpload";
-static NSString *ADD_AUCTION_SUPPLIER = @"AddAuctionSupplierList";
-static NSString *DELETE_AUCTION_ITEM = @"DeleteAuctionItem";
+static NSString *ADD_AUCTION_PRODUCT_ITEM         = @"AddAuctionItem";
+static NSString *ADD_AUCTION_PACKING_IMAGE        = @"PackingImageUpload";
+static NSString *ADD_AUCTION_SUPPLIER             = @"AddAuctionSupplierList";
+static NSString *DELETE_AUCTION_ITEM              = @"DeleteAuctionItem";
+static NSString *AUCTION_CHARGE_DETAIL_API        =@"AuctionChargesDetail";
+static NSString *ADD_AUCTION_SUPPLIERID_API       =@"AddAuctionSupplier";
+static NSString *ADD_AUCTION_OFFLINE_PAYMENT_API  =@"AuctionOffLinePayment";
 
 /*********************************************************************************************************/
 #pragma CONTROLLER IDENTIFIRES
