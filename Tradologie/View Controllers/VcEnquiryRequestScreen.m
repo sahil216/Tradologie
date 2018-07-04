@@ -668,6 +668,10 @@ TvCellEnquiryDelegate,SFSafariViewControllerDelegate>
         {
             [dataDict setObject:[NSString stringWithFormat:@"View Rate"] forKey:[arrTittle objectAtIndex:1]];
         }
+        else if ([data.Status isEqualToString:@"PaymentProcess"])
+        {
+            [dataDict setObject:[NSString stringWithFormat:@"Payment Process"] forKey:[arrTittle objectAtIndex:1]];
+        }
         
         [dataDict setObject:data.AuctionCode forKey:[arrTittle objectAtIndex:2]];
         [dataDict setObject:data.AuctionName forKey:[arrTittle objectAtIndex:3]];
