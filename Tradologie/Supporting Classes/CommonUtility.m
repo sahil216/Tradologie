@@ -316,10 +316,14 @@
 +(NSString *)getDateFromSting:(NSString *)strDate fromFromate:(NSString *)StrGivenFormate withRequiredDateFormate:(NSString *)strRequiredDateFormate
 {
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setTimeZone:[NSTimeZone timeZoneWithName:@"UTC"]];
     [dateFormatter setDateFormat:StrGivenFormate];
+    
     NSDate *date = [dateFormatter dateFromString:strDate];
     [date descriptionWithLocale: [NSLocale currentLocale]];
     [dateFormatter setDateFormat:strRequiredDateFormate];
+    [dateFormatter setTimeZone:[NSTimeZone defaultTimeZone]];
+    
     NSString *newDate = [dateFormatter stringFromDate:date];
     
     return newDate;

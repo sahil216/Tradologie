@@ -197,11 +197,6 @@
     
     if (SharedObject.isNetAvailable)
     {
-        BuyerUserDetail *objBuyerdetail = [MBDataBaseHandler getBuyerUserDetail];
-        NSMutableDictionary *dicParams = [[NSMutableDictionary alloc]init];
-        [dicParams setValue:objBuyerdetail.detail.APIVerificationCode forKey:@"Token"];
-        [dicParams setValue:objBuyerdetail.detail.CustomerID forKey:@"CustomerID"];
-        
         [CommonUtility showProgressWithMessage:@"Please Wait.."];
         
         MBCall_GetAuctionOrderHistoryWithID(dicParams, ^(id response, NSString *error, BOOL status)
@@ -219,24 +214,24 @@
                     for (OrderHistoryData *data in objOrderHistory.detail)
                     {
                         NSMutableDictionary *dataDict = [NSMutableDictionary new];
-                        count ++;
+                        self->count ++;
                         
-                        [dataDict setObject:[NSString stringWithFormat:@"%lu",count] forKey:[arrTittle objectAtIndex:0]];
-                        [dataDict setObject:data.AuctionCode forKey:[arrTittle objectAtIndex:1]];
-                        [dataDict setObject:data.VendorName forKey:[arrTittle objectAtIndex:2]];
-                        [dataDict setObject:data.ReferenceNo forKey:[arrTittle objectAtIndex:3]];
-                        [dataDict setObject:data.AccountDocumentCount forKey:[arrTittle objectAtIndex:4]];
-                        [dataDict setObject:data.PONo forKey:[arrTittle objectAtIndex:5]];
-                        [dataDict setObject:data.OrderStatus forKey:[arrTittle objectAtIndex:6]];
-                        [dataDict setObject:data.TotalOrderQty forKey:[arrTittle objectAtIndex:7]];
+                        [dataDict setObject:[NSString stringWithFormat:@"%lu",self->count] forKey:[self->arrTittle objectAtIndex:0]];
+                        [dataDict setObject:data.AuctionCode forKey:[self->arrTittle objectAtIndex:1]];
+                        [dataDict setObject:data.VendorName forKey:[self->arrTittle objectAtIndex:2]];
+                        [dataDict setObject:data.ReferenceNo forKey:[self->arrTittle objectAtIndex:3]];
+                        [dataDict setObject:data.AccountDocumentCount forKey:[self->arrTittle objectAtIndex:4]];
+                        [dataDict setObject:data.PONo forKey:[self->arrTittle objectAtIndex:5]];
+                        [dataDict setObject:data.OrderStatus forKey:[self->arrTittle objectAtIndex:6]];
+                        [dataDict setObject:data.TotalOrderQty forKey:[self->arrTittle objectAtIndex:7]];
                         
                         NSString *startDate = [NSString stringWithFormat:@" %@",[self dateFromString:[NSString stringWithFormat:@"%@",data.StartDate]]];
                         NSString *EndDate = [NSString stringWithFormat:@" %@",[self dateFromString:[NSString stringWithFormat:@"%@",data.EndDate]]];
                         
-                        [dataDict setObject:startDate forKey:[arrTittle objectAtIndex:8]];
-                        [dataDict setObject:EndDate forKey:[arrTittle objectAtIndex:9]];
+                        [dataDict setObject:startDate forKey:[self->arrTittle objectAtIndex:8]];
+                        [dataDict setObject:EndDate forKey:[self->arrTittle objectAtIndex:9]];
                         
-                        [arrData addObject:dataDict];
+                        [self->arrData addObject:dataDict];
                         
                     }
                     [self.myTableView reloadData];

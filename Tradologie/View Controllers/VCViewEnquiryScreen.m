@@ -7,7 +7,6 @@
 //
 
 #import "VCViewEnquiryScreen.h"
-
 #import "Constant.h"
 #import "AppConstant.h"
 #import "VCHomeNotifications.h"
@@ -263,7 +262,7 @@
         NSMutableDictionary *dataDict = [NSMutableDictionary new];
         count ++;
         
-        [dataDict setObject:[NSString stringWithFormat:@"%lu",count] forKey:[arrTittle objectAtIndex:0]];
+        [dataDict setObject:[NSString stringWithFormat:@"%ld",(long)count] forKey:[arrTittle objectAtIndex:0]];
         [dataDict setObject:[data.CategoryName stringByAppendingString:[@"\n " stringByAppendingString:[data.AttributeValue1 stringByAppendingString:[@"\n " stringByAppendingString:data.AttributeValue2]]]] forKey:[arrTittle objectAtIndex:1]];
         [dataDict setObject:data.Quantity forKey:[arrTittle objectAtIndex:2]];
         [dataDict setObject:data.PackingType forKey:[arrTittle objectAtIndex:3]];
@@ -288,7 +287,7 @@
     {
         NSMutableDictionary *dataDict = [NSMutableDictionary new];
         SupplierCount ++;
-        [dataDict setObject:[NSString stringWithFormat:@"%lu",SupplierCount] forKey:[arrAuctionSellerList objectAtIndex:0]];
+        [dataDict setObject:[NSString stringWithFormat:@"%ld",(long)SupplierCount] forKey:[arrAuctionSellerList objectAtIndex:0]];
         [dataDict setObject:data.VendorName forKey:[arrAuctionSellerList objectAtIndex:1]];
         [dataDict setObject:data.CompanyName forKey:[arrAuctionSellerList objectAtIndex:2]];
       
