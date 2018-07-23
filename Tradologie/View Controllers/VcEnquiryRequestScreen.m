@@ -103,7 +103,7 @@ TvCellEnquiryDelegate,SFSafariViewControllerDelegate>
     
     height = ([SDVersion deviceSize] > Screen4Dot7inch)?_contentView.frame.size.height - 75:([SDVersion deviceSize] < Screen4Dot7inch)?_contentView.frame.size.height - 65:_contentView.frame.size.height - 70;
     
-    UITableView *tableView=[[UITableView alloc]initWithFrame:CGRectMake(0, 0, headerTotalWidth, height) style:UITableViewStylePlain];
+    UITableView *tableView=[[UITableView alloc]initWithFrame:CGRectMake(0, 0, headerTotalWidth, height * 5) style:UITableViewStylePlain];
     tableView.delegate=self;
     tableView.dataSource=self;
     // tableView.bounces=NO;
