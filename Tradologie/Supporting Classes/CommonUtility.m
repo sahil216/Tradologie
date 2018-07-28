@@ -240,7 +240,7 @@
 {
     FTPopOverMenuConfiguration *configuration = [FTPopOverMenuConfiguration defaultConfiguration];
     configuration.menuRowHeight = 50;
-    configuration.menuWidth = SCREEN_WIDTH-20;
+    configuration.menuWidth = SCREEN_WIDTH - 10;
     configuration.textColor = [UIColor whiteColor];
     configuration.textFont = UI_DEFAULT_FONT_MEDIUM(16);
     configuration.tintColor = [UIColor whiteColor];

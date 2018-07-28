@@ -542,8 +542,7 @@
 }
 -(void)dateSelected:(id)sender
 {
-    NSDate *selectedDate;
-    selectedDate = dateLastPicker.date;
+    NSDate *selectedDate = dateLastPicker.date;
     [selectedDate descriptionWithLocale: [NSLocale currentLocale]];
     
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];

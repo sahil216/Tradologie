@@ -106,7 +106,6 @@ TvCellEnquiryDelegate,SFSafariViewControllerDelegate>
     UITableView *tableView=[[UITableView alloc]initWithFrame:CGRectMake(0, 0, headerTotalWidth, height * 5) style:UITableViewStylePlain];
     tableView.delegate=self;
     tableView.dataSource=self;
-    // tableView.bounces=NO;
     tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.myTableView = tableView;
     

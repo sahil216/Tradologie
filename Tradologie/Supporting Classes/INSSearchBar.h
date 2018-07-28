@@ -70,7 +70,7 @@ typedef NS_ENUM(NSUInteger, INSSearchBarState)
  *  The delegate is informed about the state transitioning of the status bar that has just occured.
  *
  *  @param searchBar        The search bar that went through state transitioning.
- *  @param destinationState The state that the bar was in before transitioning started. The current state of the search bar can be queried and will return the state after transitioning.
+ *  @param previousState The state that the bar was in before transitioning started. The current state of the search bar can be queried and will return the state after transitioning.
  */
 
 - (void)searchBar:(INSSearchBar *)searchBar didEndTransitioningFromState:(INSSearchBarState)previousState;
